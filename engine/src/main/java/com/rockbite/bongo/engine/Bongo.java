@@ -1,13 +1,18 @@
 package com.rockbite.bongo.engine;
 
+import com.artemis.utils.reflect.ClassReflection;
+import com.artemis.utils.reflect.ReflectionException;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.LifecycleListener;
 import com.rockbite.bongo.engine.fileutil.ReloadUtils;
+import com.rockbite.bongo.engine.platform.IMGUIPlatform;
 import com.rockbite.bongo.engine.threadutil.ThreadUtils;
 
 public class Bongo {
 
 	public static final Boolean DEBUG = true;
+
+	public static IMGUIPlatform imguiPlatform;
 
 	public static void init () {
 		ThreadUtils.setGdxThread(Thread.currentThread());
@@ -28,5 +33,15 @@ public class Bongo {
 				ReloadUtils.dispose();
 			}
 		});
+
+		initPlatform();
+	}
+
+	private static void initPlatform () {
+		try {
+			imguiPlatform = (IMGUIPlatform)ClassReflection.newInstance(ClassReflection.forName("com.rockbite.bongo.engine.platform.IMGUIPlatformImpl"));
+		} catch (ReflectionException e) {
+			e.printStackTrace();
+		}
 	}
 }

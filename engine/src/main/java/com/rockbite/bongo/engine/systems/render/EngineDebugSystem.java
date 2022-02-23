@@ -43,6 +43,7 @@ public class EngineDebugSystem extends BaseSystem {
 	@Getter
 	private Array<ShaderControlResource> liveShaderResources = new Array<>();
 
+
 	public EngineDebugSystem () {
 
 		String shapeVertexSource = ShaderSourceProvider.resolveVertex("core/shape").readString();
@@ -53,6 +54,7 @@ public class EngineDebugSystem extends BaseSystem {
 		);
 
 		spriteBatch = new PolygonSpriteBatchMultiTextureMULTIBIND(1000);
+
 	}
 
 	@Override

@@ -7,6 +7,7 @@ version '1.0-SNAPSHOT'
 
 ext {
     libgdxVersion = "1.10.1-SNAPSHOT"
+    imguiVersion = "1.86.2"
 }
 
 repositories {
@@ -19,6 +20,9 @@ repositories {
 dependencies {
     api "com.badlogicgames.gdx:gdx:$libgdxVersion"
     implementation "com.badlogicgames.gdx:gdx-freetype:$libgdxVersion"
+
+    api "io.github.spair:imgui-java-app:$imguiVersion"
+    api "io.github.spair:imgui-java-binding:$imguiVersion"
 
     compileOnly "org.projectlombok:lombok:1.18.2"
     annotationProcessor "org.projectlombok:lombok:1.18.2"
