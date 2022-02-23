@@ -1,0 +1,22 @@
+.gradle/
+build/
+
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+out/
+
+imgui.ini
+
+# Cards
+cards/core/apiRepo/
+cards/core/apiRepo.zip
+cards/core/assets/player.data
+/cards-scripts/bin/main/com/rockbite/cards/abilities/
+
+
+local.properties
