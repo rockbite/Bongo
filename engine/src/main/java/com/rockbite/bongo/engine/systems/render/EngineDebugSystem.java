@@ -5,6 +5,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.EntitySubscription;
 import com.artemis.annotations.AspectDescriptor;
 import com.artemis.utils.IntBag;
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -46,8 +47,8 @@ public class EngineDebugSystem extends BaseSystem {
 
 	public EngineDebugSystem () {
 
-		String shapeVertexSource = ShaderSourceProvider.resolveVertex("core/shape").readString();
-		String shapeFragmentSource = ShaderSourceProvider.resolveFragment("core/shape").readString();
+		String shapeVertexSource = ShaderSourceProvider.resolveVertex("core/shape", Files.FileType.Classpath).readString();
+		String shapeFragmentSource = ShaderSourceProvider.resolveFragment("core/shape", Files.FileType.Classpath).readString();
 
 		shapeRenderer = new ShapeRenderer(5000,
 			SpriteShaderCompiler.getOrCreateShader("core/shape", shapeVertexSource, shapeFragmentSource, new ShaderFlags())
