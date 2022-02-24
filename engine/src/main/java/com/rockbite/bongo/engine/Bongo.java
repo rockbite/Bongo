@@ -10,7 +10,7 @@ import com.rockbite.bongo.engine.threadutil.ThreadUtils;
 
 public class Bongo {
 
-	public static final Boolean DEBUG = true;
+	public static Boolean DEBUG = true;
 
 	public static IMGUIPlatform imguiPlatform;
 
