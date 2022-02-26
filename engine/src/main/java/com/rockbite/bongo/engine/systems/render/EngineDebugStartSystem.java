@@ -3,11 +3,13 @@ package com.rockbite.bongo.engine.systems.render;
 import com.artemis.BaseSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Texture;
 import com.rockbite.bongo.engine.Bongo;
 import com.rockbite.bongo.engine.gltf.scene.SceneEnvironment;
 import com.rockbite.bongo.engine.input.InputInterceptor;
 import com.rockbite.bongo.engine.input.InputProvider;
 import imgui.ImGui;
+import imgui.ImVec2;
 import imgui.gl3.ImGuiImplGl3;
 import lombok.Getter;
 
@@ -59,6 +61,7 @@ public class EngineDebugStartSystem extends BaseSystem implements InputProvider 
 
 	private void renderDebug () {
 		environment();
+		debugTextures();
 	}
 
 	private void environment () {
@@ -72,6 +75,40 @@ public class EngineDebugStartSystem extends BaseSystem implements InputProvider 
 
 			ImGui.end();
 		}
+	}
+
+	private void debugTextures () {
+		ImGui.begin("Render debug");
+
+		final ImVec2 windowSize = ImGui.getWindowSize();
+		float windowWidth = windowSize.x;
+		float halfWidth = windowWidth/2f;
+
+		ImGui.beginTabBar("RenderBar");
+
+		if (ImGui.beginTabItem("Depth")) {
+
+			final DepthPassSystem depthSystem = world.getSystem(DepthPassSystem.class);
+
+			final Texture depthTexture = depthSystem.getDepthTexture();
+			ImGui.text("depth tex");
+			ImGui.image(depthTexture.getTextureObjectHandle(), windowWidth, windowWidth, 0, 1, 1, 0);
+
+			ImGui.endTabItem();
+		}
+		if (ImGui.beginTabItem("Shadow")) {
+			final ShadowPassSystem shadowPassSystem = world.getSystem(ShadowPassSystem.class);
+
+			final Texture shadowMapTexture = shadowPassSystem.getShadowMapDepthTexture();
+			ImGui.text("shadowmap tex");
+			ImGui.image(shadowMapTexture.getTextureObjectHandle(), windowWidth, windowWidth, 0, 1, 1, 0);
+
+			ImGui.endTabItem();
+		}
+		ImGui.endTabBar();
+
+
+		ImGui.end();
 	}
 
 	@Override

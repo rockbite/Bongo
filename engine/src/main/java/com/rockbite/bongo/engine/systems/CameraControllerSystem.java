@@ -1,12 +1,14 @@
 package com.rockbite.bongo.engine.systems;
 
 import com.artemis.BaseSystem;
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.FirstPersonCameraController;
 import com.rockbite.bongo.engine.components.singletons.Cameras;
 import com.rockbite.bongo.engine.input.InputProvider;
 import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,13 +20,13 @@ public class CameraControllerSystem extends BaseSystem implements InputProvider 
 	@Getter
 	private Cameras cameras;
 
-	@Getter
-	private FirstPersonCameraController firstPersonCameraController;
+	@Getter@Setter
+	private InputAdapter cameraController;
 
 	@Override
 	protected void initialize () {
 		super.initialize();
-		firstPersonCameraController = new FirstPersonCameraController(cameras.getGameCamera());
+		cameraController = new FirstPersonCameraController(cameras.getGameCamera());
 	}
 
 	/**
@@ -32,11 +34,16 @@ public class CameraControllerSystem extends BaseSystem implements InputProvider 
 	 */
 	@Override
 	protected void processSystem () {
-		firstPersonCameraController.update();
+		if (cameraController instanceof FirstPersonCameraController) {
+			((FirstPersonCameraController)cameraController).update();
+		}
+		if (cameraController instanceof CameraInputController) {
+			((CameraInputController)cameraController).update();
+		}
 	}
 
 	@Override
 	public InputProcessor getInputProcessor () {
-		return firstPersonCameraController;
+		return cameraController;
 	}
 }
