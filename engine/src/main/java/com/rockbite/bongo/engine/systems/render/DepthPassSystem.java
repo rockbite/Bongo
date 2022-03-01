@@ -73,7 +73,7 @@ public class DepthPassSystem extends RenderPassSystem {
 
 		renderAllCollectedRenderables();
 
-		sampleableDepthFrameBuffer.end();
+		sampleableDepthFrameBuffer.end(glViewport.x, glViewport.y, glViewport.width, glViewport.height);
 	}
 
 	public Texture getDepthTexture () {

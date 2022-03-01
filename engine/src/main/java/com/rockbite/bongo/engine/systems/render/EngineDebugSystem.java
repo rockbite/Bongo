@@ -24,6 +24,7 @@ import com.rockbite.bongo.engine.render.PolygonSpriteBatchMultiTextureMULTIBIND;
 import com.rockbite.bongo.engine.render.ShaderFlags;
 import com.rockbite.bongo.engine.render.ShaderSourceProvider;
 import com.rockbite.bongo.engine.render.SpriteShaderCompiler;
+import com.rockbite.bongo.engine.systems.RenderPassSystem;
 import lombok.Getter;
 
 public class EngineDebugSystem extends BaseSystem {
@@ -106,7 +107,12 @@ public class EngineDebugSystem extends BaseSystem {
 		shapeRenderer.setColor(Color.BLUE);
 		shapeRenderer.line(0, 0, 0, 0,  0, length);
 
-		final Ray pickRay = cameras.getGameCamera().getPickRay(Gdx.input.getX(), Gdx.input.getY());
+		final Ray pickRay = cameras.getGameCamera().getPickRay(Gdx.input.getX(), Gdx.input.getY(),
+			RenderPassSystem.glViewport.x,
+			RenderPassSystem.glViewport.y,
+			RenderPassSystem.glViewport.width,
+			RenderPassSystem.glViewport.height
+		);
 		Intersector.intersectRayPlane(pickRay, plane, intersectionOut);
 		int selectedX = MathUtils.floor(intersectionOut.x);
 		int selectedZ = MathUtils.floor(intersectionOut.z);

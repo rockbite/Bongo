@@ -5,6 +5,8 @@ import com.artemis.BaseSystem;
 import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.EntitySubscription;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.rockbite.bongo.engine.components.singletons.Cameras;
 import com.rockbite.bongo.engine.components.singletons.Environment;
@@ -17,6 +19,22 @@ import com.rockbite.bongo.engine.gltf.scene.shader.SceneShaderProvider;
 
 
 public abstract class RenderPassSystem extends BaseSystem {
+
+
+	public static class GLViewportConfig {
+		public int x;
+		public int y;
+		public int width;
+		public int height;
+
+		public GLViewportConfig (int x, int y, int width, int height) {
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+		}
+	}
+	public static GLViewportConfig glViewport = new GLViewportConfig(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 	private Cameras cameras;
 	protected Environment environment;

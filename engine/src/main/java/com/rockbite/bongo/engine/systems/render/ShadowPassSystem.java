@@ -86,7 +86,7 @@ public class ShadowPassSystem extends RenderPassSystem {
 
 		renderAllCollectedRenderables();
 
-		shadowMapBuffer.end();
+		shadowMapBuffer.end(glViewport.x, glViewport.y, glViewport.width, glViewport.height);
 	}
 
 

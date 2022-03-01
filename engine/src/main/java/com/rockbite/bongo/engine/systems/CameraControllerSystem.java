@@ -12,6 +12,8 @@ import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.rockbite.bongo.engine.systems.RenderPassSystem.glViewport;
+
 public class CameraControllerSystem extends BaseSystem implements InputProvider {
 
 	static Logger logger = LoggerFactory.getLogger(CameraControllerSystem.class);
