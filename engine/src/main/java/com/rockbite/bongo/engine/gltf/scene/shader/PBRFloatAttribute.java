@@ -36,8 +36,7 @@ public class PBRFloatAttribute extends Attribute {
 		return new PBRFloatAttribute(OcclusionStrength, value);
 	}
 
-
-	public float value;
+	public float[] value = {0};
 
 	public PBRFloatAttribute (long type) {
 		super(type);
@@ -45,25 +44,27 @@ public class PBRFloatAttribute extends Attribute {
 
 	public PBRFloatAttribute (long type, float value) {
 		super(type);
-		this.value = value;
+		this.value[0] = value;
 	}
+
+
 
 	@Override
 	public Attribute copy () {
-		return new PBRFloatAttribute(type, value);
+		return new PBRFloatAttribute(type, value[0]);
 	}
 
 	@Override
 	public int hashCode () {
 		int result = super.hashCode();
-		result = 977 * result + NumberUtils.floatToRawIntBits(value);
+		result = 977 * result + NumberUtils.floatToRawIntBits(value[0]);
 		return result;
 	}
 
 	@Override
 	public int compareTo (Attribute o) {
 		if (type != o.type) return (int)(type - o.type);
-		final float v = ((PBRFloatAttribute)o).value;
-		return MathUtils.isEqual(value, v) ? 0 : value < v ? -1 : 1;
+		final float v = ((PBRFloatAttribute)o).value[0];
+		return MathUtils.isEqual(value[0], v) ? 0 : value[0] < v ? -1 : 1;
 	}
 }

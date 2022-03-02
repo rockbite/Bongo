@@ -71,6 +71,11 @@ public class EngineBuilder {
 
 		final World world = new World(basicWorldConfig);
 
+		if (Bongo.DEBUG) {
+			world.process();
+			world.getSystem(EngineDebugStartSystem.class).postInit();
+		}
+
 		//Setup input
 
 		Array<InputProcessor> inputProcessors = new Array<>();

@@ -28,6 +28,7 @@ public class SceneMeshPrimtive {
 	@Getter
 	private SceneMeshVertexInfo vertexInfo;
 
+	@Getter
 	private String name;
 
 	public Mesh mesh;
@@ -41,7 +42,8 @@ public class SceneMeshPrimtive {
 	private float[] vertices;
 	private short[] indices;
 
-	public SceneMeshPrimtive (Mesh mesh, SceneMeshVertexInfo vertexInfo) {
+	public SceneMeshPrimtive (String name, Mesh mesh, SceneMeshVertexInfo vertexInfo) {
+		this.name = name;
 		this.mesh = mesh;
 		this.vertexInfo = vertexInfo;
 	}

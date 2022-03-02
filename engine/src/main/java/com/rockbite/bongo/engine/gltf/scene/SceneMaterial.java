@@ -12,6 +12,7 @@ import lombok.Getter;
 
 public class SceneMaterial {
 
+	@Getter
 	private final String name;
 
 	@Getter

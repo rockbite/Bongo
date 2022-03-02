@@ -9,15 +9,21 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.rockbite.bongo.engine.annotations.ComponentExpose;
 import com.rockbite.bongo.engine.components.render.PointLight;
 import lombok.Data;
+
+import static com.rockbite.bongo.engine.annotations.ComponentExposeFlavour.COLOUR_4_VEC;
+import static com.rockbite.bongo.engine.annotations.ComponentExposeFlavour.VEC_3;
 
 @Data
 public class SceneEnvironment {
 
+	@ComponentExpose(flavour = VEC_3)
 	private float[] directionalLightDirRaw = new float[]{0f, -1f, -0.01f};
 	private Vector3 directionalLightDir = new Vector3(-0.0006f, -1f, 0.001f).nor();
 
+	@ComponentExpose(flavour = COLOUR_4_VEC)
 	private float[] directionLightColorRaw = new float[]{46/255f, 46/255f, 46/255f, 1f};
 	private Color directionLightColor = new Color(46/255f, 46/255f, 46/255f, 1f);
 
@@ -91,6 +97,10 @@ public class SceneEnvironment {
 		}
 
 		directionalLightDir.set(directionalLightDirRaw).nor();
+		directionalLightDirRaw[0] = directionalLightDir.x;
+		directionalLightDirRaw[1] = directionalLightDir.y;
+		directionalLightDirRaw[2] = directionalLightDir.z;
+
 		directionLightColor.set(directionLightColorRaw[0], directionLightColorRaw[1], directionLightColorRaw[2], directionLightColorRaw[3]);
 	}
 }

@@ -165,28 +165,28 @@ public class ShadedShader extends BaseSceneShader  {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
 				final PBRFloatAttribute pbrFloatAttribute = renderable.material.getAttributes().get(PBRFloatAttribute.class, PBRFloatAttribute.OcclusionStrength);
-				shader.set(inputID, pbrFloatAttribute.value);
+				shader.set(inputID, pbrFloatAttribute.value[0]);
 			}
 		};
 		public final static Setter normalScale = new LocalSetter() {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
 				final PBRFloatAttribute pbrFloatAttribute = renderable.material.getAttributes().get(PBRFloatAttribute.class, PBRFloatAttribute.NormalMaterialScale);
-				shader.set(inputID, pbrFloatAttribute.value);
+				shader.set(inputID, pbrFloatAttribute.value[0]);
 			}
 		};
 		public final static Setter roughnessModifier = new LocalSetter() {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
 				final PBRFloatAttribute pbrFloatAttribute = renderable.material.getAttributes().get(PBRFloatAttribute.class, PBRFloatAttribute.Roughness);
-				shader.set(inputID, pbrFloatAttribute.value);
+				shader.set(inputID, pbrFloatAttribute.value[0]);
 			}
 		};
 		public final static Setter metallicModifier = new LocalSetter() {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
 				final PBRFloatAttribute pbrFloatAttribute = renderable.material.getAttributes().get(PBRFloatAttribute.class, PBRFloatAttribute.Metallic);
-				shader.set(inputID, pbrFloatAttribute.value);
+				shader.set(inputID, pbrFloatAttribute.value[0]);
 			}
 		};
 
@@ -195,7 +195,8 @@ public class ShadedShader extends BaseSceneShader  {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
 				final PBRColourAttribute pbrColourAttribute = renderable.material.getAttributes().get(PBRColourAttribute.class, PBRColourAttribute.BaseColourModifier);
-				shader.set(inputID, pbrColourAttribute.color);
+				final float[] color = pbrColourAttribute.color;
+				shader.set(inputID, color[0], color[1], color[2], color[3]);
 			}
 		};
 		public final static Setter emissiveModifier = new LocalSetter() {

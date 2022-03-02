@@ -94,7 +94,7 @@ public class CubeUtils {
 		final Mesh boxMesh = createBoxMesh(width, height, depth);
 		SceneMeshVertexInfo vertexInfo = new SceneMeshVertexInfo(boxMesh.getVertexAttributes());
 
-		SceneMeshPrimtive sceneMeshPrimtive = new SceneMeshPrimtive(boxMesh, vertexInfo);
+		SceneMeshPrimtive sceneMeshPrimtive = new SceneMeshPrimtive(name + "-primitive", boxMesh, vertexInfo);
 		SceneMesh sceneMesh = new SceneMesh(name + "-mesh", sceneMeshPrimtive);
 		sceneNode.setSceneMesh(sceneMesh);
 
