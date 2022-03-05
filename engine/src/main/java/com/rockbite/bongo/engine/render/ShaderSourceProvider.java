@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
+import static com.rockbite.bongo.engine.Bongo.CORE_SHADER_DEBUG;
+
 public class ShaderSourceProvider {
 
 	private static final String GL20_PATH = "shaders/gl2/";
@@ -18,7 +20,24 @@ public class ShaderSourceProvider {
 		}
 	}
 
+
+	private static FileHandle getBongoSourcePath () {
+		FileHandle local = Gdx.files.absolute(Gdx.files.local(".").file().getAbsolutePath());
+
+		while (!local.parent().child("bongo").exists()) {
+			local = local.parent();
+		}
+
+		return local.parent().child("bongo").child("engine").child("src/main/resources/");
+	}
+
 	public static FileHandle resolveVertex (String shaderIdentifier, Files.FileType fileType) {
+		if (CORE_SHADER_DEBUG && fileType == Files.FileType.Classpath) {
+			//Backup until we find bongo
+
+			return getBongoSourcePath().child(getPath() + shaderIdentifier + ".vert.glsl");
+		}
+
 
 		switch (fileType) {
 		case Classpath:
@@ -38,6 +57,10 @@ public class ShaderSourceProvider {
 	}
 
 	public static FileHandle resolveFragment (String shaderIdentifier, Files.FileType fileType) {
+		if (CORE_SHADER_DEBUG && fileType == Files.FileType.Classpath) {
+			return getBongoSourcePath().child(getPath() + shaderIdentifier + ".frag.glsl");
+		}
+
 		switch (fileType) {
 		case Classpath:
 			return Gdx.files.classpath(getPath() + shaderIdentifier + ".frag.glsl");

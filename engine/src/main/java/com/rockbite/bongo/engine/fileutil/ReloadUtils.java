@@ -13,9 +13,15 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.net.URI;
 
 public class ReloadUtils {
+
+	private static final Logger logger = LoggerFactory.getLogger(ReloadUtils.class);
 
 	static FileSystemManager manager;
 	static DefaultFileMonitor fm;
@@ -63,7 +69,9 @@ public class ReloadUtils {
 
 	public static void registerFile (FileHandle handle, AutoReloadingListener listener) {
 		try {
-			final FileObject fileObject = manager.resolveFile(handle.file().toURI());
+			final File file = handle.file();
+			final URI uri = file.toURI();
+			final FileObject fileObject = manager.resolveFile(uri);
 
 			if (listeners.containsKey(fileObject)) {
 				//Already registered, so we just want to add it to listeners
@@ -74,6 +82,7 @@ public class ReloadUtils {
 				listeners.put(fileObject, value);
 
 				fm.addFile(fileObject);
+				logger.info("Registered file for auto reload {}", handle.file().toURI());
 			}
 
 		} catch (FileSystemException e) {

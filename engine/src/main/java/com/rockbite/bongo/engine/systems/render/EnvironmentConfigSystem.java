@@ -6,6 +6,7 @@ import com.artemis.EntitySubscription;
 import com.artemis.EntitySystem;
 import com.artemis.annotations.All;
 import com.artemis.utils.IntBag;
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Cubemap;
@@ -30,7 +31,7 @@ public class EnvironmentConfigSystem extends BaseSystem {
 	protected void initialize () {
 		super.initialize();
 
-		Cubemap cubemap = createCubemap("test");
+		Cubemap cubemap = createCubemap("street");
 
 		environment.getSceneEnvironment().setEnvMap(cubemap);
 	}

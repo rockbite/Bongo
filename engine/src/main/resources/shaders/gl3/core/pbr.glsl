@@ -5,7 +5,6 @@
 
 // This implementation is based on "Real Shading in Unreal Engine 4" SIGGRAPH 2013 course notes by Epic Games.
 // See: http://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_notes_v2.pdf
-@Control[range(0.0, 3.0); default(1.0)]
 uniform float u_ambientStrength;
 
 float Epsilon = 0.00001;

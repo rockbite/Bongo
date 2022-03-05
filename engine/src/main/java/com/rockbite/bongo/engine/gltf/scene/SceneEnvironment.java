@@ -13,8 +13,7 @@ import com.rockbite.bongo.engine.annotations.ComponentExpose;
 import com.rockbite.bongo.engine.components.render.PointLight;
 import lombok.Data;
 
-import static com.rockbite.bongo.engine.annotations.ComponentExposeFlavour.COLOUR_4_VEC;
-import static com.rockbite.bongo.engine.annotations.ComponentExposeFlavour.VEC_3;
+import static com.rockbite.bongo.engine.annotations.ComponentExposeFlavour.*;
 
 @Data
 public class SceneEnvironment {
@@ -26,6 +25,9 @@ public class SceneEnvironment {
 	@ComponentExpose(flavour = COLOUR_4_VEC)
 	private float[] directionLightColorRaw = new float[]{46/255f, 46/255f, 46/255f, 1f};
 	private Color directionLightColor = new Color(46/255f, 46/255f, 46/255f, 1f);
+
+	@ComponentExpose(flavour = FLOAT)
+	private float[] ambientStrength = new float[]{1f};
 
 	int maxPointLights = 5;
 	private Array<PointLight> pointLights = new Array<>();

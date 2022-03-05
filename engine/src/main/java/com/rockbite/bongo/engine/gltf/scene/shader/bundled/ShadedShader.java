@@ -67,6 +67,7 @@ public class ShadedShader extends BaseSceneShader  {
 		//lighting
 		public final static Uniform shadowLightDir = new Uniform("u_lightDir");
 		public final static Uniform shadowLightColour = new Uniform("u_lightColour");
+		public final static Uniform ambientStrength = new Uniform("u_ambientStrength");
 		public final static Uniform pointLights = new Uniform("u_pointLights");
 		public final static Uniform envMap = new Uniform("u_envMap");
 
@@ -255,6 +256,12 @@ public class ShadedShader extends BaseSceneShader  {
 				shader.set(inputID, shader.sceneEnvironment.getDirectionLightColor());
 			}
 		};
+		public final static Setter ambientStrength = new GlobalSetter() {
+			@Override
+			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
+				shader.set(inputID, shader.sceneEnvironment.getAmbientStrength()[0]);
+			}
+		};
 		public final static Setter pointLights = new GlobalSetter() {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
@@ -324,6 +331,7 @@ public class ShadedShader extends BaseSceneShader  {
 	private int u_lightSpaceMatrix;
 	private int u_lightDir;
 	private int u_lightColour;
+	private int u_ambientStrength;
 	private int u_pointLights;
 	private int u_envMap;
 	private int u_shadowMap;
@@ -385,6 +393,7 @@ public class ShadedShader extends BaseSceneShader  {
 		//lighting
 		u_lightDir = register(Inputs.shadowLightDir, Setters.shadowLightDir);
 		u_lightColour = register(Inputs.shadowLightColour, Setters.shadowLightColour);
+		u_ambientStrength = register(Inputs.ambientStrength, Setters.ambientStrength);
 		u_pointLights = register(Inputs.pointLights, Setters.pointLights);
 		u_envMap = register(Inputs.envMap, Setters.envMap);
 

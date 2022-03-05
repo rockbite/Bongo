@@ -90,6 +90,7 @@ public class EngineDebugStartSystem extends BaseSystem implements InputProvider 
 	private void initMappers () {
 		mappers.put(ComponentExposeFlavour.COLOUR_4_VEC, this::colour4Mapper);
 		mappers.put(ComponentExposeFlavour.VEC_3, this::vec3Mapper);
+		mappers.put(ComponentExposeFlavour.FLOAT, this::floatMapper);
 
 		objectMappers.put(SceneModelInstance.class, this::sceneModelInstanceMapper);
 	}
@@ -147,6 +148,14 @@ public class EngineDebugStartSystem extends BaseSystem implements InputProvider 
 		if (object instanceof float[]) {
 			if (((float[])object).length == 3) {
 				ImGui.sliderFloat3(name, (float[])object, -1, 1);
+			}
+		}
+	}
+
+	private void floatMapper (String name, Object object) {
+		if (object instanceof float[]) {
+			if (((float[])object).length == 1) {
+				ImGui.sliderFloat(name, (float[])object, 0, 1);
 			}
 		}
 	}
