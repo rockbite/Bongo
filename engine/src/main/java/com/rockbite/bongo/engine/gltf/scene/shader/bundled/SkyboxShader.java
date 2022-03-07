@@ -1,30 +1,17 @@
 package com.rockbite.bongo.engine.gltf.scene.shader.bundled;
 
 import com.artemis.World;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Cubemap;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GLTexture;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Attributes;
 import com.badlogic.gdx.graphics.g3d.attributes.DepthTestAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.IntAttribute;
-import com.badlogic.gdx.math.Matrix3;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.utils.Array;
-import com.rockbite.bongo.engine.components.render.PointLight;
 import com.rockbite.bongo.engine.components.singletons.Cameras;
 import com.rockbite.bongo.engine.components.singletons.RenderUtils;
 import com.rockbite.bongo.engine.gltf.scene.SceneEnvironment;
 import com.rockbite.bongo.engine.gltf.scene.SceneRenderable;
 import com.rockbite.bongo.engine.gltf.scene.shader.BaseSceneShader;
-import com.rockbite.bongo.engine.gltf.scene.shader.PBRColourAttribute;
-import com.rockbite.bongo.engine.gltf.scene.shader.PBRFloatAttribute;
-import com.rockbite.bongo.engine.gltf.scene.shader.PBRMaterialAttribute;
-import com.rockbite.bongo.engine.gltf.scene.shader.PBRVec3Attribute;
-import com.rockbite.bongo.engine.systems.render.ShadowPassSystem;
 
 public class SkyboxShader extends BaseSceneShader  {
 
@@ -63,10 +50,9 @@ public class SkyboxShader extends BaseSceneShader  {
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
 				SceneEnvironment sceneEnvironment = shader.sceneEnvironment;
 
-				GLTexture skyBoxNew = sceneEnvironment.getSkyBoxNew();
+				GLTexture skyBoxNew = sceneEnvironment.getEnvironmentMap();
 				if (skyBoxNew !=  null) {
 //					int bind = shader.context.textureBinder.bind(skyBoxNew);
-					skyBoxNew.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 					shader.set(inputID, shader.context.textureBinder.bind(skyBoxNew));
 
 //					Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0 + 0);

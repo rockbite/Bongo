@@ -65,6 +65,8 @@ public class ShadedShader extends BaseSceneShader  {
 		public final static Uniform pointLights = new Uniform("u_pointLights");
 		public final static Uniform envMap = new Uniform("u_envMap");
 		public final static Uniform irradianceMap = new Uniform("u_irradianceMap");
+		public final static Uniform prefilterMap = new Uniform("u_prefilterMap");
+		public final static Uniform brdfMap = new Uniform("u_brdfMap");
 
 
 		public final static Uniform shadowLightMatrix = new Uniform("u_lightMatrix") {
@@ -293,6 +295,18 @@ public class ShadedShader extends BaseSceneShader  {
 				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getIrradianceMap()));
 			}
 		};
+		public final static Setter prefilterMap = new GlobalSetter() {
+			@Override
+			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
+				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getPrefilterMap()));
+			}
+		};
+		public final static Setter brdfMap = new GlobalSetter() {
+			@Override
+			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
+				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getBrdfMap()));
+			}
+		};
 		public final static Setter shadowMap = new GlobalSetter() {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
@@ -338,6 +352,8 @@ public class ShadedShader extends BaseSceneShader  {
 	private int u_envMap;
 	private int u_irradianceMap;
 	private int u_shadowMap;
+	private int u_prefilterMap;
+	private int u_brdfMap;
 
 
 	public ShadedShader (FileHandle vertexSource, FileHandle fragmentSource, SceneRenderable sceneRenderable, World world) {
@@ -400,6 +416,8 @@ public class ShadedShader extends BaseSceneShader  {
 		u_pointLights = register(Inputs.pointLights, Setters.pointLights);
 		u_envMap = register(Inputs.envMap, Setters.envMap);
 		u_irradianceMap = register(Inputs.irradianceMap, Setters.irradianceMap);
+		u_prefilterMap = register(Inputs.prefilterMap, Setters.prefilterMap);
+		u_brdfMap = register(Inputs.brdfMap, Setters.brdfMap);
 
 		u_lightSpaceMatrix = register(Inputs.shadowLightMatrix, Setters.shadowLightMatrix);
 		u_shadowMap = register(Inputs.shadowMap, Setters.shadowMap);

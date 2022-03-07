@@ -74,6 +74,8 @@ vec3 fragWorldPosition, vec3 eyePosition) {
     // Outgoing light direction (vector from world-space fragment position to the "eye").
     vec3 Lo = normalize(eyePosition - fragWorldPosition);
 
+    vec3 R = reflect(-Lo, N);
+
     // Angle between surface normal and outgoing light direction.
     float cosLo = max(0.0, dot(N, Lo));
 
@@ -181,11 +183,17 @@ vec3 fragWorldPosition, vec3 eyePosition) {
     vec3 kD = 1.0 - kS;
     kD *= 1.0 - metalness;
 
-    vec3 diffuse = irradiance * albedo;
-    vec3 ambient = (kD * diffuse);
+    vec3 diffuse    = irradiance * albedo;
+
+    const float MAX_REFLECTION_LOD = 4.0;
+    vec3 prefilteredColor = textureLod(u_prefilterMap, vec3(R.x, -R.y, R.z),  roughness * MAX_REFLECTION_LOD).rgb;
+    vec2 envBRDF  = texture(u_brdfMap, vec2(cosLo, roughness)).rg;
+    vec3 specular = prefilteredColor * (F * envBRDF.x + envBRDF.y);
+
+    vec3 ambient = (kD * diffuse + specular);
 
 
-//    // Final fragment color.
+    // Final fragment color.
     directLighting = clamp(directLighting, 0.0, 1.0);
     vec4 color = vec4((directLighting * ( 1.0 - shadow)) + ambient * u_ambientStrength, 1.0);
     return color;

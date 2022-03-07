@@ -10,6 +10,9 @@ precision mediump float;
 
 uniform float u_time;
 
+uniform samplerCube u_prefilterMap;
+uniform sampler2D u_brdfMap;
+
 #include "pbr.glsl"
 
 uniform sampler2D u_depthTexture;

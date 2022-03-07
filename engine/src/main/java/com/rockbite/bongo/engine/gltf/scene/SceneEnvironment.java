@@ -31,7 +31,9 @@ public class SceneEnvironment {
 	int maxPointLights = 5;
 	private Array<PointLight> pointLights = new Array<>();
 
-	private GLTexture skyBoxNew;
+	private GLTexture brdfMap;
+	private GLTexture prefilterMap;
+	private GLTexture environmentMap;
 	private Cubemap skyBox;
 	private Cubemap irradianceMap;
 
