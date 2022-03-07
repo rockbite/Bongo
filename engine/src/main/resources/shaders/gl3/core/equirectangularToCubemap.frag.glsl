@@ -19,5 +19,7 @@ void main()
     vec2 uv = SampleSphericalMap(normalize(v_worldPosition));
     vec3 color = texture(u_equirectangularMap, uv).rgb;
 
+    //For very high value hdri, explodes the shader without a clamp
+    color.rgb = clamp(color.rgb, 0.0, 5.0);
     fragColour = vec4(color, 1.0);
 }
