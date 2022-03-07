@@ -20,5 +20,4 @@ void main()
     vec3 color = texture(u_equirectangularMap, uv).rgb;
 
     fragColour = vec4(color, 1.0);
-    fragColour.r = 1.0;
 }

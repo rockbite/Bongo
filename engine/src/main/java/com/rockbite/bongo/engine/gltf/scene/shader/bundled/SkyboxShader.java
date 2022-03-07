@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Cubemap;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GLTexture;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Attributes;
 import com.badlogic.gdx.graphics.g3d.attributes.DepthTestAttribute;
@@ -59,7 +60,18 @@ public class SkyboxShader extends BaseSceneShader  {
 		public final static Setter envMap = new GlobalSetter() {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
-				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getSkyBox()));
+				SceneEnvironment sceneEnvironment = shader.sceneEnvironment;
+
+				GLTexture skyBoxNew = sceneEnvironment.getSkyBoxNew();
+				if (skyBoxNew !=  null) {
+//					int bind = shader.context.textureBinder.bind(skyBoxNew);
+					shader.set(inputID, shader.context.textureBinder.bind(sceneEnvironment.getSkyBoxNew()));
+
+//					Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0 + 0);
+//					Gdx.gl.glBindTexture(GL20.GL_TEXTURE_CUBE_MAP, skyBoxNew.getTextureObjectHandle());
+//					shader.program.setUniformi("u_envMap", 0);
+				}
+
 			}
 		};
 
