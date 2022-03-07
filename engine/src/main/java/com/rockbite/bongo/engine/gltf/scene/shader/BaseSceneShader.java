@@ -27,6 +27,7 @@ import com.rockbite.bongo.engine.components.singletons.Cameras;
 import com.rockbite.bongo.engine.components.singletons.RenderUtils;
 import com.rockbite.bongo.engine.fileutil.ReloadUtils;
 import com.rockbite.bongo.engine.gltf.scene.SceneEnvironment;
+import com.rockbite.bongo.engine.gltf.scene.SceneMaterial;
 import com.rockbite.bongo.engine.gltf.scene.SceneRenderable;
 import com.rockbite.bongo.engine.systems.render.ShaderProcessingSystem;
 import lombok.Data;
@@ -206,13 +207,18 @@ public abstract class BaseSceneShader implements Comparable<BaseSceneShader>, Re
 
 	protected String createPrefix (SceneRenderable sceneRenderable) {
 
-		final Attributes attributes = sceneRenderable.material.getAttributes();
+		SceneMaterial material = sceneRenderable.material;
+
 		tmpAttributes.clear();
-		tmpAttributes.set(attributes);
+
+		if (material != null) {
+			final Attributes attributes = material.getAttributes();
+			tmpAttributes.set(attributes);
+		}
+
 		final VertexAttributes vertexAttributes = sceneRenderable.sceneMesh.getVertexInfo().getVertexAttributes();
 		String prefix = "";
 
-		final long attributesMask = attributes.getMask();
 		final long vertexMask = vertexAttributes.getMask();
 
 		if (and(vertexMask, VertexAttributes.Usage.Position)) prefix += "#define positionFlag\n";
@@ -470,7 +476,7 @@ public abstract class BaseSceneShader implements Comparable<BaseSceneShader>, Re
 			currentMesh.bind(program, getAttributeLocations(renderable.sceneMesh.mesh.getVertexAttributes()));
 		}
 
-		renderable.sceneMesh.mesh.render(program, GL20.GL_TRIANGLES);
+		renderable.sceneMesh.mesh.render(program, renderable.sceneMesh.renderMode);
 
 	}
 

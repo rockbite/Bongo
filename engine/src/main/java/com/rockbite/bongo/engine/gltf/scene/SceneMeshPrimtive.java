@@ -42,6 +42,8 @@ public class SceneMeshPrimtive {
 	private float[] vertices;
 	private short[] indices;
 
+	public int renderMode = GL20.GL_TRIANGLES;
+
 	public SceneMeshPrimtive (String name, Mesh mesh, SceneMeshVertexInfo vertexInfo) {
 		this.name = name;
 		this.mesh = mesh;
@@ -209,6 +211,7 @@ public class SceneMeshPrimtive {
 		copy.mesh = mesh;
 		copy.attributes = attributes;
 		copy.vertexInfo = vertexInfo;
+		copy.renderMode = renderMode;
 
 		if (invBoneBindTransforms == null) {
 			copy.invBoneBindTransforms = null;

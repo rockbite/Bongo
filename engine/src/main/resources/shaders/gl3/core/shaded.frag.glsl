@@ -50,6 +50,7 @@ uniform vec4 u_lightColour;
 
 
 uniform samplerCube u_envMap;
+uniform samplerCube u_irradianceMap;
 
 #ifdef shadowMapFlag
 uniform sampler2D u_shadowMap;
@@ -161,7 +162,8 @@ void main () {
         N = normalize(v_normal.xyz);
     #endif
 
-    vec3 irradiance = texture(u_envMap, N).rgb;
+    vec3 envMap = texture(u_envMap, N).rgb;
+    vec3 irradiance = texture(u_irradianceMap, N).rgb;
 
     #ifdef baseColourTextureFlag
     vec3 linearColour = srgb_to_rgb(texture(u_baseColourTexture, uv).rgb);
@@ -196,6 +198,7 @@ void main () {
 
     vec4 brdf = Bongo_BRDF(
     albedo.rgb, metallic, roughness,
+    envMap,
     irradiance,
     N,
     shadow,
@@ -213,6 +216,10 @@ void main () {
     #endif
 
 
+    //hdr tone mapping
+    brdf.rgb = brdf.rgb/(brdf.rgb + vec3(1.0));
+
+    //gamma correction
     float gamma = 2.2;
     brdf.rgb = pow(brdf.rgb, vec3(1.0/gamma));
     fragmentColor = brdf;

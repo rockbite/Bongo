@@ -1,19 +1,13 @@
 package com.rockbite.bongo.engine.gltf.scene.shader.bundled;
 
-import com.artemis.BaseSystem;
 import com.artemis.World;
-import com.artemis.utils.ImmutableBag;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Attributes;
-import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.graphics.g3d.attributes.DepthTestAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.IntAttribute;
-import com.badlogic.gdx.graphics.g3d.shaders.BaseShader;
-import com.badlogic.gdx.graphics.g3d.shaders.DefaultShader;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
@@ -70,6 +64,7 @@ public class ShadedShader extends BaseSceneShader  {
 		public final static Uniform ambientStrength = new Uniform("u_ambientStrength");
 		public final static Uniform pointLights = new Uniform("u_pointLights");
 		public final static Uniform envMap = new Uniform("u_envMap");
+		public final static Uniform irradianceMap = new Uniform("u_irradianceMap");
 
 
 		public final static Uniform shadowLightMatrix = new Uniform("u_lightMatrix") {
@@ -203,6 +198,7 @@ public class ShadedShader extends BaseSceneShader  {
 		public final static Setter emissiveModifier = new LocalSetter() {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
+				if (!renderable.material.getAttributes().has(PBRVec3Attribute.EmissiveFactor)) return;
 				final PBRVec3Attribute pbrVec3Attribute = renderable.material.getAttributes().get(PBRVec3Attribute.class, PBRVec3Attribute.EmissiveFactor);
 				shader.set(inputID, pbrVec3Attribute.vec3);
 			}
@@ -288,7 +284,13 @@ public class ShadedShader extends BaseSceneShader  {
 		public final static Setter envMap = new GlobalSetter() {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
-				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getEnvMap()));
+				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getSkyBox()));
+			}
+		};
+		public final static Setter irradianceMap = new GlobalSetter() {
+			@Override
+			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
+				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getIrradianceMap()));
 			}
 		};
 		public final static Setter shadowMap = new GlobalSetter() {
@@ -334,6 +336,7 @@ public class ShadedShader extends BaseSceneShader  {
 	private int u_ambientStrength;
 	private int u_pointLights;
 	private int u_envMap;
+	private int u_irradianceMap;
 	private int u_shadowMap;
 
 
@@ -396,6 +399,7 @@ public class ShadedShader extends BaseSceneShader  {
 		u_ambientStrength = register(Inputs.ambientStrength, Setters.ambientStrength);
 		u_pointLights = register(Inputs.pointLights, Setters.pointLights);
 		u_envMap = register(Inputs.envMap, Setters.envMap);
+		u_irradianceMap = register(Inputs.irradianceMap, Setters.irradianceMap);
 
 		u_lightSpaceMatrix = register(Inputs.shadowLightMatrix, Setters.shadowLightMatrix);
 		u_shadowMap = register(Inputs.shadowMap, Setters.shadowMap);

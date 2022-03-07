@@ -45,7 +45,10 @@ vec3 fresnelSchlick(vec3 F0, float cosTheta)
 {
     return F0 + (vec3(1.0) - F0) * pow(1.0 - cosTheta, 5.0);
 }
-
+vec3 fresnelSchlickRoughness(vec3 F0, float cosTheta, float roughness)
+{
+    return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
+}
 
 struct DirectionalLight {
     vec3 direction;
@@ -61,6 +64,7 @@ uniform PointLight u_pointLights[NumPointLights];
 
 vec4 Bongo_BRDF (
 vec3 albedo, float metalness, float roughness,
+vec3 envMap,
 vec3 irradiance,
 vec3 N,
 float shadow,
@@ -170,43 +174,19 @@ vec3 fragWorldPosition, vec3 eyePosition) {
         directLighting += (diffuseBRDF + specularBRDF) * Lradiance * cosLi;
     }
 
-    // Ambient lighting (IBL).
-    vec3 ambientLighting;
-    {
 
-        // Calculate Fresnel term for ambient lighting.
-        // Since we use pre-filtered cubemap(s) and irradiance is coming from many directions
-        // use cosLo instead of angle with light's half-vector (cosLh above).
-        // See: https://seblagarde.wordpress.com/2011/08/17/hello-world/
-        vec3 F = fresnelSchlick(F0, cosLo);
+    // ambient lighting (we now use IBL as the ambient term)
+    vec3 F  = fresnelSchlickRoughness(F0, cosLo, roughness);
+    vec3 kS = F;
+    vec3 kD = 1.0 - kS;
+    kD *= 1.0 - metalness;
 
-        // Get diffuse contribution factor (as with direct lighting).
-        vec3 kd = mix(vec3(1.0) - F, vec3(0.0), metalness);
+    vec3 diffuse = irradiance * albedo;
+    vec3 ambient = (kD * diffuse);
 
-        // Irradiance map contains exitant radiance assuming Lambertian BRDF, no need to scale by 1/PI here either.
-        vec3 diffuseIBL = kd * albedo * irradiance;
 
-        //Specuar is disabled
-
-        // Sample pre-filtered specular reflection environment at correct mipmap level.
-        //        int specularTextureLevels = textureQueryLevels(specularTexture);
-        //        vec3 specularIrradiance = textureLod(specularTexture, Lr, roughness * specularTextureLevels).rgb;
-
-        //        // Split-sum approximation factors for Cook-Torrance specular BRDF.
-        //        vec2 specularBRDF = texture(specularBRDF_LUT, vec2(cosLo, roughness)).rg;
-        //
-        //        // Total specular IBL contribution.
-        //        vec3 specularIBL = (F0 * specularBRDF.x + specularBRDF.y) * specularIrradiance;
-
-        //        // Total ambient lighting contribution.
-        //        ambientLighting = diffuseIBL + specularIBL;
-
-        // Total ambient lighting contribution.
-        ambientLighting = diffuseIBL;
-    }
-
-    // Final fragment color.
+//    // Final fragment color.
     directLighting = clamp(directLighting, 0.0, 1.0);
-    vec4 color = vec4((directLighting * ( 1.0 - shadow)) + ambientLighting * u_ambientStrength, 1.0);
+    vec4 color = vec4((directLighting * ( 1.0 - shadow)) + ambient * u_ambientStrength, 1.0);
     return color;
 }

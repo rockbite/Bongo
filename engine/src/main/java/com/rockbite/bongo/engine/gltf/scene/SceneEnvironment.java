@@ -3,8 +3,7 @@ package com.rockbite.bongo.engine.gltf.scene;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cubemap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.GLTexture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
@@ -32,7 +31,9 @@ public class SceneEnvironment {
 	int maxPointLights = 5;
 	private Array<PointLight> pointLights = new Array<>();
 
-	private Cubemap envMap;
+	private GLTexture skyBoxNew;
+	private Cubemap skyBox;
+	private Cubemap irradianceMap;
 
 	private float time;
 

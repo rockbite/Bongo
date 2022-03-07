@@ -34,7 +34,7 @@ public abstract class RenderPassSystem extends BaseSystem {
 			this.height = height;
 		}
 	}
-	public static GLViewportConfig glViewport = new GLViewportConfig(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	public static GLViewportConfig glViewport = new GLViewportConfig(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 
 	private Cameras cameras;
 	protected Environment environment;

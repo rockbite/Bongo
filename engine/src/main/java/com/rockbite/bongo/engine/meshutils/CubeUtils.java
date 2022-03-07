@@ -16,7 +16,7 @@ import com.rockbite.bongo.engine.gltf.scene.shader.PBRColourAttribute;
 public class CubeUtils {
 
 
-	private static Mesh createBoxMesh (float width, float height, float depth) {
+	public static Mesh createBoxMesh (float width, float height, float depth) {
 		float hWidth = width/2f;
 		float hHeight = height/2f;
 		float hDepth = depth/2f;
