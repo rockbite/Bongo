@@ -46,7 +46,9 @@ public class ReloadUtils {
 
 								final Array<AutoReloadingListener> autoReloadingListeners = listeners.get(fileObject);
 								for (AutoReloadingListener autoReloadingListener : autoReloadingListeners) {
-									autoReloadingListener.onAutoReloadFileChanged();
+									if (autoReloadingListener != null) {
+										autoReloadingListener.onAutoReloadFileChanged();
+									}
 								}
 							}
 						});

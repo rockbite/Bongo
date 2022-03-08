@@ -26,16 +26,20 @@ public class SceneEnvironment {
 	private Color directionLightColor = new Color(46/255f, 46/255f, 46/255f, 1f);
 
 	@ComponentExpose(flavour = FLOAT)
+	private float[] directionalStrength = new float[]{1f};
+
+
+	@ComponentExpose(flavour = FLOAT)
 	private float[] ambientStrength = new float[]{1f};
 
 	int maxPointLights = 5;
 	private Array<PointLight> pointLights = new Array<>();
 
 	private GLTexture brdfMap;
-	private GLTexture prefilterMap;
-	private GLTexture environmentMap;
-	private Cubemap skyBox;
+
+	private Cubemap radianceMap;
 	private Cubemap irradianceMap;
+	private Cubemap specularMap;
 
 	private float time;
 
@@ -106,6 +110,9 @@ public class SceneEnvironment {
 		directionalLightDirRaw[1] = directionalLightDir.y;
 		directionalLightDirRaw[2] = directionalLightDir.z;
 
-		directionLightColor.set(directionLightColorRaw[0], directionLightColorRaw[1], directionLightColorRaw[2], directionLightColorRaw[3]);
+		directionLightColor.r = directionLightColorRaw[0]  * directionalStrength[0];
+		directionLightColor.g = directionLightColorRaw[1]  * directionalStrength[0];
+		directionLightColor.b = directionLightColorRaw[2]  * directionalStrength[0];
+		directionLightColor.a = directionLightColorRaw[3]  * directionalStrength[0];
 	}
 }

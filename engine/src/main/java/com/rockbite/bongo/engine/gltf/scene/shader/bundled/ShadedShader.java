@@ -286,7 +286,7 @@ public class ShadedShader extends BaseSceneShader  {
 		public final static Setter envMap = new GlobalSetter() {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
-				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getSkyBox()));
+				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getRadianceMap()));
 			}
 		};
 		public final static Setter irradianceMap = new GlobalSetter() {
@@ -298,7 +298,7 @@ public class ShadedShader extends BaseSceneShader  {
 		public final static Setter prefilterMap = new GlobalSetter() {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
-				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getPrefilterMap()));
+				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getSpecularMap()));
 			}
 		};
 		public final static Setter brdfMap = new GlobalSetter() {

@@ -2,6 +2,7 @@ package com.rockbite.bongo.engine.gltf.scene.shader.bundled;
 
 import com.artemis.World;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Cubemap;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GLTexture;
 import com.badlogic.gdx.graphics.g3d.Attributes;
@@ -49,17 +50,10 @@ public class SkyboxShader extends BaseSceneShader  {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
 				SceneEnvironment sceneEnvironment = shader.sceneEnvironment;
-
-				GLTexture skyBoxNew = sceneEnvironment.getEnvironmentMap();
-				if (skyBoxNew !=  null) {
-//					int bind = shader.context.textureBinder.bind(skyBoxNew);
-					shader.set(inputID, shader.context.textureBinder.bind(skyBoxNew));
-
-//					Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0 + 0);
-//					Gdx.gl.glBindTexture(GL20.GL_TEXTURE_CUBE_MAP, skyBoxNew.getTextureObjectHandle());
-//					shader.program.setUniformi("u_envMap", 0);
+				final Cubemap radianceMap = sceneEnvironment.getRadianceMap();
+				if (radianceMap != null) {
+					shader.set(inputID, shader.context.textureBinder.bind(radianceMap));
 				}
-
 			}
 		};
 

@@ -103,4 +103,6 @@ void main()
     prefilteredColor = prefilteredColor / totalWeight;
 
     fragColour = vec4(prefilteredColor, 1.0);
+
+    fragColour.rgb = N.rgb;
 }

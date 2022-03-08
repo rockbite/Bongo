@@ -20,6 +20,7 @@ import com.rockbite.bongo.engine.Bongo;
 import com.rockbite.bongo.engine.annotations.ComponentExpose;
 import com.rockbite.bongo.engine.annotations.ComponentExposeFlavour;
 import com.rockbite.bongo.engine.components.render.ShaderControlResource;
+import com.rockbite.bongo.engine.components.singletons.Environment;
 import com.rockbite.bongo.engine.gltf.GLTFDataModel;
 import com.rockbite.bongo.engine.gltf.scene.SceneEnvironment;
 import com.rockbite.bongo.engine.gltf.scene.SceneMaterial;
@@ -112,26 +113,31 @@ public class EngineDebugStartSystem extends BaseSystem implements InputProvider 
 					if (ImGui.treeNode(sceneMeshPrimtive.getName())) {
 
 						final SceneMaterial sceneMaterial = sceneMeshPrimtive.sceneMaterial;
-						ImGui.text("Material");
 
-						final Attributes attributes = sceneMaterial.getAttributes();
-						for (Attribute attribute : attributes) {
-							if (attribute instanceof PBRMaterialAttribute) {
+						if (sceneMaterial != null) {
+							ImGui.text("Material");
 
+							final Attributes attributes = sceneMaterial.getAttributes();
+							for (Attribute attribute : attributes) {
+								if (attribute instanceof PBRMaterialAttribute) {
+
+								}
+								if (attribute instanceof PBRFloatAttribute) {
+									final long type = attribute.type;
+									final float[] value = ((PBRFloatAttribute)attribute).value;
+
+									ImGui.sliderFloat(PBRFloatAttribute.getAttributeAlias(type), value, 0, 1f);
+								}
+								if (attribute instanceof PBRColourAttribute) {
+									final long type = attribute.type;
+									final float[] value = ((PBRColourAttribute)attribute).color;
+
+									ImGui.colorEdit4(PBRFloatAttribute.getAttributeAlias(type), value);
+								}
 							}
-							if (attribute instanceof PBRFloatAttribute) {
-								final long type = attribute.type;
-								final float[] value = ((PBRFloatAttribute)attribute).value;
 
-								ImGui.sliderFloat(PBRFloatAttribute.getAttributeAlias(type), value, 0, 1f);
-							}
-							if (attribute instanceof PBRColourAttribute) {
-								final long type = attribute.type;
-								final float[] value = ((PBRColourAttribute)attribute).color;
-
-								ImGui.colorEdit4(PBRFloatAttribute.getAttributeAlias(type), value);
-							}
 						}
+
 
 						ImGui.treePop();
 					}
@@ -155,7 +161,7 @@ public class EngineDebugStartSystem extends BaseSystem implements InputProvider 
 	private void floatMapper (String name, Object object) {
 		if (object instanceof float[]) {
 			if (((float[])object).length == 1) {
-				ImGui.sliderFloat(name, (float[])object, 0, 1);
+				ImGui.sliderFloat(name, (float[])object, 0, 20);
 			}
 		}
 	}
@@ -421,6 +427,19 @@ public class EngineDebugStartSystem extends BaseSystem implements InputProvider 
 		float halfWidth = windowWidth/2f;
 
 		ImGui.beginTabBar("RenderBar");
+
+		if (ImGui.beginTabItem("Environment")) {
+
+			final EnvironmentConfigSystem environmentConfigSystem = world.getSystem(EnvironmentConfigSystem.class);
+			final Environment environment = environmentConfigSystem.getEnvironment();
+			final SceneEnvironment sceneEnvironment = environment.getSceneEnvironment();
+
+//			ImGui.text("Prefilter tex");
+//			ImGui.image(sceneEnvironment.getBrdfMap().getTextureObjectHandle(), windowWidth, windowWidth, 0, 1, 1, 0);
+
+
+			ImGui.endTabItem();
+		}
 
 		if (ImGui.beginTabItem("Depth")) {
 

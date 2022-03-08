@@ -41,8 +41,8 @@ public class EnvironmentConfigSystem extends BaseSystem {
 		SceneModel skybox1 = CubeUtils.createBox("Skybox", 1, 1, 1, null);
 		edit.add(new SceneModelInstance(skybox1));
 
-		environment.getSceneEnvironment().setSkyBox(createCubemap("field/skybox", "png"));
-		environment.getSceneEnvironment().setIrradianceMap(createCubemap("field/irradiance", "png"));
+//		environment.getSceneEnvironment().setSkyBox(createCubemap("field/skybox", "png"));
+//		environment.getSceneEnvironment().setIrradianceMap(createCubemap("field/irradiance", "png"));
 	}
 
 

@@ -220,7 +220,7 @@ void main () {
 
 
     //hdr tone mapping
-    brdf.rgb = brdf.rgb/(brdf.rgb + vec3(1.0));
+//    brdf.rgb = brdf.rgb/(brdf.rgb + vec3(1.0));
 
     //gamma correction
     float gamma = 2.2;

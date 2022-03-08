@@ -7,7 +7,7 @@ version '1.0-SNAPSHOT'
 
 ext {
     libgdxVersion = "1.10.1-SNAPSHOT"
-    imguiVersion = "1.86.4"
+    imguiVersion = "1.86.3"
 }
 
 

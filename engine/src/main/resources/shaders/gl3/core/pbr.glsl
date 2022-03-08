@@ -185,8 +185,8 @@ vec3 fragWorldPosition, vec3 eyePosition) {
 
     vec3 diffuse    = irradiance * albedo;
 
-    const float MAX_REFLECTION_LOD = 4.0;
-    vec3 prefilteredColor = textureLod(u_prefilterMap, vec3(R.x, -R.y, R.z),  roughness * MAX_REFLECTION_LOD).rgb;
+    const float MAX_REFLECTION_LOD = 6.0;
+    vec3 prefilteredColor = textureLod(u_prefilterMap, R,  roughness * MAX_REFLECTION_LOD).rgb;
     vec2 envBRDF  = texture(u_brdfMap, vec2(cosLo, roughness)).rg;
     vec3 specular = prefilteredColor * (F * envBRDF.x + envBRDF.y);
 
