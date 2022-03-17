@@ -1,17 +1,26 @@
 package com.rockbite.bongo.engine.dds;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.TextureData;
+import com.badlogic.gdx.utils.BufferUtils;
+import com.badlogic.gdx.utils.OrderedMap;
 
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
+
+import static java.nio.ByteOrder.nativeOrder;
 
 public class DDSTextureData implements TextureData {
 
 	private final int width;
 	private final int height;
-	private final ByteBuffer data;
+	private final FloatBuffer data;
 	private final int level;
 	private final int face;
 
@@ -20,10 +29,32 @@ public class DDSTextureData implements TextureData {
 		this.height = baseHeight;
 		this.face = face;
 		this.level = level;
-		this.data = ByteBuffer.allocateDirect(data.length);
-		this.data.order(ByteOrder.LITTLE_ENDIAN);
-		this.data.put(data);
-		this.data.flip();
+		final ByteBuffer byteBuffer = ByteBuffer.allocateDirect(data.length);
+		byteBuffer.order(ByteOrder.BIG_ENDIAN);
+		byteBuffer.put(data);
+		byteBuffer.position(0);
+
+
+		this.data = byteBuffer.asFloatBuffer();
+
+		final int capacity = this.data.capacity();
+		for (int i = 0; i <= capacity - 4; i+=4) {
+			float a = this.data.get();
+			float b = this.data.get();
+			float g = this.data.get();
+			float r = this.data.get();
+
+			this.data.put(i, b);
+			this.data.put(i + 1, g);
+			this.data.put(i + 2, r);
+			this.data.put(i + 3, 1);
+		}
+
+		//16-bit floating-point formats use half-precision (s10e5 format): sign bit, 5-bit biased (15) exponent, and 10-bit mantissa.
+
+
+		this.data.position(0);
+
 	}
 
 	@Override
@@ -53,8 +84,7 @@ public class DDSTextureData implements TextureData {
 
 	@Override
 	public void consumeCustomData (int target) {
-		System.out.println("Uploading to " + target  + " face"  + face + " " + level +" " + width + " " + height) ;
-		Gdx.gl.glTexImage2D(target, level, Gdx.gl30.GL_RGB16F, width, height, 0, Gdx.gl.GL_RGBA, Gdx.gl.GL_UNSIGNED_BYTE, data);
+		Gdx.gl.glTexImage2D(target, level, GL30.GL_RGB32F, width, height, 0, Gdx.gl.GL_RGBA, GL30.GL_FLOAT, data);
 	}
 
 	@Override

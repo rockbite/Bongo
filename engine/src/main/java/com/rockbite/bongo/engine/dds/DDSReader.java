@@ -1,7 +1,10 @@
 package com.rockbite.bongo.engine.dds;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Cubemap;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.FacedCubemapData;
 import com.badlogic.gdx.graphics.glutils.MipMapTextureData;
@@ -11,6 +14,9 @@ import com.badlogic.gdx.utils.IntMap;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+
+import static com.badlogic.gdx.graphics.GL20.GL_CLAMP_TO_EDGE;
+import static com.badlogic.gdx.graphics.GL20.GL_TEXTURE_CUBE_MAP;
 
 public class DDSReader {
 
@@ -93,10 +99,10 @@ public class DDSReader {
 						buffer.get(data);
 
 						for (int i = 0; i < data.length; i+=4) {
-							final byte origR = data[i];
-							final byte origG = data[i + 2];
-							data[i] = origG;
-							data[i + 2] = origR;
+//							final byte origR = data[i];
+//							final byte origG = data[i + 2];
+//							data[i] = origG;
+//							data[i + 2] = origR;
 						}
 
 						imageByteArrays.get(surface).add(data);
@@ -109,8 +115,19 @@ public class DDSReader {
 				final MipMapTextureData negY = createMipMapTextureData(3, header.getDwWidth(), header.getDwHeight(), imageByteArrays);
 				final MipMapTextureData posZ = createMipMapTextureData(4, header.getDwWidth(), header.getDwHeight(), imageByteArrays);
 				final MipMapTextureData negZ = createMipMapTextureData(5, header.getDwWidth(), header.getDwHeight(), imageByteArrays);
+
+
 				Cubemap cubemap = new Cubemap(new FacedCubemapData(posX, negX, posY, negY, posZ, negZ));
 				cubemap.setFilter(Texture.TextureFilter.MipMapLinearLinear, Texture.TextureFilter.Linear);
+				cubemap.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
+
+				Gdx.gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, Gdx.gl.GL_TEXTURE_WRAP_S, Gdx.gl.GL_CLAMP_TO_EDGE);
+				Gdx.gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, Gdx.gl.GL_TEXTURE_WRAP_T, Gdx.gl.GL_CLAMP_TO_EDGE);
+				Gdx.gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, Gdx.gl30.GL_TEXTURE_WRAP_R, Gdx.gl.GL_CLAMP_TO_EDGE);
+				Gdx.gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, Gdx.gl.GL_TEXTURE_MIN_FILTER, Gdx.gl.GL_LINEAR);
+				Gdx.gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, Gdx.gl.GL_TEXTURE_MAG_FILTER, Gdx.gl.GL_LINEAR);
+
+
 
 				return cubemap;
 			}
