@@ -24,11 +24,11 @@ public class InGameConsoleSystem extends BaseSystem {
 	@Override
 	protected void initialize () {
 		super.initialize();
+		stage = new Stage(new ScreenViewport(), new PolygonSpriteBatchMultiTextureMULTIBIND());
 	}
 
 	@Subscribe
 	public void onAssetLoaded (AssetsEndLoadEvent assetsEndLoadEvent) {
-		stage = new Stage(new ScreenViewport(), new PolygonSpriteBatchMultiTextureMULTIBIND());
 
 		consoleTable = new Table();
 		consoleTable.setFillParent(true);
