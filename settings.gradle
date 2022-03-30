@@ -1,5 +1,5 @@
 rootProject.name = 'Bongo'
 
-include "engine", "desktop"
+include "engine", "desktop", "web"
 
 include "talos"

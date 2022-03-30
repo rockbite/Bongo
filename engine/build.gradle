@@ -1,5 +1,8 @@
 plugins {
     id 'java-library'
+    id 'maven-publish'
+    id "io.freefair.lombok" version "6.4.1"
+
 }
 
 group 'com.rockbite.bongo'
@@ -47,4 +50,29 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+
+task packageSources(type: Jar, dependsOn: classes) {
+//    from sourceSets.main.allJava.srcDirs
+    from delombok
+    from sourceSets.main.resources.srcDirs
+    archiveClassifier = 'web'
+}
+
+
+artifacts {
+    api(packageSources)
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact packageSources
+            groupId project.group
+            artifactId project.name
+            version project.version
+        }
+    }
 }

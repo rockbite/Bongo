@@ -162,7 +162,10 @@ public class WaterShader extends BaseSceneShader {
 		};
 		public final static Setter envMap = new GlobalSetter() {
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
-				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getRadianceMap()));
+				if (shader.sceneEnvironment.getEnvironmentMap() != null) {
+					final SceneEnvironment.EnvironmentMap environmentMap = shader.sceneEnvironment.getEnvironmentMap();
+					shader.set(inputID, shader.context.textureBinder.bind(environmentMap.getRadianceMap()));
+				}
 			}
 		};
 		public final static Setter shadowMap = new GlobalSetter() {

@@ -286,25 +286,37 @@ public class ShadedShader extends BaseSceneShader  {
 		public final static Setter envMap = new GlobalSetter() {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
-				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getRadianceMap()));
+				if (shader.sceneEnvironment.getEnvironmentMap() != null) {
+					final SceneEnvironment.EnvironmentMap environmentMap = shader.sceneEnvironment.getEnvironmentMap();
+					shader.set(inputID, shader.context.textureBinder.bind(environmentMap.getRadianceMap()));
+				}
 			}
 		};
 		public final static Setter irradianceMap = new GlobalSetter() {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
-				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getIrradianceMap()));
+				if (shader.sceneEnvironment.getEnvironmentMap() != null) {
+					final SceneEnvironment.EnvironmentMap environmentMap = shader.sceneEnvironment.getEnvironmentMap();
+					shader.set(inputID, shader.context.textureBinder.bind(environmentMap.getIrradianceMap()));
+				}
 			}
 		};
 		public final static Setter prefilterMap = new GlobalSetter() {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
-				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getSpecularMap()));
+				if (shader.sceneEnvironment.getEnvironmentMap() != null) {
+					final SceneEnvironment.EnvironmentMap environmentMap = shader.sceneEnvironment.getEnvironmentMap();
+					shader.set(inputID, shader.context.textureBinder.bind(environmentMap.getSpecularMap()));
+				}
 			}
 		};
 		public final static Setter brdfMap = new GlobalSetter() {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
-				shader.set(inputID, shader.context.textureBinder.bind(shader.sceneEnvironment.getBrdfMap()));
+				if (shader.sceneEnvironment.getEnvironmentMap() != null) {
+					final SceneEnvironment.EnvironmentMap environmentMap = shader.sceneEnvironment.getEnvironmentMap();
+					shader.set(inputID, shader.context.textureBinder.bind(environmentMap.getBrdfMap()));
+				}
 			}
 		};
 		public final static Setter shadowMap = new GlobalSetter() {

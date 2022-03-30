@@ -50,9 +50,9 @@ public class SkyboxShader extends BaseSceneShader  {
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
 				SceneEnvironment sceneEnvironment = shader.sceneEnvironment;
-				final Cubemap radianceMap = sceneEnvironment.getRadianceMap();
-				if (radianceMap != null) {
-					shader.set(inputID, shader.context.textureBinder.bind(radianceMap));
+				final SceneEnvironment.EnvironmentMap environmentMap = sceneEnvironment.getEnvironmentMap();
+				if (environmentMap != null) {
+					shader.set(inputID, shader.context.textureBinder.bind(environmentMap.getRadianceMap()));
 				}
 			}
 		};

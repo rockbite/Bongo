@@ -21,21 +21,35 @@ repositories {
 }
 
 dependencies {
+
     api project(":engine")
 
+    api "com.badlogicgames.gdx:gdx:$libgdxVersion:sources"
 
-    compileOnly "org.projectlombok:lombok:1.18.2"
-    annotationProcessor "org.projectlombok:lombok:1.18.2"
+    api "org.projectlombok:lombok:1.18.2:sources"
+
+    api "net.onedaybeard.artemis:artemis-odb:2.3.0:sources"
+    api 'net.onedaybeard.artemis:artemis-odb-serializer-json-libgdx:2.3.0:sources'
+    api "net.mostlyoriginal.artemis-odb:contrib-core:2.5.0:sources"
+    api "net.mostlyoriginal.artemis-odb:contrib-eventbus:2.5.0:sources"
+    api 'net.mostlyoriginal.artemis-odb:contrib-plugin-singleton:2.5.0:sources'
+
+    api "com.moandjiezana.toml:toml4j:0.7.2:sources"
+
+    api 'org.slf4j:slf4j-api:1.7.25:sources'
+
+    api "org.apache.commons:commons-vfs2:2.8.0:sources"
+
 }
 
 test {
     useJUnitPlatform()
-
 }
 
 task packageSources(type: Jar, dependsOn: classes) {
 //    from sourceSets.main.allJava.srcDirs
     from delombok
+    from sourceSets.main.resources.srcDirs
     classifier = 'web'
 }
 

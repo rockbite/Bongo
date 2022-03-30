@@ -11,11 +11,20 @@ import com.badlogic.gdx.utils.Array;
 import com.rockbite.bongo.engine.annotations.ComponentExpose;
 import com.rockbite.bongo.engine.components.render.PointLight;
 import lombok.Data;
+import lombok.Getter;
 
 import static com.rockbite.bongo.engine.annotations.ComponentExposeFlavour.*;
 
 @Data
 public class SceneEnvironment {
+
+	@Getter
+	public static class EnvironmentMap {
+		private GLTexture brdfMap;
+		private Cubemap radianceMap;
+		private Cubemap irradianceMap;
+		private Cubemap specularMap;
+	}
 
 	@ComponentExpose(flavour = VEC_3)
 	private float[] directionalLightDirRaw = new float[]{0f, -1f, -0.01f};
@@ -35,11 +44,12 @@ public class SceneEnvironment {
 	int maxPointLights = 5;
 	private Array<PointLight> pointLights = new Array<>();
 
-	private GLTexture brdfMap;
+	@ComponentExpose(flavour = COLOUR_4_VEC)
+	private float[] ambientEnvironmentRaw = new float[]{46/255f, 46/255f, 46/255f, 1f};
+	private Color ambientEnvironmentColor = new Color(46/255f, 46/255f, 46/255f, 1f);
 
-	private Cubemap radianceMap;
-	private Cubemap irradianceMap;
-	private Cubemap specularMap;
+
+	private EnvironmentMap environmentMap;
 
 	private float time;
 
@@ -114,5 +124,10 @@ public class SceneEnvironment {
 		directionLightColor.g = directionLightColorRaw[1]  * directionalStrength[0];
 		directionLightColor.b = directionLightColorRaw[2]  * directionalStrength[0];
 		directionLightColor.a = directionLightColorRaw[3]  * directionalStrength[0];
+
+		ambientEnvironmentColor.r = ambientEnvironmentRaw[0] * ambientStrength[0];
+		ambientEnvironmentColor.g = ambientEnvironmentRaw[1] * ambientStrength[0];
+		ambientEnvironmentColor.b = ambientEnvironmentRaw[2] * ambientStrength[0];
+		ambientEnvironmentColor.a = ambientEnvironmentRaw[3] * ambientStrength[0];
 	}
 }
