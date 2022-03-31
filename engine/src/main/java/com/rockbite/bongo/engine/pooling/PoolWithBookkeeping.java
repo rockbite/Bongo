@@ -6,12 +6,13 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Field;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.rockbite.bongo.engine.Bongo;
 import com.rockbite.bongo.engine.threadutil.ThreadUtils;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.lang.reflect.Field;
 
 public abstract class PoolWithBookkeeping<T> extends Pool<T> {
 
@@ -69,16 +70,14 @@ public abstract class PoolWithBookkeeping<T> extends Pool<T> {
 	public boolean contains (Pool<T> pool, T component) {
 		try {
 			if (freeObjectsArray == null) {
-				Field freeObjects = Pool.class.getDeclaredField("freeObjects");
+				Field freeObjects = ClassReflection.getDeclaredField(Pool.class, "freeObjects");
 				freeObjects.setAccessible(true);
 				freeObjectsArray = (Array<T>)freeObjects.get(pool);
 			}
 			if (freeObjectsArray.contains(component, true)) {
 				return true;
 			}
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		} catch (ReflectionException e) {
 			e.printStackTrace();
 		}
 

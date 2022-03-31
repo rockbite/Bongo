@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.rockbite.bongo.engine.pooling.PoolWithBookkeeping;
 import com.rockbite.tween.controllers.*;
 
@@ -100,7 +101,7 @@ public class TweenSystem extends BaseSystem {
 				tweenPool = new PoolWithBookkeeping<Tween<T>>("TweenPool: " + type.getSimpleName()) {
 					@Override
 					protected Tween<T> newObject () {
-						if (TweenController.class.isAssignableFrom(type)) {
+						if (ClassReflection.isAssignableFrom(TweenController.class, type)) {
 							return new Tween<>(TweenSystem.this, null);
 						} else {
 							return new Tween<>(TweenSystem.this, tweenControllerMap.getController(type));

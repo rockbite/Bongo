@@ -18,7 +18,7 @@ public class Bongo {
 
 
 	public static void init () {
-		ThreadUtils.setGdxThread(Thread.currentThread());
+		ThreadUtils.init();
 
 		Gdx.app.addLifecycleListener(new LifecycleListener() {
 			@Override

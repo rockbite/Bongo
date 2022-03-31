@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.glutils.PixmapTextureData;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Base64Coder;
+import com.badlogic.gdx.utils.BufferUtils;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -281,7 +282,12 @@ public class SceneResourceContext {
 				final String[] split = uri.split(",", 2);
 				String body = split[1];
 				final byte[] decode = Base64Coder.decode(body);
-				Pixmap pixmap = new Pixmap(decode, 0, decode.length);
+
+				Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888); //todo decode width/height
+				ByteBuffer byteBuffer = BufferUtils.newByteBuffer(decode.length);
+				byteBuffer.put(decode);
+				byteBuffer.position(0);
+				pixmap.setPixels(byteBuffer);
 
 				return new PixmapTextureData(pixmap, Pixmap.Format.RGBA8888, true, true);
 			}
@@ -302,8 +308,13 @@ public class SceneResourceContext {
 				byteBuffer.get(rewind,0, imageBufferView.getByteLength());
 				byteBuffer.rewind();
 
+				Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888); //todo decode width/height
 
-				Pixmap pixmap = new Pixmap(rewind, 0, rewind.length);
+				ByteBuffer rewindedBuffer = BufferUtils.newByteBuffer(rewind.length);
+				byteBuffer.put(rewind);
+				byteBuffer.position(0);
+				pixmap.setPixels(rewindedBuffer);
+
 				return new PixmapTextureData(pixmap, Pixmap.Format.RGBA8888, true, true);
 			}
 		}

@@ -4,6 +4,8 @@ plugins {
     id "io.freefair.lombok" version "6.4.1"
 }
 
+sourceCompatibility = "1.8"
+
 group 'com.rockbite.bongo'
 version '1.0-SNAPSHOT'
 
@@ -36,7 +38,8 @@ test {
 task packageSources(type: Jar, dependsOn: classes) {
 //    from sourceSets.main.allJava.srcDirs
     from delombok
-    classifier = 'web'
+    from sourceSets.main.resources.srcDirs
+    archiveClassifier = 'web'
 }
 
 

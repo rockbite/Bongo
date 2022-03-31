@@ -5,12 +5,12 @@ import com.artemis.utils.reflect.ClassReflection;
 import com.artemis.utils.reflect.ReflectionException;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Queue;
+import com.badlogic.gdx.utils.reflect.Field;
 import com.moandjiezana.toml.Toml;
 import com.rockbite.bongo.engine.reflect.ReflectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 

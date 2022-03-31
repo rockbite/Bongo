@@ -35,7 +35,7 @@ public class GameLoopSystemInvocationStrategy extends SystemInvocationStrategy {
 	private final Array<BaseSystem> otherSystems;
 
 	private long nanosPerLogicTick; // ~ dt
-	private long currentTime = System.nanoTime();
+	private long currentTime = System.currentTimeMillis();
 
 	private long accumulator;
 
@@ -57,7 +57,7 @@ public class GameLoopSystemInvocationStrategy extends SystemInvocationStrategy {
 	}
 
 	public GameLoopSystemInvocationStrategy (int millisPerLogicTick) {
-		this.nanosPerLogicTick = TimeUnit.MILLISECONDS.toNanos(millisPerLogicTick);
+		this.nanosPerLogicTick = TimeUnit.MILLISECONDS.toMillis(millisPerLogicTick);
 		logicMarkedSystems = new Array<BaseSystem>();
 		otherSystems = new Array<BaseSystem>();
 	}
@@ -88,7 +88,7 @@ public class GameLoopSystemInvocationStrategy extends SystemInvocationStrategy {
 			sortSystems();
 		}
 
-		long newTime = System.nanoTime();
+		long newTime = System.currentTimeMillis();
 		long frameTime = newTime - currentTime;
 
 		if (frameTime > 250000000) {

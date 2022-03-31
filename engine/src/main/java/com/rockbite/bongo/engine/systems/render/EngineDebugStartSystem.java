@@ -5,10 +5,8 @@ import com.artemis.BaseSystem;
 import com.artemis.Component;
 import com.artemis.Entity;
 import com.artemis.EntitySubscription;
-import com.artemis.annotations.AspectDescriptor;
 import com.artemis.utils.Bag;
 import com.artemis.utils.IntBag;
-import com.artemis.utils.reflect.ClassReflection;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,12 +14,15 @@ import com.badlogic.gdx.graphics.g3d.Attribute;
 import com.badlogic.gdx.graphics.g3d.Attributes;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.reflect.Annotation;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Field;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.rockbite.bongo.engine.Bongo;
 import com.rockbite.bongo.engine.annotations.ComponentExpose;
 import com.rockbite.bongo.engine.annotations.ComponentExposeFlavour;
 import com.rockbite.bongo.engine.components.render.ShaderControlResource;
 import com.rockbite.bongo.engine.components.singletons.Environment;
-import com.rockbite.bongo.engine.gltf.GLTFDataModel;
 import com.rockbite.bongo.engine.gltf.scene.SceneEnvironment;
 import com.rockbite.bongo.engine.gltf.scene.SceneMaterial;
 import com.rockbite.bongo.engine.gltf.scene.SceneMesh;
@@ -43,9 +44,6 @@ import imgui.type.ImInt;
 import lombok.Getter;
 import net.mostlyoriginal.api.Singleton;
 
-import java.lang.reflect.Field;
-
-import static com.artemis.utils.reflect.ClassReflection.isAnnotationPresent;
 
 public class EngineDebugStartSystem extends BaseSystem implements InputProvider {
 
@@ -188,7 +186,7 @@ public class EngineDebugStartSystem extends BaseSystem implements InputProvider 
 			if (fillBag.size() > 0) {
 				for (int j = 0; j < fillBag.size(); j++) {
 					final Component component = fillBag.get(j);
-					if (isAnnotationPresent(component.getClass(), Singleton.class)) {
+					if (ClassReflection.isAnnotationPresent(component.getClass(), Singleton.class)) {
 						singletons.add(component);
 					}
 				}
@@ -386,11 +384,12 @@ public class EngineDebugStartSystem extends BaseSystem implements InputProvider 
 
 			for (Field field : fieldsUpTo) {
 
-				if (field.getAnnotation(ComponentExpose.class) != null) {
+				if (field.getDeclaredAnnotation(ComponentExpose.class) != null) {
 					try {
 						field.setAccessible(true);
 
-						ComponentExpose expose = field.getAnnotation(ComponentExpose.class);
+						Annotation declaredAnnotation = field.getDeclaredAnnotation(ComponentExpose.class);
+						ComponentExpose expose = declaredAnnotation.getAnnotation(ComponentExpose.class);
 						final ComponentExposeFlavour flavour = expose.flavour();
 						if (flavour != null && flavour != ComponentExposeFlavour.NONE && mappers.containsKey(flavour)) {
 							mappers.get(flavour).run(field.getName(), field.get(component));
@@ -398,7 +397,7 @@ public class EngineDebugStartSystem extends BaseSystem implements InputProvider 
 							debugComponent(field.get(component));
 						}
 
-					} catch (IllegalAccessException e) {
+					} catch (ReflectionException e) {
 						e.printStackTrace();
 					}
 				}

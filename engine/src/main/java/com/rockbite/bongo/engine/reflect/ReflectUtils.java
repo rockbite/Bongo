@@ -1,6 +1,8 @@
 package com.rockbite.bongo.engine.reflect;
 
-import java.lang.reflect.Field;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Field;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,8 +14,7 @@ public class ReflectUtils {
 	 * @return
 	 */
 	public static Iterable<Field> getFieldsUpTo(Class<?> startClass, Class<?> exclusiveParent) {
-
-		List<Field> currentClassFields = new ArrayList<>(Arrays.asList(startClass.getDeclaredFields()));
+		List<Field> currentClassFields = new ArrayList<Field>(Arrays.asList(ClassReflection.getDeclaredFields(startClass)));
 		Class<?> parentClass = startClass.getSuperclass();
 
 		if (parentClass != null && (exclusiveParent == null || !(parentClass.equals(exclusiveParent)))) {

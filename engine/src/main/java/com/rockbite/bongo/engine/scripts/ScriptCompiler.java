@@ -37,6 +37,7 @@ public class ScriptCompiler implements LifecycleListener {
 
 	final ExecutorService executorService;
 
+
 	public static ScriptCompiler instance () {
 		if (instance == null) {
 			instance = new ScriptCompiler();
@@ -53,8 +54,7 @@ public class ScriptCompiler implements LifecycleListener {
 		Gdx.app.addLifecycleListener(this);
 	}
 
-	public CompletableFuture<Object> compile (String fileName, String javaString) {
-		CompletableFuture<Object> completableFuture = new CompletableFuture<>();
+	public void compile (String fileName, String javaString, ScriptObjectRunnable scriptObjectRunnable) {
 
 		executorService.submit(new Runnable() {
 			@Override
@@ -76,38 +76,25 @@ public class ScriptCompiler implements LifecycleListener {
 
 						Object object = ClassReflection.newInstance(clazz);
 
-						completableFuture.complete(object);
+						scriptObjectRunnable.onComplete(object);
 					} catch (ReflectionException | ClassNotFoundException e) {
 						e.printStackTrace();
 					}
 				}
-
-				completableFuture.complete(null);
 			}
 		});
-
-		return completableFuture;
 	}
 
-	/**
-	 * Called when the {@link Application} is about to pause
-	 */
 	@Override
 	public void pause () {
 
 	}
 
-	/**
-	 * Called when the Application is about to be resumed
-	 */
 	@Override
 	public void resume () {
 
 	}
 
-	/**
-	 * Called when the {@link Application} is about to be disposed
-	 */
 	@Override
 	public void dispose () {
 		executorService.shutdownNow();

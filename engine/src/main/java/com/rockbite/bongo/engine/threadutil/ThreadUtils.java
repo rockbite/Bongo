@@ -6,8 +6,11 @@ import lombok.Setter;
 
 public class ThreadUtils {
 
-	@Setter
 	private static Thread gdxThread;
+
+	public static void init () {
+		gdxThread = Thread.currentThread();
+	}
 	
 	public static void gdxThreadSafetyCheck () {
 		if (Bongo.DEBUG) {
@@ -17,7 +20,7 @@ public class ThreadUtils {
 		}
 	}
 
-	public static void gdxThreadSafetyCheck (Thread accessThread) {
+	public static void gdxThreadSafetyCheck (Object accessThread) {
 		if (Bongo.DEBUG) {
 			if (Thread.currentThread() != accessThread) {
 				throw new GdxRuntimeException("Trying to use on non-gdx thread");

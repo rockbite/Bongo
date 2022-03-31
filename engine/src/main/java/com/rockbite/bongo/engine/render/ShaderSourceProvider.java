@@ -4,6 +4,7 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.rockbite.bongo.engine.Bongo;
 
 import static com.rockbite.bongo.engine.Bongo.CORE_SHADER_DEBUG;
 
@@ -22,7 +23,7 @@ public class ShaderSourceProvider {
 
 
 	private static FileHandle getBongoSourcePath () {
-		FileHandle local = Gdx.files.absolute(Gdx.files.local(".").file().getAbsolutePath());
+		FileHandle local = Gdx.files.local("."); //todo fix absolute path workaround
 
 		while (!local.parent().child("bongo").exists()) {
 			local = local.parent();

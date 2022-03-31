@@ -4,6 +4,8 @@ plugins {
     id "io.freefair.lombok" version "6.4.1"
 }
 
+sourceCompatibility = 1.8
+
 group 'com.rockbite.bongo'
 version '1.0-SNAPSHOT'
 
@@ -24,7 +26,19 @@ dependencies {
 
     api project(":engine")
 
+    api "org.slf4gwt:slf4gwt:1.4"
+    api "org.slf4gwt:slf4gwt:1.4:sources"
+
+    api "net.onedaybeard.artemis:artemis-odb-gwt:2.3.0"
+    api "net.onedaybeard.artemis:artemis-odb-gwt:2.3.0:sources"
+
     api "com.badlogicgames.gdx:gdx:$libgdxVersion:sources"
+
+    api "com.badlogicgames.gdx:gdx-backend-gwt:$libgdxVersion"
+    api "com.badlogicgames.gdx:gdx-backend-gwt:$libgdxVersion:sources"
+
+    api "com.github.intrigus.gdx-freetype-gwt:gdx-freetype-gwt:1.9.10"
+    api "com.github.intrigus.gdx-freetype-gwt:gdx-freetype-gwt:1.9.10:sources"
 
     api "org.projectlombok:lombok:1.18.2:sources"
 
@@ -33,8 +47,6 @@ dependencies {
     api "net.mostlyoriginal.artemis-odb:contrib-core:2.5.0:sources"
     api "net.mostlyoriginal.artemis-odb:contrib-eventbus:2.5.0:sources"
     api 'net.mostlyoriginal.artemis-odb:contrib-plugin-singleton:2.5.0:sources'
-
-    api "com.moandjiezana.toml:toml4j:0.7.2:sources"
 
     api 'org.slf4j:slf4j-api:1.7.25:sources'
 

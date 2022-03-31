@@ -4,6 +4,7 @@ plugins {
     id "io.freefair.lombok" version "6.4.1"
 
 }
+sourceCompatibility = 1.8
 
 group 'com.rockbite.bongo'
 version '1.0-SNAPSHOT'
@@ -36,8 +37,6 @@ dependencies {
     api "net.mostlyoriginal.artemis-odb:contrib-core:2.5.0"
     api "net.mostlyoriginal.artemis-odb:contrib-eventbus:2.5.0"
     api 'net.mostlyoriginal.artemis-odb:contrib-plugin-singleton:2.5.0'
-
-    api "com.moandjiezana.toml:toml4j:0.7.2"
 
     implementation 'org.slf4j:slf4j-api:1.7.25'
 
