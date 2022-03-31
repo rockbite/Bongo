@@ -58,26 +58,25 @@ test {
     useJUnitPlatform()
 }
 
-task packageSources(type: Jar, dependsOn: classes) {
+task packageSources(type: Jar, dependsOn: [classes, jar]) {
 //    from sourceSets.main.allJava.srcDirs
     from delombok
     from sourceSets.main.resources.srcDirs
-    classifier = 'web'
+    archiveClassifier = 'web'
 }
-
 
 artifacts {
     api(packageSources)
 }
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            artifact packageSources
-            groupId project.group
-            artifactId project.name
-            version project.version
-        }
-    }
-}
+//
+//publishing {
+//    publications {
+//        mavenJava(MavenPublication) {
+//            from components.java
+//            artifact packageSources
+//            groupId project.group
+//            artifactId project.name
+//            version project.version
+//        }
+//    }
+//}

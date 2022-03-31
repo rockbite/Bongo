@@ -17,7 +17,6 @@ import net.mostlyoriginal.api.event.common.EventSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Console extends Table {
@@ -107,10 +106,7 @@ public class Console extends Table {
 
 		entry.padLeft(1);
 
-		final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-		final String format = simpleDateFormat.format(new Date());
-
-		Label time = new Label("[" + format + "]:", getSkin(), "console-time");
+		Label time = new Label("[" + new Date().toString() + "]:", getSkin(), "console-time");
 
 		Table textTable = new Table();
 

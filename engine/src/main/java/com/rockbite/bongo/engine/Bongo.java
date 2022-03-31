@@ -1,9 +1,9 @@
 package com.rockbite.bongo.engine;
 
-import com.artemis.utils.reflect.ClassReflection;
-import com.artemis.utils.reflect.ReflectionException;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.LifecycleListener;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.rockbite.bongo.engine.fileutil.ReloadUtils;
 import com.rockbite.bongo.engine.platform.IMGUIPlatform;
 import com.rockbite.bongo.engine.render.ShaderSourceProvider;

@@ -8,4 +8,5 @@
     <!-- X1 skin -->
     <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/" />
 
+    <extend-configuration-property name="gdx.reflect.include" value="com.rockbite.bongo.engine.platform" />
 </module>

@@ -89,11 +89,11 @@ public class ScriptModule extends AbstractModule {
 
     public void setScript (String script) {
         this.script = script;
-        SimpleReturnScript scriptInstance = ScriptCompiler.instance().compile(template.replace(replace, script));
+//        SimpleReturnScript scriptInstance = ScriptCompiler.instance().compile(template.replace(replace, script));
 
-        if (scriptInstance != null) {
-            this.returnScript = scriptInstance;
-        }
+//        if (scriptInstance != null) {
+//            this.returnScript = scriptInstance;
+//        }
     }
 
     private static final String replace = "%SCRIPT%";

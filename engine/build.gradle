@@ -52,7 +52,7 @@ test {
 }
 
 
-task packageSources(type: Jar, dependsOn: classes) {
+task packageSources(type: Jar, dependsOn: [classes, jar]) {
 //    from sourceSets.main.allJava.srcDirs
     from delombok
     from sourceSets.main.resources.srcDirs
@@ -61,7 +61,7 @@ task packageSources(type: Jar, dependsOn: classes) {
 
 
 artifacts {
-    api(packageSources)
+    api(jar, packageSources)
 }
 
 publishing {
