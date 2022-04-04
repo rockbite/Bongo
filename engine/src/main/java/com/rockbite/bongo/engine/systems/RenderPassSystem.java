@@ -84,10 +84,14 @@ public abstract class RenderPassSystem extends BaseSystem {
 	}
 
 	protected EntitySubscription createSubscriptionForRenderType (Class<? extends Component> renderComponentType) {
-		Array<Class<? extends Component>> baseComponentsToGather = new Array<>(Class.class);
+		Array<Class<? extends Component>> baseComponentsToGather = new Array<>();
 		baseComponentsToGather.addAll(componentsToGather);
 		baseComponentsToGather.add(renderComponentType);
-		return world.getAspectSubscriptionManager().get(Aspect.all(baseComponentsToGather.toArray()));
+		Class[] types = new Class[baseComponentsToGather.size];
+		for (int i = 0; i < types.length; i++) {
+			types[i] = baseComponentsToGather.get(i);
+		}
+		return world.getAspectSubscriptionManager().get(Aspect.all(types));
 	}
 
 	@Override

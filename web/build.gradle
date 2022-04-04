@@ -29,6 +29,9 @@ dependencies {
     api "org.slf4gwt:slf4gwt:1.4"
     api "org.slf4gwt:slf4gwt:1.4:sources"
 
+    api "io.github.spair:imgui-java-binding:$imguiVersion:sources"
+    api "io.github.spair:imgui-java-lwjgl3:$imguiVersion:sources"
+
     api "net.onedaybeard.artemis:artemis-odb-gwt:2.3.0"
     api "net.onedaybeard.artemis:artemis-odb-gwt:2.3.0:sources"
 

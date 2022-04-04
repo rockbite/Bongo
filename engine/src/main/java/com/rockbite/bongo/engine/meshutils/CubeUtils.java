@@ -1,5 +1,6 @@
 package com.rockbite.bongo.engine.meshutils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Mesh;
@@ -35,6 +36,7 @@ public class CubeUtils {
 			-hWidth, -hHeight,  hDepth,  0.0f,  0.0f, 1.0f,
 			hWidth, -hHeight,  hDepth,  0.0f,  0.0f, 1.0f,
 			hWidth,  hHeight,  hDepth,  0.0f,  0.0f, 1.0f,
+
 			hWidth,  hHeight,  hDepth,  0.0f,  0.0f, 1.0f,
 			-hWidth,  hHeight,  hDepth,  0.0f,  0.0f, 1.0f,
 			-hWidth, -hHeight,  hDepth,  0.0f,  0.0f, 1.0f,
@@ -42,6 +44,7 @@ public class CubeUtils {
 			-hWidth,  hHeight,  hDepth, -1.0f,  0.0f,  0.0f,
 			-hWidth,  hHeight, -hDepth, -1.0f,  0.0f,  0.0f,
 			-hWidth, -hHeight, -hDepth, -1.0f,  0.0f,  0.0f,
+
 			-hWidth, -hHeight, -hDepth, -1.0f,  0.0f,  0.0f,
 			-hWidth, -hHeight,  hDepth, -1.0f,  0.0f,  0.0f,
 			-hWidth,  hHeight,  hDepth, -1.0f,  0.0f,  0.0f,
@@ -57,6 +60,7 @@ public class CubeUtils {
 			-hWidth, -hHeight, -hDepth,  0.0f, -1.0f,  0.0f,
 			hWidth, -hHeight, -hDepth,  0.0f, -1.0f,  0.0f,
 			hWidth, -hHeight,  hDepth,  0.0f, -1.0f,  0.0f,
+
 			hWidth, -hHeight,  hDepth,  0.0f, -1.0f,  0.0f,
 			-hWidth, -hHeight,  hDepth,  0.0f, -1.0f,  0.0f,
 			-hWidth, -hHeight, -hDepth,  0.0f, -1.0f,  0.0f,
@@ -76,7 +80,11 @@ public class CubeUtils {
 			indices[i] = i;
 		}
 
-		Mesh boxMesh = new Mesh(true, vertexBuffer.length, indices.length,
+		Mesh.VertexDataType defaultVertexDataType = Mesh.VertexDataType.VertexArray;
+
+		Mesh.VertexDataType vertexDataType = (Gdx.gl30 != null) ? Mesh.VertexDataType.VertexBufferObjectWithVAO : defaultVertexDataType;
+
+		Mesh boxMesh = new Mesh(vertexDataType, true, vertexBuffer.length, indices.length,
 			new VertexAttributes(
 				VertexAttribute.Position(),
 				VertexAttribute.Normal()

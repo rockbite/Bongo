@@ -1,5 +1,6 @@
 package com.rockbite.bongo.engine.render;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
@@ -61,7 +62,7 @@ public class SpriteShaderCompiler {
 
 		//vec4 sampleTextureArray (int index, vec2 texCoords) {
 		String token = "%SAMPLE_TEXTURE_ARRAY_CODE%";
-		if (UNROLL_TEXTURE_ARRAY) {
+		if (UNROLL_TEXTURE_ARRAY || Gdx.app.getType() == Application.ApplicationType.WebGL) {
 			String codeBuffer = "";
 			for (int i = 0; i < PolygonSpriteBatchMultiTextureMULTIBIND.maxTextureUnits; i++) {
 				if (i != 0) {

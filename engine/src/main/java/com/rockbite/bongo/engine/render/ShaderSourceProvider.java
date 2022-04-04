@@ -5,10 +5,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.rockbite.bongo.engine.Bongo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.rockbite.bongo.engine.Bongo.CORE_SHADER_DEBUG;
 
 public class ShaderSourceProvider {
+
+	private static final Logger logger = LoggerFactory.getLogger(ShaderSourceProvider.class);
 
 	private static final String GL20_PATH = "shaders/gl2/";
 	private static final String GL30_PATH = "shaders/gl3/";
@@ -33,24 +37,26 @@ public class ShaderSourceProvider {
 	}
 
 	public static FileHandle resolveVertex (String shaderIdentifier, Files.FileType fileType) {
+		String path = getPath() + shaderIdentifier + ".vert.glsl";
 		if (CORE_SHADER_DEBUG && fileType == Files.FileType.Classpath) {
 			//Backup until we find bongo
 
-			return getBongoSourcePath().child(getPath() + shaderIdentifier + ".vert.glsl");
+			return getBongoSourcePath().child(path);
 		}
 
 
 		switch (fileType) {
 		case Classpath:
-			return Gdx.files.classpath(getPath() + shaderIdentifier + ".vert.glsl");
+			FileHandle classpath = Gdx.files.classpath(path);
+			return classpath;
 		case Internal:
-			return Gdx.files.internal(getPath() + shaderIdentifier + ".vert.glsl");
+			return Gdx.files.internal(path);
 		case External:
-			return Gdx.files.external(getPath() + shaderIdentifier + ".vert.glsl");
+			return Gdx.files.external(path);
 		case Absolute:
-			return Gdx.files.absolute(getPath() + shaderIdentifier + ".vert.glsl");
+			return Gdx.files.absolute(path);
 		case Local:
-			return Gdx.files.local(getPath() + shaderIdentifier + ".vert.glsl");
+			return Gdx.files.local(path);
 		}
 
 		throw new GdxRuntimeException("Unable to resolve file type " + fileType);
@@ -58,21 +64,23 @@ public class ShaderSourceProvider {
 	}
 
 	public static FileHandle resolveFragment (String shaderIdentifier, Files.FileType fileType) {
-		if (CORE_SHADER_DEBUG && fileType == Files.FileType.Classpath) {
-			return getBongoSourcePath().child(getPath() + shaderIdentifier + ".frag.glsl");
-		}
+		String path = getPath() + shaderIdentifier + ".frag.glsl";
 
+		if (CORE_SHADER_DEBUG && fileType == Files.FileType.Classpath) {
+			return getBongoSourcePath().child(path);
+		}
 		switch (fileType) {
 		case Classpath:
-			return Gdx.files.classpath(getPath() + shaderIdentifier + ".frag.glsl");
+			FileHandle classpath = Gdx.files.classpath(path);
+			return classpath;
 		case Internal:
-			return Gdx.files.internal(getPath() + shaderIdentifier + ".frag.glsl");
+			return Gdx.files.internal(path);
 		case External:
-			return Gdx.files.external(getPath() + shaderIdentifier + ".frag.glsl");
+			return Gdx.files.external(path);
 		case Absolute:
-			return Gdx.files.absolute(getPath() + shaderIdentifier + ".frag.glsl");
+			return Gdx.files.absolute(path);
 		case Local:
-			return Gdx.files.local(getPath() + shaderIdentifier + ".frag.glsl");
+			return Gdx.files.local(path);
 		}
 
 		throw new GdxRuntimeException("Unable to resolve file type " + fileType);

@@ -4,9 +4,44 @@
     <source path='com/rockbite/'>
 
     </source>
+    <source path="imgui"></source>
 
-    <!-- X1 skin -->
-    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/" />
+    <!-- gl shaders skin -->
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/defaultSprite.frag.glsl" />
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/defaultSprite.vert.glsl" />
 
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/depth.frag.glsl" />
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/depth.vert.glsl" />
+
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/depthutils.glsl" />
+
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/particle.vert.glsl" />
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/particle.frag.glsl" />
+
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/pbr.glsl" />
+
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/shaded.vert.glsl" />
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/shaded.frag.glsl" />
+
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/shadow.vert.glsl" />
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/shadow.frag.glsl" />
+
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/shape.vert.glsl" />
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/shape.frag.glsl" />
+
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/vertutils.glsl" />
+
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/water.vert.glsl" />
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/water.frag.glsl" />
+
+
+
+
+    <extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.files.FileHandle" />
     <extend-configuration-property name="gdx.reflect.include" value="com.rockbite.bongo.engine.platform" />
+    <extend-configuration-property name="gdx.reflect.include" value="com.rockbite.bongo.engine.components.prefab" />
+    <extend-configuration-property name="gdx.reflect.include" value="com.rockbite.bongo.engine.components.render" />
+    <extend-configuration-property name="gdx.reflect.include" value="com.rockbite.bongo.engine.components.singletons" />
+    <extend-configuration-property name="gdx.reflect.include" value="com.rockbite.bongo.engine.gltf.scene.SceneRenderable" />
+    <extend-configuration-property name="gdx.reflect.include" value="com.artemis.World" />
 </module>

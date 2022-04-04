@@ -35,9 +35,9 @@ public class EngineBuilder {
 
 	public static World buildWorld (BaseSystem[] userSystems, SystemInvocationStrategy invocationStrategy) {
 
-		Array<BaseSystem> prefixSystems = new Array<>();
-		Array<BaseSystem> suffixSystems = new Array<>();
-		Array<BaseSystem> finalSystemsList = new Array<>();
+		Array<BaseSystem> prefixSystems = new Array<>(BaseSystem.class);
+		Array<BaseSystem> suffixSystems = new Array<>(BaseSystem.class);
+		Array<BaseSystem> finalSystemsList = new Array<>(BaseSystem.class);
 
 		//Do start
 		if (Bongo.DEBUG) {
@@ -69,6 +69,7 @@ public class EngineBuilder {
 			)
 			.register(invocationStrategy).build();
 
+
 		final World world = new World(basicWorldConfig);
 
 		if (Bongo.DEBUG) {
@@ -78,7 +79,7 @@ public class EngineBuilder {
 
 		//Setup input
 
-		Array<InputProcessor> inputProcessors = new Array<>();
+		Array<InputProcessor> inputProcessors = new Array<>(InputProcessor.class);
 		for (BaseSystem system : world.getSystems()) {
 			if (system instanceof InputProvider) {
 				inputProcessors.add(((InputProvider)system).getInputProcessor());

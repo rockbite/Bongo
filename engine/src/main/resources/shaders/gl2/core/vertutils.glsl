@@ -1,6 +1,12 @@
 #ifdef positionFlag
 attribute vec4 a_position;
 #endif
+
+#ifdef normalFlag
+attribute vec3 a_normal;
+#endif
+
+
 #ifdef skinningFlag
 uniform mat4 u_jointMatrix[12];
 attribute vec4 a_weights_0;

@@ -21,7 +21,8 @@ public class DefaultSceneShaderProvider extends SceneShaderProvider {
 		this.frag = frag;
 		try {
 			providedConstructor = ClassReflection.getConstructor(sceneShaderClazz, FileHandle.class, FileHandle.class, SceneRenderable.class, World.class);
-		} catch (ReflectionException e) {
+		} catch (Exception e) {
+			e.printStackTrace();
 			throw new GdxRuntimeException(e);
 		}
 

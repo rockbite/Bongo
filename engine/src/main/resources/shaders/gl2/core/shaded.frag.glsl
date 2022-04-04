@@ -7,6 +7,7 @@ precision mediump float;
 
 #define saturate(x) clamp(x, 0.0, 1.0)
 #define PI 3.14159265359
+const int POISSON_SAMPLES = 4;
 
 uniform float u_time;
 
@@ -89,7 +90,6 @@ float shadowPCF (vec4 fragPosLightSpace, vec3 normal, vec3 lightDir) {
     vec2 texelSize = vec2(1.0 / 2048.0);
     float shadow = 0.0;
 
-    int samples = 4;
 
     vec2 poissonDisk[4];
     poissonDisk[0] = vec2(-0.94201624, -0.39906216);
@@ -97,12 +97,12 @@ float shadowPCF (vec4 fragPosLightSpace, vec3 normal, vec3 lightDir) {
     poissonDisk[2] = vec2(-0.094184101, -0.92938870);
     poissonDisk[3] = vec2(0.34495938, 0.29387760);
 
-    for (int i = 0; i < samples; i++) {
+    for (int i = 0; i < POISSON_SAMPLES; i++) {
         vec2 uvOffset = poissonDisk[i] * texelSize;
         shadow += calculateShadow(fragPosLightSpace, normal, lightDir, uvOffset);
     }
 
-    return shadow/float(samples);
+    return shadow/float(POISSON_SAMPLES);
 }
 #endif
 

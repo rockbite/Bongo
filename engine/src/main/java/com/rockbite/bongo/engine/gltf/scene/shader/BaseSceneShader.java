@@ -31,8 +31,12 @@ import com.rockbite.bongo.engine.gltf.scene.SceneMaterial;
 import com.rockbite.bongo.engine.gltf.scene.SceneRenderable;
 import com.rockbite.bongo.engine.systems.render.ShaderProcessingSystem;
 import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class BaseSceneShader implements Comparable<BaseSceneShader>, ReloadUtils.AutoReloadingListener, ShaderControlProvider {
+
+	private static final Logger logger = LoggerFactory.getLogger(BaseSceneShader.class);
 
 	private final ShaderProcessingSystem.CombinedVertFragFiles combinedVertFragFiles;
 
@@ -470,10 +474,11 @@ public abstract class BaseSceneShader implements Comparable<BaseSceneShader>, Re
 			if (setters.get(u = localUniforms.get(i)) != null) {
 				setters.get(u).set(this, u, renderable, combinedAttributes);
 			}
-		if (currentMesh != renderable.sceneMesh.mesh) {
+		Mesh mesh = renderable.sceneMesh.mesh;
+		if (currentMesh != mesh) {
 			if (currentMesh != null) currentMesh.unbind(program, tempArray.items);
-			currentMesh = renderable.sceneMesh.mesh;
-			currentMesh.bind(program, getAttributeLocations(renderable.sceneMesh.mesh.getVertexAttributes()));
+			currentMesh = mesh;
+			currentMesh.bind(program, getAttributeLocations(mesh.getVertexAttributes()));
 		}
 
 		renderable.sceneMesh.mesh.render(program, renderable.sceneMesh.renderMode);
