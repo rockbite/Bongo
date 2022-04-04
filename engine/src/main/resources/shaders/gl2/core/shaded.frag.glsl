@@ -50,8 +50,9 @@ uniform vec3 u_cameraPosition;
 uniform vec3 u_lightDir;
 uniform vec4 u_lightColour;
 
-
+#ifdef environmentMapFlag
 uniform samplerCube u_envMap;
+#endif
 
 #ifdef shadowMapFlag
 uniform sampler2D u_shadowMap;
@@ -161,7 +162,11 @@ void main () {
     N = normalize(v_normal.xyz);
     #endif
 
+    #ifdef environmentMapFlag
     vec3 irradiance = textureCube(u_envMap, N).rgb;
+    #else
+    vec3 irradiance = vec3(1.0);
+    #endif
 
     #ifdef baseColourTextureFlag
     vec3 linearColour = srgb_to_rgb(texture2D(u_baseColourTexture, uv).rgb);

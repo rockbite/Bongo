@@ -473,6 +473,11 @@ public class ShadedShader extends BaseSceneShader  {
 		prefix += "#define NumDirectionalLights 1\n";
 		prefix += "#define NumPointLights " + sceneEnvironmentFromSystem.getMaxPointLights() + "\n";
 
+		final SceneEnvironment.EnvironmentMap environmentMap = sceneEnvironmentFromSystem.getEnvironmentMap();
+
+		if (environmentMap != null) {
+			prefix += "#define environmentMapFlag" + "\n";
+		}
 
 		final ShadowPassSystem shadowMapSystem = world.getSystem(ShadowPassSystem.class);
 		if (shadowMapSystem != null) {
