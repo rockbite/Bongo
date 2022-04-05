@@ -4,4 +4,39 @@
     <source path='com/rockbite/bongo'>
         <exclude name="**/emu/**" />
     </source>
+
+    <inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
+    <inherits name="com.badlogic.gdx.graphics.g2d.freetype.freetype-gwt" />
+    <inherits name="org.slf4gwt.logging.gwt.Logging"/>
+
+    <inherits name="net.mostlyoriginal.ContribPluginSingleton" />
+    <inherits name='com.artemis.backends.artemis_backends_gwt' />
+
+    <inherits name='annotation' />
+    <inherits name="toml"/>
+    <inherits name='artemis-addon' />
+    <extend-configuration-property name="artemis.reflect.include" value="net.mostlyoriginal.api" />
+
+    <extend-configuration-property name="artemis.reflect.include" value="com.artemis" />
+    <extend-configuration-property name="artemis.reflect.include" value="com.rockbite.cards.cards.drops" />
+
+    <extend-configuration-property name="artemis.reflect.include" value="com.rockbite.bongo.engine.systems" />
+    <extend-configuration-property name="artemis.reflect.include" value="com.rockbite.bongo.engine.systems.assets" />
+    <extend-configuration-property name="artemis.reflect.include" value="com.rockbite.bongo.engine.systems.data" />
+    <extend-configuration-property name="artemis.reflect.include" value="com.rockbite.bongo.engine.systems.render" />
+    <extend-configuration-property name="artemis.reflect.include" value="com.rockbite.bongo.engine.components" />
+    <extend-configuration-property name="artemis.reflect.include" value="com.rockbite.bongo.engine.components.singletons" />
+    <extend-configuration-property name="artemis.reflect.include" value="com.rockbite.bongo.engine.components.render" />
+    <extend-configuration-property name="artemis.reflect.include" value="com.rockbite.bongo.engine.components.prefab" />
+
+    <extend-configuration-property name="artemis.reflect.include" value="com.rockbite.bongo.engine.gltf" />
+    <extend-configuration-property name="artemis.reflect.include" value="com.rockbite.bongo.engine.gltf.scene" />
+
+    <extend-configuration-property name="artemis.reflect.include" value="com.rockbite.tween" />
+
+
+
+    <extend-configuration-property name="gdx.reflect.include" value="com.artemis" />
+    <extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.InputProcessor" />
+    <extend-configuration-property name="gdx.reflect.include" value="com.rockbite.bongo.engine.gltf.scene.shader.bundled" />
 </module>

@@ -38,7 +38,7 @@ dependencies {
     api "net.mostlyoriginal.artemis-odb:contrib-eventbus:2.5.0"
     api 'net.mostlyoriginal.artemis-odb:contrib-plugin-singleton:2.5.0'
 
-    implementation 'org.slf4j:slf4j-api:1.7.25'
+    api 'org.slf4j:slf4j-api:1.7.25'
 
     api "org.apache.commons:commons-vfs2:2.8.0"
 
