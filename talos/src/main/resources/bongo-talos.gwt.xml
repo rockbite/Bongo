@@ -5,7 +5,15 @@
 
     </source>
 
-    <!-- X1 skin -->
-    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/" />
+    <extend-configuration-property name="artemis.reflect.include" value="com.talosvfx.talos.runtime.systems.render" />
+    <extend-configuration-property name="artemis.reflect.include" value="com.talosvfx.talos.runtime.components" />
+
+
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/particle.frag.glsl" />
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl2/core/particle.vert.glsl" />
+
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl3/core/particle.frag.glsl" />
+    <extend-configuration-property name="gdx.files.classpath" value="shaders/gl3/core/particle.vert.glsl" />
+
 
 </module>
