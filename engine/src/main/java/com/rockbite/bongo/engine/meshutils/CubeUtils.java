@@ -84,16 +84,6 @@ public class CubeUtils {
 
 		Mesh.VertexDataType vertexDataType = (Gdx.gl30 != null) ? Mesh.VertexDataType.VertexBufferObjectWithVAO : defaultVertexDataType;
 
-		float[] tempVerts = new float[]{
-			0, 0, 0, 0, 1, 0,
-			1, 0, 0, 0, 1, 0,
-			0, 0, 1, 0, 1, 0,
-		};
-
-		short[] tempIndexes = new short[] {
-			0, 1, 2
-		};
-
 		Mesh boxMesh = new Mesh(vertexDataType, true, vertexBuffer.length/6,  indices.length,
 			new VertexAttributes(
 				VertexAttribute.Position(),
