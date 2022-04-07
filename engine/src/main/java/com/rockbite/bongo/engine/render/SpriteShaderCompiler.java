@@ -2,6 +2,7 @@ package com.rockbite.bongo.engine.render;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
@@ -18,6 +19,10 @@ public class SpriteShaderCompiler {
 	private final static ObjectMap<String, IntMap<ShaderProgram>> compiledShaders = new ObjectMap<>();
 	private static Array<ShaderProgram> totalShaders = new Array<>();
 
+
+	public static ShaderProgram getOrCreateShader (String shaderIdentifier, FileHandle vertexSource, FileHandle fragmentSource, ShaderFlags flags) {
+		return getOrCreateShader(shaderIdentifier, vertexSource.readString(), fragmentSource.readString(), flags);
+	}
 
 	public static ShaderProgram getOrCreateShader (String shaderIdentifier, String vertexSource, String fragmentSource, ShaderFlags flags) {
 
