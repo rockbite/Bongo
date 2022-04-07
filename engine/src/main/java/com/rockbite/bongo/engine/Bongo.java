@@ -11,7 +11,7 @@ import com.rockbite.bongo.engine.threadutil.ThreadUtils;
 
 public class Bongo {
 
-	public static Boolean DEBUG = true;
+	public static Boolean DEBUG = false;
 	public static Boolean CORE_SHADER_DEBUG = false;
 
 	public static IMGUIPlatform imguiPlatform;

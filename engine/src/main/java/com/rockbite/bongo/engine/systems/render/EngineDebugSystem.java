@@ -9,8 +9,6 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
@@ -26,6 +24,7 @@ import com.rockbite.bongo.engine.render.ShaderSourceProvider;
 import com.rockbite.bongo.engine.render.SpriteShaderCompiler;
 import com.rockbite.bongo.engine.systems.RenderPassSystem;
 import lombok.Getter;
+import lombok.Setter;
 
 public class EngineDebugSystem extends BaseSystem {
 
@@ -41,6 +40,12 @@ public class EngineDebugSystem extends BaseSystem {
 	private EntitySubscription shaderResourceSubscription;
 
 	private ComponentMapper<ShaderControlResource> shaderResourceMapper;
+
+
+	@Setter
+	private boolean drawAxis = true;
+	@Setter
+	private boolean drawUnitSquare = true;
 
 	@Getter
 	private Array<ShaderControlResource> liveShaderResources = new Array<>();
@@ -81,49 +86,32 @@ public class EngineDebugSystem extends BaseSystem {
 		shapeRenderer.setProjectionMatrix(cameras.getGameCamera().combined);
 
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-
-
 		shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1f);
-		float gridLength = 50;
 
-		int centerX = (int)(cameras.getGameCamera().position.x - gridLength/2);
-		int centerY = (int)(cameras.getGameCamera().position.z - gridLength/2);
+		if (drawAxis) {
 
+			float length = 100;
 
-//		for (int i = centerX; i < centerX + gridLength; i++) {
-//			shapeRenderer.line(i, 0, centerY, i, 0, centerY + gridLength);
-//		}
-//		for (int i = centerY; i < centerY + gridLength; i++) {
-//			shapeRenderer.line(centerX, 0, i, centerX + gridLength, 0, i);
-//		}
+			shapeRenderer.setColor(Color.GREEN);
+			shapeRenderer.line(0, 0, 0, length, 0, 0);
+			shapeRenderer.setColor(Color.RED);
+			shapeRenderer.line(0, 0, 0, 0, length, 0);
+			shapeRenderer.setColor(Color.BLUE);
+			shapeRenderer.line(0, 0, 0, 0, 0, length);
+		}
 
+		if (drawUnitSquare) {
+			final Ray pickRay = cameras.getGameCamera().getPickRay(Gdx.input.getX(), Gdx.input.getY(), RenderPassSystem.glViewport.x, RenderPassSystem.glViewport.y, RenderPassSystem.glViewport.width, RenderPassSystem.glViewport.height);
+			Intersector.intersectRayPlane(pickRay, plane, intersectionOut);
+			int selectedX = MathUtils.floor(intersectionOut.x);
+			int selectedZ = MathUtils.floor(intersectionOut.z);
 
-		float length = 100;
-
-		shapeRenderer.setColor(Color.GREEN);
-		shapeRenderer.line(0, 0, 0, length, 0, 0);
-		shapeRenderer.setColor(Color.RED);
-		shapeRenderer.line(0, 0, 0, 0,  length, 0);
-		shapeRenderer.setColor(Color.BLUE);
-		shapeRenderer.line(0, 0, 0, 0,  0, length);
-
-		final Ray pickRay = cameras.getGameCamera().getPickRay(Gdx.input.getX(), Gdx.input.getY(),
-			RenderPassSystem.glViewport.x,
-			RenderPassSystem.glViewport.y,
-			RenderPassSystem.glViewport.width,
-			RenderPassSystem.glViewport.height
-		);
-		Intersector.intersectRayPlane(pickRay, plane, intersectionOut);
-		int selectedX = MathUtils.floor(intersectionOut.x);
-		int selectedZ = MathUtils.floor(intersectionOut.z);
-
-		shapeRenderer.box(selectedX, 0, selectedZ + 1, 1f, 0.1f, 1f);
-
+			shapeRenderer.box(selectedX, 0, selectedZ + 1, 1f, 0.1f, 1f);
+		}
 
 		shapeRenderer.end();
 
 		Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
-
 
 	}
 }
