@@ -65,7 +65,7 @@ public class Simple3DBatch {
     public void begin (Camera camera, ShaderProgram shaderProgram) {
         shader = shaderProgram;
 
-        shader.begin();
+        shader.bind();
         shader.setUniformMatrix("u_projTrans", camera.combined);
 
     }
@@ -106,7 +106,6 @@ public class Simple3DBatch {
 
     public void end () {
         flush();
-        shader.end();//deprrecated
         lastTexture = null;
     }
 
