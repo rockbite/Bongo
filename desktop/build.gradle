@@ -7,6 +7,9 @@ dependencies {
     api project(":engine")
 
     api libs.libgdx.lwjgl3
+    api variantOf(libs.libgdx.platform) { classifier("natives-desktop") }
+    api libs.freetype.desktop
+
     api libs.bundles.imgui.desktop
 }
 

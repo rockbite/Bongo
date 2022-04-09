@@ -217,9 +217,9 @@ public class PolygonSpriteBatchMultiTextureMULTIBIND implements PolyBatchWithEnc
 				maxTextureUnits = cacheMaxTexUnits;
 
 				shader = tryToCompile(true);
-				logger.info("Using unrolled shader");
+				logger.trace("Using unrolled shader");
 			} else {
-				logger.info("Using rolled shader");
+				logger.trace("Using rolled shader");
 			}
 
 			if (shader == null) {

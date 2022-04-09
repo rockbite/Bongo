@@ -84,7 +84,7 @@ public class ReloadUtils {
 				listeners.put(fileObject, value);
 
 				fm.addFile(fileObject);
-				logger.info("Registered file for auto reload {}", handle.file().toURI());
+				logger.trace("Registered file for auto reload {}", handle.file().toURI());
 			}
 
 		} catch (FileSystemException e) {
