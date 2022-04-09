@@ -1,34 +1,22 @@
 plugins {
-    id 'java-library'
-}
-
-group 'com.rockbite.bongo'
-version '1.0-SNAPSHOT'
-
-ext {
-    libgdxVersion = "1.10.1-SNAPSHOT"
-    imguiVersion = "1.86.3"
-}
-
-
-repositories {
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    maven { url "https://oss.sonatype.org/content/repositories/releases/" }
-    mavenCentral()
-    mavenLocal()
+    id 'maven-publish'
+    alias(libs.plugins.lombok)
 }
 
 dependencies {
-
     api project(":engine")
 
-    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$libgdxVersion"
-
-    api "io.github.spair:imgui-java-natives-windows:$imguiVersion"
-    api "io.github.spair:imgui-java-natives-macos:$imguiVersion"
-
+    api libs.libgdx.lwjgl3
+    api libs.bundles.imgui.desktop
 }
 
-test {
-    useJUnitPlatform()
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId project.group
+            artifactId project.name
+            version project.version
+        }
+    }
 }

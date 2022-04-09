@@ -1,65 +1,43 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id "io.freefair.lombok" version "6.4.1"
-}
-
-sourceCompatibility = 1.8
-
-group 'com.rockbite.bongo'
-version '1.0-SNAPSHOT'
-
-ext {
-    libgdxVersion = "1.10.1-SNAPSHOT"
-    imguiVersion = "1.86.3"
-}
-
-
-repositories {
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    maven { url "https://oss.sonatype.org/content/repositories/releases/" }
-    mavenCentral()
-    mavenLocal()
+    alias(libs.plugins.lombok)
 }
 
 dependencies {
 
     api project(":engine")
 
-    api "org.slf4gwt:slf4gwt:1.4"
-    api "org.slf4gwt:slf4gwt:1.4:sources"
+    api libs.slf4.gwt
+    api variantOf(libs.slf4.gwt) { classifier("sources") }
+    api variantOf(libs.slf4j.api) { classifier("sources") }
 
-    api "net.onedaybeard.artemis:artemis-odb-gwt:2.3.0"
-    api "net.onedaybeard.artemis:artemis-odb-gwt:2.3.0:sources"
+    api libs.artemis.gwt
+    api variantOf(libs.artemis.gwt) { classifier("sources") }
 
-    api "com.badlogicgames.gdx:gdx:$libgdxVersion:sources"
+    api variantOf(libs.libgdx) { classifier("sources") }
 
-    api "com.badlogicgames.gdx:gdx-backend-gwt:$libgdxVersion"
-    api "com.badlogicgames.gdx:gdx-backend-gwt:$libgdxVersion:sources"
+    api libs.libgdx.gwt
+    api variantOf(libs.libgdx.gwt) { classifier("sources") }
 
-    api "com.github.intrigus.gdx-freetype-gwt:gdx-freetype-gwt:1.9.10"
-    api "com.github.intrigus.gdx-freetype-gwt:gdx-freetype-gwt:1.9.10:sources"
+    api libs.freetype.gwt
+    api variantOf(libs.freetype.gwt) { classifier("sources") }
 
-    api "org.projectlombok:lombok:1.18.2:sources"
+    api variantOf(libs.lombok) { classifier("sources") }
 
-    api "net.onedaybeard.artemis:artemis-odb:2.3.0:sources"
-    api 'net.onedaybeard.artemis:artemis-odb-serializer-json-libgdx:2.3.0:sources'
-    api "net.mostlyoriginal.artemis-odb:contrib-core:2.5.0:sources"
-    api "net.mostlyoriginal.artemis-odb:contrib-eventbus:2.5.0:sources"
-    api 'net.mostlyoriginal.artemis-odb:contrib-plugin-singleton:2.5.0:sources'
 
-    api 'org.slf4j:slf4j-api:1.7.25:sources'
+    api variantOf(libs.artemis) { classifier("sources") }
+    api variantOf(libs.artemis.libgdx.json) { classifier("sources") }
+    api variantOf(libs.artemis.contrib.core) { classifier("sources") }
+    api variantOf(libs.artemis.contrib.eventbus) { classifier("sources") }
+    api variantOf(libs.artemis.contrib.singleton) { classifier("sources") }
 
-    api "org.apache.commons:commons-vfs2:2.8.0:sources"
 
-}
+    api variantOf(libs.apache.commons.vfs2) { classifier("sources") }
 
-test {
-    useJUnitPlatform()
 }
 
 task packageSources(type: Jar, dependsOn: [classes, jar]) {
-//    from sourceSets.main.allJava.srcDirs
     from delombok
     from sourceSets.main.resources.srcDirs
     archiveClassifier = 'web'
@@ -68,15 +46,15 @@ task packageSources(type: Jar, dependsOn: [classes, jar]) {
 artifacts {
     api(packageSources)
 }
-//
-//publishing {
-//    publications {
-//        mavenJava(MavenPublication) {
-//            from components.java
-//            artifact packageSources
-//            groupId project.group
-//            artifactId project.name
-//            version project.version
-//        }
-//    }
-//}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact packageSources
+            groupId project.group
+            artifactId project.name
+            version project.version
+        }
+    }
+}

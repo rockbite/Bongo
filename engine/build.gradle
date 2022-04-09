@@ -1,64 +1,30 @@
 plugins {
-    id 'java-library'
     id 'maven-publish'
-    id "io.freefair.lombok" version "6.4.1"
-
-}
-sourceCompatibility = 1.8
-
-group 'com.rockbite.bongo'
-version '1.0-SNAPSHOT'
-
-ext {
-    libgdxVersion = "1.10.1-SNAPSHOT"
-    imguiVersion = "1.86.3"
-}
-
-
-repositories {
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    maven { url "https://oss.sonatype.org/content/repositories/releases/" }
-    mavenCentral()
-    mavenLocal()
+    alias(libs.plugins.lombok)
 }
 
 dependencies {
-    api "com.badlogicgames.gdx:gdx:$libgdxVersion"
-    implementation "com.badlogicgames.gdx:gdx-freetype:$libgdxVersion"
+    api libs.libgdx
+    api libs.freetype
 
-    api "io.github.spair:imgui-java-binding:$imguiVersion"
-    api "io.github.spair:imgui-java-lwjgl3:$imguiVersion"
+    api libs.imgui.java
 
-    compileOnly "org.projectlombok:lombok:1.18.2"
-    annotationProcessor "org.projectlombok:lombok:1.18.2"
+    api libs.artemis
+    api libs.artemis.libgdx.json
+    api libs.artemis.contrib.core
+    api libs.artemis.contrib.eventbus
+    api libs.artemis.contrib.singleton
 
-    api "net.onedaybeard.artemis:artemis-odb:2.3.0"
-    api 'net.onedaybeard.artemis:artemis-odb-serializer-json-libgdx:2.3.0'
-    api "net.mostlyoriginal.artemis-odb:contrib-core:2.5.0"
-    api "net.mostlyoriginal.artemis-odb:contrib-eventbus:2.5.0"
-    api 'net.mostlyoriginal.artemis-odb:contrib-plugin-singleton:2.5.0'
-
-    api 'org.slf4j:slf4j-api:1.7.25'
-
-    api "org.apache.commons:commons-vfs2:2.8.0"
-
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-
-}
-
-test {
-    useJUnitPlatform()
+    api libs.slf4j.api
+    implementation libs.apache.commons.vfs2
 }
 
 
 task packageSources(type: Jar, dependsOn: [classes, jar]) {
-//    from sourceSets.main.allJava.srcDirs
     from delombok
     from sourceSets.main.resources.srcDirs
     archiveClassifier = 'web'
 }
-
 
 artifacts {
     api(jar, packageSources)
