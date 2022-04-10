@@ -130,6 +130,9 @@ public class QuadMeshGeneratorModule extends MeshGeneratorModule {
 
 				float width = size.get(0);
 				float height = size.get(1);
+				if(size.elementsCount() == 1) {
+					height = width;
+				}
 
 				int idx = 0;
 
