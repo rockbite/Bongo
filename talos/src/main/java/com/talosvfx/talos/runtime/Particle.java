@@ -74,8 +74,9 @@ public class Particle implements Pool.Poolable {
         particleModule.updateScopeData(this);
 
         //Starting values
-        life = particleModule.getLife(); // really makes more sense like this, for deterministic purposes
-        position.set(particleModule.getSpawnPosition()); // offset
+        life = particleModule.getLife();
+        position.set(particleModule.getSpawnPosition());
+        rotation.set(particleModule.getSpawnRotation());
         acceleration.set(0, 0, 0);
         velocity.set(particleModule.getInitialVelocity());
         spinVelocity.set(particleModule.getInitialSpinVelocity());
@@ -130,7 +131,8 @@ public class Particle implements Pool.Poolable {
         //Step teh particle data
 
         if (particleModule.hasPositionOverride()) {
-            position.set(particleModule.getPositionOverride());
+            position.set(particleModule.getSpawnPosition());
+            position.add(particleModule.getPositionOverride());
         } else {
             final Vector3 drag = particleModule.getDrag();
             float dragX = drag.x;
@@ -205,7 +207,8 @@ public class Particle implements Pool.Poolable {
         }
 
         if (particleModule.hasRotationOverride()) {
-            rotation.set(particleModule.getRotationOverride());
+            rotation.set(particleModule.getSpawnRotation());
+            rotation.add(particleModule.getRotationOverride());
         } else {
             if (particleModule.hasSpinVelocityOverTime()) {
                 //Spin velocity is driven by velocity over time

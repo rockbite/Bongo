@@ -31,6 +31,7 @@ public class ParticleModule extends AbstractModule {
     public static final int TAG = 1;
 
     public static final int SPAWN_POSITION = 25;
+    public static final int SPAWN_ROTATION = 29;
 
     public static final int INITIAL_VELOCITY = 17;
     public static final int VELOCITY_OVER_TIME = 18;
@@ -55,6 +56,7 @@ public class ParticleModule extends AbstractModule {
     NumericalValue transparency;
 
     NumericalValue spawnPosition;
+    NumericalValue spawnRotation;
     NumericalValue initialVelocity;
     NumericalValue velocityOverTime;
     NumericalValue initialSpinVelocity;
@@ -78,6 +80,7 @@ public class ParticleModule extends AbstractModule {
         life = createInputSlot(LIFE);
 
         spawnPosition = createInputSlot(SPAWN_POSITION);
+        spawnRotation = createInputSlot(SPAWN_ROTATION);
 
         positionOverride = createInputSlot(POSITION_OVERRIDE);
         rotationOverride = createInputSlot(ROTATION_OVERRIDE);
@@ -175,6 +178,15 @@ public class ParticleModule extends AbstractModule {
         }
         return tmp3Vec.set(spawnPosition.get(0), spawnPosition.get(1), spawnPosition.get(2));
     }
+
+    public Vector3 getSpawnRotation () {
+        fetchInputSlotValue(SPAWN_ROTATION);
+        if (spawnRotation.isEmpty()) {
+            return tmp3Vec.setZero();
+        }
+        return tmp3Vec.set(spawnRotation.get(0), spawnRotation.get(1), spawnRotation.get(2));
+    }
+
 
     public Vector3 getVelocityOverTime () {
         fetchInputSlotValue(VELOCITY_OVER_TIME);
