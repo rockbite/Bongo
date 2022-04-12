@@ -7,7 +7,11 @@
 
     <inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
     <inherits name="com.badlogic.gdx.graphics.g2d.freetype.freetype-gwt" />
-    <inherits name="org.slf4gwt.logging.gwt.Logging"/>
+
+    <inherits name="ru.finam.slf4jgwt.api.API"/>
+    <inherits name="ru.finam.slf4jgwt.logging.gwt.Logging"/>
+
+
 
     <inherits name="net.mostlyoriginal.ContribPluginSingleton" />
     <inherits name='com.artemis.backends.artemis_backends_gwt' />

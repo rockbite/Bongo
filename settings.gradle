@@ -16,7 +16,7 @@ dependencyResolutionManagement {
             version("artemis", "2.3.0")
             version("artemis-contrib", "2.5.0")
             version("slf4j", "1.7.25")
-            version("slf4gwt", "1.4")
+            version("slf4gwt", "1.7.7.1")
             version("apache-commons-vfs2", "2.8.0")
 
             library("libgdx", "com.badlogicgames.gdx", "gdx").versionRef("libgdx")
@@ -30,7 +30,7 @@ dependencyResolutionManagement {
             library("lombok", "org.projectlombok", "lombok").versionRef("lombok")
 
             library("slf4j-api", "org.slf4j", "slf4j-api").versionRef("slf4j")
-            library("slf4-gwt", "org.slf4gwt", "slf4gwt").versionRef("slf4gwt")
+            library("slf4-gwt", "ru.finam", "slf4j-gwt").versionRef("slf4gwt")
 
             library("apache-commons-vfs2", "org.apache.commons", "commons-vfs2").versionRef("apache-commons-vfs2")
 
