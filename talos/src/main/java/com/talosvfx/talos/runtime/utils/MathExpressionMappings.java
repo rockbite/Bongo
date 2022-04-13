@@ -22,8 +22,13 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.talosvfx.talos.runtime.Expression;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MathExpressionMappings {
+
+	private static final Logger logger = LoggerFactory.getLogger(MathExpressionMappings.class);
+
 	private static final ObjectMap<String, Expression> names = new ObjectMap<>();
 
 	static {
@@ -37,6 +42,7 @@ public class MathExpressionMappings {
 				names.put(fields[i].getName(), interp);
 				namesArr.add(fields[i].getName());
 			} catch (ReflectionException e) {
+				logger.error("Problem getting fields for Math expressions", e);
 				e.printStackTrace();
 			}
 		}
