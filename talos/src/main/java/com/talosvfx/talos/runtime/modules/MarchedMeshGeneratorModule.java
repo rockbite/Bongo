@@ -93,6 +93,7 @@ public class MarchedMeshGeneratorModule extends MeshGeneratorModule {
 		min.set(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
 		max.set(-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE);
 
+		//todo Temporary this module is in development
 		ShapeRenderer shapeRenderer = new ShapeRenderer();
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
