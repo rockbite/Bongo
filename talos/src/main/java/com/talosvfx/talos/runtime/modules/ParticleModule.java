@@ -81,15 +81,18 @@ public class ParticleModule extends AbstractModule {
 
         spawnPosition = createInputSlot(SPAWN_POSITION);
         spawnRotation = createInputSlot(SPAWN_ROTATION);
+        spawnRotation.setFlavour(NumericalValue.Flavour.ANGLE);
 
         positionOverride = createInputSlot(POSITION_OVERRIDE);
         rotationOverride = createInputSlot(ROTATION_OVERRIDE);
+        rotationOverride.setFlavour(NumericalValue.Flavour.ANGLE);
 
         initialVelocity = createInputSlot(INITIAL_VELOCITY);
         velocityOverTime = createInputSlot(VELOCITY_OVER_TIME);
 
         initialSpinVelocity = createInputSlot(INITIAL_SPIN_VELOCITY);
         spinVelocityOverTime = createInputSlot(SPIN_OVER_TIME);
+        spinVelocityOverTime.setFlavour(NumericalValue.Flavour.ANGLE);
 
         forces = createInputSlot(FORCES);
         gravity = createInputSlot(GRAVITY);

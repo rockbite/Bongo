@@ -223,14 +223,9 @@ public class Particle implements Pool.Poolable {
             rotation.z += spinVelocity.z * delta;
         }
 
-//        //update variable values
-//        float angle = 0;
-//
-//        if (emitterReference.getEmitterModule().isAligned()) {
-//            rotation.set(angle, angle, angle).add(particleModule.getRotation());
-//        } else {
-//            rotation.set(particleModule.getRotation());
-//        }
+        if (emitterReference.getEmitterModule().isAligned()) {
+            rotation.set(velocity);
+        }
 
         pivot.set(particleModule.getPivot());
 
