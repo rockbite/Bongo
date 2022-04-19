@@ -28,7 +28,7 @@ public class Simple3DBatch {
 
 
     public Simple3DBatch (int size, VertexAttributes vertexAttributes) {
-        mesh = new Mesh(false, size * 4, size * 6, vertexAttributes);
+        mesh = new Mesh(false, size * 6, size * 6, vertexAttributes);
         maxVertsInMesh = size;
 
         final Iterator<VertexAttribute> iter = vertexAttributes.iterator();
@@ -40,14 +40,8 @@ public class Simple3DBatch {
 
         int len = size * 6;
         short[] indices = new short[len];
-        short j = 0;
-        for (int i = 0; i < len; i += 6, j += 4) {
-            indices[i] = j;
-            indices[i + 1] = (short)(j + 1);
-            indices[i + 2] = (short)(j + 2);
-            indices[i + 3] = (short)(j + 2);
-            indices[i + 4] = (short)(j + 3);
-            indices[i + 5] = j;
+        for (short i = 0; i < len; i++) {
+            indices[i] = i;
         }
         mesh.setIndices(indices);
     }
@@ -74,7 +68,7 @@ public class Simple3DBatch {
         if (vertsInBuffer > 0) {
             lastTexture.bind(0);
             mesh.setVertices(vertexBuffer);
-            mesh.render(shader, GL20.GL_TRIANGLES, 0, vertsInBuffer/4 * 6);
+            mesh.render(shader, GL20.GL_TRIANGLES, 0, vertsInBuffer * 6);
 
             vertsInBuffer = 0;
 
@@ -116,5 +110,26 @@ public class Simple3DBatch {
 
 
         Gdx.gl.glBlendFuncSeparate(src, dst, src, dst);
+    }
+
+    public void render (float[] verts, int vertCount, short[] tris, int triCount, Texture texture) {
+        if (lastTexture != null) {
+            if (lastTexture != texture) {
+                flush();
+            }
+        }
+
+        lastTexture = texture;
+
+        int incomingVertCount = verts.length/vertexSize;
+
+        if (vertsInBuffer + incomingVertCount > maxVertsInMesh) {
+            flush();
+        }
+
+        System.arraycopy(verts, 0, vertexBuffer, vertsInBuffer * vertexSize, verts.length);
+        vertsInBuffer += incomingVertCount;
+
+
     }
 }

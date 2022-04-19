@@ -101,4 +101,14 @@ public class Particle3DRenderer implements ParticleRenderer {
 		}
 	}
 
+	@Override
+	public void render (float[] verts, int vertCount, short[] tris, int triCount, MaterialModule materialModule) {
+		if (materialModule instanceof SpriteMaterialModule) {
+			DrawableValue drawableValue = ((SpriteMaterialModule)materialModule).getDrawableValue();
+			TextureRegion textureRegion = drawableValue.getDrawable().getTextureRegion();
+
+			batch.render(verts, vertCount, tris, triCount, textureRegion.getTexture());
+		}
+	}
+
 }

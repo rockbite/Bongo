@@ -201,4 +201,14 @@ public class ParticleRenderPassSystem extends RenderPassSystem implements Partic
 		}
 
 	}
+
+	@Override
+	public void render (float[] verts, int vertCount, short[] tris, int triCount, MaterialModule materialModule) {
+		if (materialModule instanceof SpriteMaterialModule) {
+			DrawableValue drawableValue = ((SpriteMaterialModule)materialModule).getDrawableValue();
+			TextureRegion textureRegion = drawableValue.getDrawable().getTextureRegion();
+
+			simple3DBatch.render(verts, vertCount, tris, triCount, textureRegion.getTexture());
+		}
+	}
 }

@@ -30,9 +30,10 @@ public class QuadMeshGeneratorModule extends MeshGeneratorModule {
 
 	//x,y,z,colour,u,v
 	private int quadVertexSize2D = 2 + 1 + 2;
-	private int quadVertCount = 4;
+	private int quadVertCount = 6;
 
 	private float[] verts = new float[quadVertCount * quadVertexSize2D];
+	private short[] tris = new short[] {0, 1, 2, 3, 4, 5};
 
 	boolean render3D = false;
 
@@ -216,6 +217,7 @@ public class QuadMeshGeneratorModule extends MeshGeneratorModule {
 				verts[idx++] = U; // u1
 				verts[idx++] = V; // v1
 
+
 				verts[idx++] = p2.x; // x2
 				verts[idx++] = p2.y; // y2
 				if (render3D) {
@@ -224,6 +226,15 @@ public class QuadMeshGeneratorModule extends MeshGeneratorModule {
 				verts[idx++] = colourBits;
 				verts[idx++] = U2; // u2
 				verts[idx++] = V; // v2
+
+				verts[idx++] = p3.x; // x3
+				verts[idx++] = p3.y; // y2
+				if (render3D) {
+					verts[idx++] = p3.z;
+				}
+				verts[idx++] = colourBits;
+				verts[idx++] = U2; // u3
+				verts[idx++] = V2; // v3
 
 				verts[idx++] = p3.x; // x3
 				verts[idx++] = p3.y; // y2
@@ -243,7 +254,16 @@ public class QuadMeshGeneratorModule extends MeshGeneratorModule {
 				verts[idx++] = U; // u3
 				verts[idx++] = V2; // v3
 
-				particleRenderer.render(verts, materialModule);
+				verts[idx++] = p1.x; // x3
+				verts[idx++] = p1.y; // y2
+				if (render3D) {
+					verts[idx++] = p1.z;
+				}
+				verts[idx++] = colourBits;
+				verts[idx++] = U; // u1
+				verts[idx++] = V; // v1
+
+				particleRenderer.render(verts, verts.length, tris, tris.length, materialModule);
 
 			}
 		}

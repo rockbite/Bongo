@@ -27,4 +27,7 @@ public interface ParticleRenderer {
     void render (ParticleEffectInstance particleEffectInstance);
 
     void render (float[] verts, MaterialModule materialModule);
+
+    void render (float[] verts, int vertCount, short[] tris, int triCount, MaterialModule materialModule);
+
 }

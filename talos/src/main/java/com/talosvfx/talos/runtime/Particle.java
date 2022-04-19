@@ -237,9 +237,21 @@ public class Particle implements Pool.Poolable {
 
     }
 
+    public float getAttachedPositionX () {
+        return emitterReference.getEffectPosition().x + position.x;
+    }
+
+    public float getAttachedPositionY () {
+        return emitterReference.getEffectPosition().y + position.y;
+    }
+
+    public float getAttachedPositionZ () {
+        return emitterReference.getEffectPosition().z + position.z;
+    }
+
     public float getX() {
         if(emitterReference.getEmitterModule().isAttached()) {
-            return emitterReference.getEffectPosition().x + position.x;
+            return getAttachedPositionX();
         } else {
             return spawnPosition.x + position.x;
         }
@@ -247,7 +259,7 @@ public class Particle implements Pool.Poolable {
 
     public float getY() {
         if(emitterReference.getEmitterModule().isAttached()) {
-            return emitterReference.getEffectPosition().y + position.y;
+            return getAttachedPositionY();
         } else {
             return spawnPosition.y + position.y;
         }
@@ -255,7 +267,7 @@ public class Particle implements Pool.Poolable {
 
     public float getZ() {
         if(emitterReference.getEmitterModule().isAttached()) {
-            return emitterReference.getEffectPosition().z + position.z;
+            return getAttachedPositionZ();
         } else {
             return spawnPosition.z + position.z;
         }

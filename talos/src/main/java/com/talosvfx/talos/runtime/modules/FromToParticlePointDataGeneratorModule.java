@@ -2,6 +2,8 @@ package com.talosvfx.talos.runtime.modules;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Pool;
 import com.talosvfx.talos.runtime.Particle;
 import com.talosvfx.talos.runtime.ParticlePointData;
@@ -93,5 +95,35 @@ public class FromToParticlePointDataGeneratorModule extends ParticlePointDataGen
 
 	public void setNumPoints (float numPoints) {
 		this.pointCount.set(numPoints);
+	}
+
+	@Override
+	public void write (Json json) {
+		super.write(json);
+		json.writeValue("pointCount", pointCount.get(0));
+		json.writeValue("fromX", from.get(0));
+		json.writeValue("fromY", from.get(1));
+		json.writeValue("fromZ", from.get(2));
+		json.writeValue("toX", from.get(0));
+		json.writeValue("toY", from.get(1));
+		json.writeValue("toZ", from.get(2));
+	}
+
+	@Override
+	public void read (Json json, JsonValue jsonData) {
+		super.read(json, jsonData);
+		this.pointCount.set(0, jsonData.getInt("pointCount", defaultPoints));
+
+		this.from.set(0, jsonData.getFloat("fromX", 0));
+		this.from.set(1, jsonData.getFloat("fromY", 0));
+		this.from.set(2, jsonData.getFloat("fromZ", 0));
+		this.to.set(0, jsonData.getFloat("fromX", 0));
+		this.to.set(1, jsonData.getFloat("fromY", 0));
+		this.to.set(2, jsonData.getFloat("fromZ", 0));
+
+	}
+
+	public int getNumPoints () {
+		return (int)pointCount.get(0);
 	}
 }

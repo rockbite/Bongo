@@ -10,21 +10,30 @@ public class ParticlePointData {
 
 	public int pointDataIndex;
 
+
 	public void setFromParticle (Particle particle) {
-		setFromParticle(particle, 0, 0, 0);
+		setFromParticle(particle, 0, 0, 0, false);
 	}
 
 	public void setFromParticle (Particle particle, Vector3 positionOverride) {
-		setFromParticle(particle, positionOverride.x, positionOverride.y, positionOverride.z);
+		setFromParticle(particle, positionOverride.x, positionOverride.y, positionOverride.z, false);
 	}
 
-	public void setFromParticle (Particle particle, float positionOverrideX, float positionOverrideY, float positionOverrideZ) {
+	public void setFromParticle (Particle particle, Vector3 positionOverride, boolean useAbsolutePosition) {
+		setFromParticle(particle, positionOverride.x, positionOverride.y, positionOverride.z, useAbsolutePosition);
+	}
+
+	public void setFromParticle (Particle particle, float positionOverrideX, float positionOverrideY, float positionOverrideZ, boolean useAbsolutePosition) {
 		this.x = positionOverrideX ;
 		this.y = positionOverrideY;
 		this.z = positionOverrideZ;
-		this.x += particle.position.x;
-		this.y += particle.position.y;
-		this.z += particle.position.z;
+		if (useAbsolutePosition) {
+
+		} else {
+			this.x += particle.getX();
+			this.y += particle.getY();
+			this.z += particle.getZ();
+		}
 		this.reference = particle;
 	}
 }

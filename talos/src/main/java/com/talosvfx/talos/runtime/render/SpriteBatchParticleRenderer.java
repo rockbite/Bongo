@@ -19,7 +19,9 @@ package com.talosvfx.talos.runtime.render;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.PolygonBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.talosvfx.talos.runtime.IEmitter;
@@ -36,7 +38,7 @@ import com.talosvfx.talos.runtime.values.DrawableValue;
 
 public class SpriteBatchParticleRenderer implements ParticleRenderer {
 
-	public Batch batch;
+	public PolygonBatch batch;
 
 	Color color = new Color(Color.WHITE);
 	private ShaderProgram blendAddShader;
@@ -47,7 +49,7 @@ public class SpriteBatchParticleRenderer implements ParticleRenderer {
 		initShaders();
 	}
 
-	public SpriteBatchParticleRenderer (Camera camera, Batch batch) {
+	public SpriteBatchParticleRenderer (Camera camera, PolygonBatch batch) {
 		this(camera);
 		this.batch = batch;
 	}
@@ -58,7 +60,7 @@ public class SpriteBatchParticleRenderer implements ParticleRenderer {
 				DefaultShaders.BLEND_ADD_FRAGMENT_SHADER);
 	}
 
-	public void setBatch (Batch batch) {
+	public void setBatch (PolygonBatch batch) {
 		this.batch = batch;
 	}
 
@@ -124,7 +126,22 @@ public class SpriteBatchParticleRenderer implements ParticleRenderer {
 			DrawableValue drawableValue = ((SpriteMaterialModule)materialModule).getDrawableValue();
 			TextureRegion textureRegion = drawableValue.getDrawable().getTextureRegion();
 
-			batch.draw(textureRegion.getTexture(), verts, 0, verts.length);
+			final Texture texture = textureRegion.getTexture();
+			texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
+		}
+	}
+
+	@Override
+	public void render (float[] verts, int vertCount, short[] tris, int triCount, MaterialModule materialModule) {
+		if (materialModule instanceof SpriteMaterialModule) {
+			DrawableValue drawableValue = ((SpriteMaterialModule)materialModule).getDrawableValue();
+			TextureRegion textureRegion = drawableValue.getDrawable().getTextureRegion();
+
+			final Texture texture = textureRegion.getTexture();
+			texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
+			batch.draw(texture, verts, 0, vertCount, tris, 0, triCount);
 		}
 	}
 
