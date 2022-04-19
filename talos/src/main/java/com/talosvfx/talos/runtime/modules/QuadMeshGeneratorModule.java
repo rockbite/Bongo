@@ -3,6 +3,8 @@ package com.talosvfx.talos.runtime.modules;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
@@ -193,10 +195,21 @@ public class QuadMeshGeneratorModule extends MeshGeneratorModule {
 					p4.rotate(rotation.x, camera.direction.x, camera.direction.y, camera.direction.z);
 
 				} else {
-					p1.rotate(rotation.x, 0, 0, 1);
-					p2.rotate(rotation.x, 0, 0, 1);
-					p3.rotate(rotation.x, 0, 0, 1);
-					p4.rotate(rotation.x, 0, 0, 1);
+
+					if (particlePointData.reference.getEmitter().getEmitterModule().isAligned()) {
+						Vector3 velocity = particlePointData.reference.velocity;
+						float a = MathUtils.atan2(velocity.y, velocity.x) * MathUtils.radDeg;
+						a += 90;
+						p1.rotate(a, 0, 0, 1);
+						p2.rotate(a, 0, 0, 1);
+						p3.rotate(a, 0, 0, 1);
+						p4.rotate(a, 0, 0, 1);
+					} else {
+						p1.rotate(rotation.x, 0, 0, 1);
+						p2.rotate(rotation.x, 0, 0, 1);
+						p3.rotate(rotation.x, 0, 0, 1);
+						p4.rotate(rotation.x, 0, 0, 1);
+					}
 				}
 
 				p1.add(x, y, z);
