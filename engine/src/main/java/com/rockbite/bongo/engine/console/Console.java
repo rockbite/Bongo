@@ -106,7 +106,16 @@ public class Console extends Table {
 
 		entry.padLeft(1);
 
-		Label time = new Label("[" + new Date().toString() + "]:", getSkin(), "console-time");
+		//gwt friendly timedate
+		final Date date = new Date();
+		final int day = date.getDay();
+		final int hours = date.getHours();
+		final int minutes = date.getMinutes();
+		final int seconds = date.getSeconds();
+
+		String getFriendlyBasicTime = hours + ":" + minutes + ":" + seconds;
+
+		Label time = new Label("[" + getFriendlyBasicTime + "]:", getSkin(), "console-time");
 
 		Table textTable = new Table();
 

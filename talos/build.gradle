@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    api project(":engine")
+    compileOnly project(":engine")
 }
 
 task packageSources(type: Jar, dependsOn: [classes, jar]) {

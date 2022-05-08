@@ -16,4 +16,13 @@
     <extend-configuration-property name="gdx.files.classpath" value="shaders/gl3/core/particle.vert.glsl" />
 
 
+    <extend-configuration-property name="gdx.reflect.include" value="com.talosvfx.talos.runtime.modules" />
+    <extend-configuration-property name="gdx.reflect.include" value="com.talosvfx.talos.runtime.serialization" />
+    <extend-configuration-property name="gdx.reflect.include" value="com.talosvfx.talos.runtime.Expression" />
+
+    <extend-configuration-property name="gdx.reflect.include" value="com.talosvfx.talos.runtime.serialization.ExportData" />
+    <extend-configuration-property name="gdx.reflect.include" value="com.talosvfx.talos.runtime.serialization.ExportData$EmitterExportData" />
+    <extend-configuration-property name="gdx.reflect.include" value="com.talosvfx.talos.runtime.serialization.ExportData$ExportMetadata" />
+
+
 </module>
