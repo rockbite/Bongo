@@ -91,14 +91,14 @@ public abstract class SceneAnimationSampler<T> {
 	}
 
 	public T getInterpolatedValueForTime (float time) {
-		final Map.Entry<Float, T> floor = data.floorEntry(time);
+		Map.Entry<Float, T> floor = data.floorEntry(time);
 		Map.Entry<Float, T> ceil = data.ceilingEntry(time);
 
 		if (floor == null) {
-			throw new GdxRuntimeException("No floor found");
+			floor = data.firstEntry();
 		}
 		if (ceil == null) {
-			ceil = data.floorEntry(0f);
+			ceil = data.lastEntry();
 		}
 
 		final Float floorFloat = floor.getKey();

@@ -3,6 +3,7 @@ package com.rockbite.bongo.engine.gltf.scene;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.glutils.PixmapTextureData;
@@ -284,10 +285,10 @@ public class SceneResourceContext {
 				final byte[] decode = Base64Coder.decode(body);
 
 				Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888); //todo decode width/height
-				ByteBuffer byteBuffer = BufferUtils.newByteBuffer(decode.length);
-				byteBuffer.put(decode);
-				byteBuffer.position(0);
-				pixmap.setPixels(byteBuffer);
+//				ByteBuffer byteBuffer = BufferUtils.newByteBuffer(decode.length);
+//				byteBuffer.put(decode);
+//				byteBuffer.position(0);
+//				pixmap.setPixels(byteBuffer);
 
 				return new PixmapTextureData(pixmap, Pixmap.Format.RGBA8888, true, true);
 			}
@@ -302,18 +303,14 @@ public class SceneResourceContext {
 				final int buffer = imageBufferView.getBuffer();
 
 				final ByteBuffer byteBuffer = buffers.get(buffer);
+
+
+				byte[] data = new byte[imageBufferView.getByteLength()];
+
 				byteBuffer.position(imageBufferView.getByteOffset());
+				byteBuffer.get(data);
 
-				byte[] rewind = new byte[imageBufferView.getByteLength()];
-				byteBuffer.get(rewind,0, imageBufferView.getByteLength());
-				byteBuffer.rewind();
-
-				Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888); //todo decode width/height
-
-				ByteBuffer rewindedBuffer = BufferUtils.newByteBuffer(rewind.length);
-				byteBuffer.put(rewind);
-				byteBuffer.position(0);
-				pixmap.setPixels(rewindedBuffer);
+				Pixmap pixmap = new Pixmap(data, 0, data.length);
 
 				return new PixmapTextureData(pixmap, Pixmap.Format.RGBA8888, true, true);
 			}

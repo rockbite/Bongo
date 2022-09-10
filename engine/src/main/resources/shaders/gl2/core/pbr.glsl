@@ -208,6 +208,6 @@ vec3 fragWorldPosition, vec3 eyePosition) {
 
     // Final fragment color.
     directLighting = clamp(directLighting, 0.0, 1.0);
-    vec4 color = vec4((directLighting * ( 1.0 - shadow)) + ambientLighting * u_ambientStrength, 1.0);
+    vec4 color = vec4((directLighting * ( 1.0 - shadow)) + (ambientLighting * u_ambientStrength), 1.0);
     return color;
 }

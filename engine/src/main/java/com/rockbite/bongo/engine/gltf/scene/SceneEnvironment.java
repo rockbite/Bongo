@@ -42,7 +42,7 @@ public class SceneEnvironment {
 	@ComponentExpose(flavour = FLOAT)
 	private float[] ambientStrength = new float[]{1f};
 
-	int maxPointLights = 5;
+	int maxPointLights = 1;
 	private Array<PointLight> pointLights = new Array<>();
 
 	@ComponentExpose(flavour = COLOUR_4_VEC)

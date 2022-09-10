@@ -261,6 +261,12 @@ public class ShadedShader extends BaseSceneShader  {
 			}
 		};
 		public final static Setter pointLights = new GlobalSetter() {
+
+			@Override
+			public boolean isGlobal (BaseSceneShader shader, int inputID) {
+				return true;
+			}
+
 			@Override
 			public void set (BaseSceneShader shader, int inputID, SceneRenderable renderable, Attributes combinedAttributes) {
 				Array<PointLight> pointLights = shader.sceneEnvironment.getPointLights();
@@ -370,8 +376,6 @@ public class ShadedShader extends BaseSceneShader  {
 
 	public ShadedShader (FileHandle vertexSource, FileHandle fragmentSource, SceneRenderable sceneRenderable, World world) {
 		super(vertexSource, fragmentSource, sceneRenderable, world);
-
-		System.out.println("");
 	}
 
 	@Override
@@ -389,6 +393,10 @@ public class ShadedShader extends BaseSceneShader  {
 
 		if (has(u_time)) {
 			set(u_time, sceneEnvironment.getTime());
+		}
+
+		if (sceneEnvironment.getPointLights().size > 0) {
+			Setters.pointLights.set(this, 0, null, null);
 		}
 	}
 

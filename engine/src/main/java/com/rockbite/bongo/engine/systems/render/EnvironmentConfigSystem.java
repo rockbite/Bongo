@@ -87,10 +87,5 @@ public class EnvironmentConfigSystem extends BaseSystem {
 			if (idx >= environment.getSceneEnvironment().getMaxPointLights()) break;
 		}
 
-		PointLight value = new PointLight();
-		value.getWorldPosition().set(0, 0, 0);
-		value.setRadiance(1f, 0, 0, 100f);
-		sceneEnvironment.getPointLights().add(value);
-
 	}
 }

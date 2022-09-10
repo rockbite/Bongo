@@ -406,10 +406,11 @@ public abstract class BaseSceneShader implements Comparable<BaseSceneShader>, Re
 			else {
 				locations[i] = program.fetchUniformLocation(input, false);
 				if (locations[i] >= 0 && setter != null) {
-					if (setter.isGlobal(this, i))
+					if (setter.isGlobal(this, i)) {
 						globalUniforms.add(i);
-					else
+					} else {
 						localUniforms.add(i);
+					}
 				}
 			}
 			if (locations[i] < 0) {
