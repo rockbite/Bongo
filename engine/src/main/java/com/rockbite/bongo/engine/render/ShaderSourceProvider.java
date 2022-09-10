@@ -28,7 +28,7 @@ public class ShaderSourceProvider {
 
 	private static FileHandle getBongoSourcePath () {
 		FileHandle local = Gdx.files.local("."); //todo fix absolute path workaround
-
+		local = Gdx.files.absolute(local.file().getAbsolutePath());
 		while (!local.parent().child("bongo").exists()) {
 			local = local.parent();
 		}

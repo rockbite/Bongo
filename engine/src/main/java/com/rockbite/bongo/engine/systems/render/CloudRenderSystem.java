@@ -144,7 +144,7 @@ public class CloudRenderSystem extends RenderPassSystem {
 
 	public CloudRenderSystem (Class<? extends Component> componentClazz) {
 		this(
-			new DefaultSceneShaderProvider(ShaderSourceProvider.resolveVertex("cloud-pre", Files.FileType.Classpath), ShaderSourceProvider.resolveFragment("cloud-pre", Files.FileType.Classpath), CloudPrepassShader.class),
+			new DefaultSceneShaderProvider(ShaderSourceProvider.resolveVertex("cloud-pre", Files.FileType.Internal), ShaderSourceProvider.resolveFragment("cloud-pre", Files.FileType.Internal), CloudPrepassShader.class),
 			componentClazz
 		);
 	}

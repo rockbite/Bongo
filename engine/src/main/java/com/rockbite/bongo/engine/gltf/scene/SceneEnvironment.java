@@ -12,13 +12,14 @@ import com.rockbite.bongo.engine.annotations.ComponentExpose;
 import com.rockbite.bongo.engine.components.render.PointLight;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
 import static com.rockbite.bongo.engine.annotations.ComponentExposeFlavour.*;
 
 @Data
 public class SceneEnvironment {
 
-	@Getter
+	@Getter@Setter
 	public static class EnvironmentMap {
 		private GLTexture brdfMap;
 		private Cubemap radianceMap;

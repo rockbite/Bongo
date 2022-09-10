@@ -42,7 +42,7 @@ public class AssetSystem extends BaseSystem {
 		P1(0.025f, "font/Questrian.otf", 2, false),
 		P2(0.018f, "font/Questrian.otf", 2, false),
 		P3(0.015f, "font/Questrian.otf", 1, false),
-		CONSOLE(0.0125f, "font/Sans.ttf", 0, true);
+		CONSOLE(0.0325f, "font/Questrian.otf", 0, true);
 
 		public String path;
 		private float pixelPercent;
@@ -112,6 +112,10 @@ public class AssetSystem extends BaseSystem {
 		for (FontSize value : FontSize.values()) {
 			final BitmapFont font = assetManager.get(value + "", BitmapFont.class);
 			font.setUseIntegerPositions(true);
+			if (value.mono) {
+				font.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+				font.setFixedWidthGlyphs("0123456789[]:");
+			}
 			skin.add(value.toString().toLowerCase(), font);
 		}
 

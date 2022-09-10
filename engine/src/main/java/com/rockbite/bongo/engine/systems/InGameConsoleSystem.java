@@ -1,20 +1,26 @@
 package com.rockbite.bongo.engine.systems;
 
 import com.artemis.BaseSystem;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.rockbite.bongo.engine.console.Console;
 import com.rockbite.bongo.engine.events.asset.AssetsEndLoadEvent;
 import com.rockbite.bongo.engine.events.render.WindowResizeEvent;
+import com.rockbite.bongo.engine.input.InputProvider;
 import com.rockbite.bongo.engine.render.PolygonSpriteBatchMultiTextureMULTIBIND;
 import com.rockbite.bongo.engine.systems.assets.AssetSystem;
 import lombok.Getter;
 import net.mostlyoriginal.api.event.common.Subscribe;
 
-public class InGameConsoleSystem extends BaseSystem {
+public class InGameConsoleSystem extends BaseSystem implements InputProvider {
 
 	@Getter
 	private Stage stage;
@@ -81,5 +87,10 @@ public class InGameConsoleSystem extends BaseSystem {
 	@Subscribe
 	public void windowResizeEvent (WindowResizeEvent windowResizeEvent) {
 		stage.getViewport().update(windowResizeEvent.getWidth(), windowResizeEvent.getHeight(), true);
+	}
+
+	@Override
+	public InputProcessor getInputProcessor () {
+		return stage;
 	}
 }

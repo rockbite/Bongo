@@ -17,7 +17,9 @@ import net.mostlyoriginal.api.event.common.EventSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Console extends Table {
 
@@ -108,21 +110,17 @@ public class Console extends Table {
 
 		//gwt friendly timedate
 		final Date date = new Date();
-		final int day = date.getDay();
-		final int hours = date.getHours();
-		final int minutes = date.getMinutes();
-		final int seconds = date.getSeconds();
 
-		String getFriendlyBasicTime = hours + ":" + minutes + ":" + seconds;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss", Locale.UK);
 
-		Label time = new Label("[" + getFriendlyBasicTime + "]:", getSkin(), "console-time");
+		Label time = new Label("[" + simpleDateFormat.format(date) + "]:", getSkin(), "console-time");
 
 		Table textTable = new Table();
 
 		Label content = new Label(payloadMessage, getSkin(), "console");
 		textTable.add(content).growX();
 
-		entry.add(time).width(70);
+		entry.add(time);
 		entry.add(textTable).growX();
 
 		history.addActorAt(0, entry);

@@ -370,6 +370,8 @@ public class ShadedShader extends BaseSceneShader  {
 
 	public ShadedShader (FileHandle vertexSource, FileHandle fragmentSource, SceneRenderable sceneRenderable, World world) {
 		super(vertexSource, fragmentSource, sceneRenderable, world);
+
+		System.out.println("");
 	}
 
 	@Override
