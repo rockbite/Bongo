@@ -68,7 +68,7 @@ public class SceneEnvironment {
 	private Matrix4 lightProjection = new Matrix4();
 	public void calculateDirectionLightSpaceMatrix (Camera camera, Matrix4 lightSpaceMatrixOut, int shadowMapSize) {
 
-		final float len = tempVec3.set(camera.frustum.planePoints[0]).sub(camera.frustum.planePoints[6]).len();
+		float len = tempVec3.set(camera.frustum.planePoints[0]).sub(camera.frustum.planePoints[6]).len();
 		float radius = len/2f;
 
 		float texelsPerUnit = shadowMapSize/(radius * 2f);

@@ -3,12 +3,16 @@ package com.rockbite.bongo.engine.systems;
 import com.artemis.BaseSystem;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.FirstPersonCameraController;
 import com.rockbite.bongo.engine.components.singletons.Cameras;
+import com.rockbite.bongo.engine.events.render.WindowResizeEvent;
 import com.rockbite.bongo.engine.input.InputProvider;
 import lombok.Getter;
 import lombok.Setter;
+import net.mostlyoriginal.api.event.common.Subscribe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +45,15 @@ public class CameraControllerSystem extends BaseSystem implements InputProvider 
 		}
 		if (cameraController instanceof CameraInputController) {
 			((CameraInputController)cameraController).update();
+		}
+	}
+
+	@Subscribe
+	public void onResize (WindowResizeEvent resizeEvent) {
+		Camera gameCamera = cameras.getGameCamera();
+		if (gameCamera instanceof PerspectiveCamera) {
+			gameCamera.viewportWidth = resizeEvent.getWidth();
+			gameCamera.viewportHeight = resizeEvent.getHeight();
 		}
 	}
 

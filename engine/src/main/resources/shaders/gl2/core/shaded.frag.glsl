@@ -77,9 +77,10 @@ float calculateShadow (vec4 fragPosLightSpace, vec3 normal, vec3 lightDir, vec2 
     float closestDepth = Bongo_decodeDepthFromRGBA(texture2D(u_shadowMap, projCoords.xy + uvOffset));
     float currentdepth = projCoords.z;
 
-    float bias = max(0.0005 * (1.0 - dot(normal, lightDir)), 0.0005);
 
-    if (currentdepth - bias > closestDepth) {
+    float bias = max(0.005 * (1.0 - dot(normal, lightDir)), 0.0005);
+
+    if ((currentdepth - bias) > closestDepth) {
         return 1.0;
     } else {
         return 0.0;

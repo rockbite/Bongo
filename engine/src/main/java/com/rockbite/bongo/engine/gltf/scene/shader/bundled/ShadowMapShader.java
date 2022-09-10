@@ -115,7 +115,6 @@ public class ShadowMapShader extends BaseSceneShader {
 
 	}
 
-
 	@Override
 	public void initClassSpecificUniforms () {
 		//global

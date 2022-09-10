@@ -52,7 +52,7 @@ public class ShadowPassSystem extends RenderPassSystem {
 	protected void initialize () {
 		super.initialize();
 
-		final int shadowMapSize = 4096;
+		final int shadowMapSize = 2048;
 		if (Gdx.gl30 != null) {
 			GLFrameBuffer.FrameBufferBuilder frameBufferBuilder = new GLFrameBuffer.FrameBufferBuilder(shadowMapSize, shadowMapSize) {
 				@Override
@@ -69,7 +69,11 @@ public class ShadowPassSystem extends RenderPassSystem {
 		} else {
 			GLFrameBuffer.FrameBufferBuilder frameBufferBuilder = new GLFrameBuffer.FrameBufferBuilder(shadowMapSize, shadowMapSize);
 			frameBufferBuilder.addBasicColorTextureAttachment(Pixmap.Format.RGBA8888);
+			frameBufferBuilder.addBasicDepthRenderBuffer();
+
 			shadowMapBuffer = frameBufferBuilder.build();
+			shadowMapBuffer.getColorBufferTexture().setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
+			shadowMapBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		}
 	}
 
