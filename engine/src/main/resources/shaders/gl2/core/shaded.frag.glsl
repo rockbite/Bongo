@@ -11,6 +11,8 @@ const int POISSON_SAMPLES = 4;
 
 uniform float u_time;
 
+uniform float u_ambientStrength;
+
 #include "pbr.glsl"
 #include "depthutils.glsl"
 

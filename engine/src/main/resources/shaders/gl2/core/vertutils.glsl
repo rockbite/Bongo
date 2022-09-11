@@ -1,6 +1,12 @@
 #ifdef positionFlag
 attribute vec4 a_position;
 #endif
+
+#ifdef normalFlag
+attribute vec3 a_normal;
+uniform mat3 u_normalMatrix;
+#endif
+
 #ifdef skinningFlag
 uniform mat4 u_jointMatrix[12];
 attribute vec4 a_weights_0;
@@ -12,6 +18,24 @@ uniform mat4 u_srt;
 
 vec4 Bongo_worldToClip (vec4 worldSpace) {
     return u_projTrans * worldSpace;
+}
+
+
+vec3 Bongo_normalToWorld () {
+    #if defined(normalFlag)
+        #if defined(skinningFlag)
+                mat4 skinMatrix =
+                a_weights_0.x * u_jointMatrix[int(a_joints_0.x)] +
+                a_weights_0.y * u_jointMatrix[int(a_joints_0.y)] +
+                a_weights_0.z * u_jointMatrix[int(a_joints_0.z)] +
+                a_weights_0.w * u_jointMatrix[int(a_joints_0.w)];
+                return normalize((u_srt * skinMatrix * vec4(a_normal, 0.0)).xyz);
+        #else
+            return u_normalMatrix * a_normal;
+        #endif
+    #else
+        return vec3(0.0, 1.0, 0.0);
+    #endif
 }
 
 vec4 Bongo_localToWorld () {
