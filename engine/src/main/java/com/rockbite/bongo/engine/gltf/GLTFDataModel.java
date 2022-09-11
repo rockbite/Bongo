@@ -1,19 +1,46 @@
 package com.rockbite.bongo.engine.gltf;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Base64Coder;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.OrderedMap;
+import com.rockbite.bongo.engine.gltf.scene.SceneMeshVertexInfo;
 import lombok.Data;
 
+import java.awt.*;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
 @Data
 public class GLTFDataModel {
+
+	public enum ComponentType {
+
+		C_BYTE(5120),
+		C_UBYTE(5121),
+		C_SHORT(5122),
+		C_USHORT(5123),
+		C_UINT(5125),
+		C_FLOAT(5126);
+
+		private final int typeValue;
+
+		ComponentType (int typeValue) {
+			this.typeValue = typeValue;
+		}
+
+		public static ComponentType getForInt (int componentType) {
+			for (ComponentType value : values()) {
+				if (value.typeValue == componentType) return value;
+			}
+			throw new GdxRuntimeException("Not found");
+		}
+	}
 
 	@Data
 	public static class SceneData {
@@ -146,11 +173,11 @@ public class GLTFDataModel {
 	public static class AccessorData {
 		private int bufferView;
 		private int byteOffset;
-		private int componentType;
+		private ComponentType componentType;
 		private int count;
 		private float[] max;
 		private float[] min;
-		private String type;
+		private SceneMeshVertexInfo.AccessorType type;
 	}
 
 	@Data

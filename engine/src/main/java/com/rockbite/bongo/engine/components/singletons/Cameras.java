@@ -20,7 +20,7 @@ public class Cameras extends Component {
 
 	public Cameras () {
 		gameCamera = new PerspectiveCamera(60, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		gameCamera.far = 50f;
+		gameCamera.far = 100f;
 
 //		gameCamera = new OrthographicCamera(10, 10);
 

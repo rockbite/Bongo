@@ -24,8 +24,8 @@ public class SceneSkin {
 		if (accessor.getCount() != joints.length) {
 			return;
 		}
-		final int componentType = accessor.getComponentType();
-		final String type = accessor.getType();
+		final GLTFDataModel.ComponentType componentType = accessor.getComponentType();
+		final SceneMeshVertexInfo.AccessorType type = accessor.getType();
 		final int bufferViewIndex = accessor.getBufferView();
 
 		final GLTFDataModel.BufferViewData bufferView = dataModel.getBufferViews()[bufferViewIndex];

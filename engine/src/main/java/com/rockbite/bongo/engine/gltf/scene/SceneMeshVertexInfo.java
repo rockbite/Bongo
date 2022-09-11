@@ -3,6 +3,8 @@ package com.rockbite.bongo.engine.gltf.scene;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.rockbite.bongo.engine.gltf.GLTFDataModel;
 import lombok.Getter;
 
 public class SceneMeshVertexInfo {
@@ -47,13 +49,13 @@ public class SceneMeshVertexInfo {
 		private VertexType vertexType;
 		private int numComponents;
 
-		public VertexInfo (String vertexTypeName, String accessorType) {
+		public VertexInfo (String vertexTypeName, AccessorType accessorType) {
 			vertexType = VertexType.valueOf(vertexTypeName);
-			this.numComponents = AccessorType.valueOf(accessorType).numComponents;
+			this.numComponents = accessorType.numComponents;
 		}
 	}
 
-	enum AccessorType {
+	public enum AccessorType {
 		SCALAR(1),
 		VEC2(2),
 		VEC3(3),
@@ -66,6 +68,13 @@ public class SceneMeshVertexInfo {
 
 		AccessorType (int numComponents) {
 			this.numComponents = numComponents;
+		}
+
+		public static AccessorType getForTypeString (String name) {
+			for (AccessorType value : values()) {
+				if (value.name().equals(name)) return value;
+			}
+			throw new GdxRuntimeException("Not found");
 		}
 	}
 

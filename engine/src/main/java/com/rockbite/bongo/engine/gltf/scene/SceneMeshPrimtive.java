@@ -2,6 +2,7 @@ package com.rockbite.bongo.engine.gltf.scene;
 
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.math.Matrix4;
@@ -20,6 +21,7 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
+import java.util.Arrays;
 
 public class SceneMeshPrimtive {
 
@@ -104,7 +106,7 @@ public class SceneMeshPrimtive {
 				buff.position(bufferView.getByteOffset() + accessor.getByteOffset());
 
 
-				if (accessor.getComponentType() == 5126) {
+				if (accessor.getComponentType() == GLTFDataModel.ComponentType.C_FLOAT) {
 					final FloatBuffer floatBuffer = buff.asFloatBuffer();
 
 					final int byteLength = bufferView.getByteLength();
@@ -114,15 +116,18 @@ public class SceneMeshPrimtive {
 						final float v = floatBuffer.get(i);
 						floatArray.add(v);
 					}
-				} else if (accessor.getComponentType() == 5121) {
+					System.out.println(attribute.key);
+				} else if (accessor.getComponentType() == GLTFDataModel.ComponentType.C_UBYTE) {
 
-					final int byteLength = bufferView.getByteLength();
-					int floatCount = byteLength;
 
-					for (int i = 0; i < floatCount; i++) {
-						final int v = buff.get() & 0xff;//Convert
-						floatArray.add(v);
+					int [] data = new int[accessor.getCount() * accessor.getType().numComponents];
+					for(int i=0 ; i<data.length ; i++){
+						data[i] = buff.get() & 0xFF;
+						floatArray.add(data[i]);
 					}
+
+					System.out.println();
+
 				} else {
 					throw new GdxRuntimeException("No type supported for componentType: " + accessor.getComponentType());
 				}
@@ -138,26 +143,20 @@ public class SceneMeshPrimtive {
 
 		buff.position(indicesAccessor.getByteOffset() + bufferView.getByteOffset());
 
-		if (indicesAccessor.getComponentType() == GL20.GL_SHORT || indicesAccessor.getComponentType() == GL20.GL_UNSIGNED_SHORT) {
+		System.out.println("INDICES TYPE " + indicesAccessor.getType() + " " + indicesAccessor.getComponentType());
 
-			final ShortBuffer intBuffer = buff.asShortBuffer();
+		int maxIndices = indicesAccessor.getCount();
 
-			final int byteLength = bufferView.getByteLength();
-			int shortCount = byteLength/2;
+		if (indicesAccessor.getComponentType() == GLTFDataModel.ComponentType.C_SHORT || indicesAccessor.getComponentType() == GLTFDataModel.ComponentType.C_USHORT) {
 
-			ShortArray shortArray = new ShortArray();
+			ShortBuffer shortBuffer = buff.asShortBuffer();
+			shortBuffer.position(0);
 
-			this.indices = new short[shortCount];
+			this.indices = new short[maxIndices];
+			shortBuffer.get(this.indices);
 
-			for (int i = 0; i < shortCount; i++) {
-				final short v = intBuffer.get(i);
-				if (v <  0) {
-				}
-				this.indices[i] = v;
-			}
 
-		} else if (indicesAccessor.getComponentType() == GL20.GL_UNSIGNED_INT) {
-			int maxIndices = indicesAccessor.getCount();
+		} else if (indicesAccessor.getComponentType() == GLTFDataModel.ComponentType.C_UINT) {
 			indices = new short[maxIndices];
 			IntBuffer intBuffer = buff.asIntBuffer();
 			long maxIndex = 0;
@@ -165,8 +164,6 @@ public class SceneMeshPrimtive {
 				long index = intBuffer.get() & 0xFFFFFFFFL;
 				maxIndex = Math.max(index, maxIndex);
 				indices[i] = (short)index;
-				if (indices[i] < 0) {
-				}
 			}
 		}
 
@@ -183,6 +180,7 @@ public class SceneMeshPrimtive {
 
 		vertices = new float[vertexCount * totalNumComponentsPerVertex];
 
+		Arrays.fill(vertices, -1);
 		int idx = 0;
 		for (int i = 0; i < vertexCount; i++) {
 			for (int j = 0; j < vertexInfoArray.size; j++) {

@@ -128,7 +128,7 @@ public class SceneResourceContext {
 		final GLTFDataModel.BufferViewData outputBufferViewData = dataModel.getBufferViews()[outputBufferView];
 		final int outputBuffer = outputBufferViewData.getBuffer();
 
-		if (outputDataAccessor.getComponentType() != GL20.GL_FLOAT) {
+		if (outputDataAccessor.getComponentType() != GLTFDataModel.ComponentType.C_FLOAT) {
 			throw new GdxRuntimeException("Invalid");
 		}
 
@@ -138,13 +138,13 @@ public class SceneResourceContext {
 
 		int totalFloats = 0;
 
-		if (outputDataAccessor.getType().equals("SCALAR")) {
+		if (outputDataAccessor.getType().equals(SceneMeshVertexInfo.AccessorType.SCALAR)) {
 			totalFloats = 1;
 		}
-		if (outputDataAccessor.getType().equals("VEC3")) {
+		if (outputDataAccessor.getType().equals(SceneMeshVertexInfo.AccessorType.VEC3)) {
 			totalFloats = 3;
 		}
-		if (outputDataAccessor.getType().equals("VEC4")) {
+		if (outputDataAccessor.getType().equals(SceneMeshVertexInfo.AccessorType.VEC4)) {
 			totalFloats = 4;
 		}
 
