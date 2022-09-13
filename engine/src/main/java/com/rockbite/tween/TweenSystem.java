@@ -131,6 +131,11 @@ public class TweenSystem extends BaseSystem {
 		tweenControllerMap.register(ShakeTweenController.ShakeConfiguration.class, new ShakeTweenController(), ShakeTweenController.DEFAULT_SHAKE);
 	}
 
+	public <T> void register (Class<T> targetClazz, TweenController<T> tweenController, TweenMask<T>... masks) {
+		tweenControllerMap.register(targetClazz, tweenController, masks);
+	}
+
+
 	public boolean isTweenableType (Class<?> type) {
 		TweenController<?> controller = tweenControllerMap.getControllerUnsafe(type);
 		return controller != null;

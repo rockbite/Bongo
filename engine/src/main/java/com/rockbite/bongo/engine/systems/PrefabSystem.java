@@ -7,10 +7,13 @@ import com.artemis.Entity;
 import com.artemis.EntityEdit;
 import com.artemis.EntitySubscription;
 import com.artemis.annotations.All;
+import com.artemis.utils.reflect.ReflectionUtil;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Null;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.reflect.Field;
 import com.moandjiezana.toml.Toml;
 import com.moandjiezana.toml.TomlWriter;
 import com.rockbite.bongo.engine.components.prefab.Prefab;
@@ -21,6 +24,7 @@ import com.rockbite.bongo.engine.gltf.scene.SceneModelInstance;
 import com.rockbite.bongo.engine.prefab.Marshallable;
 import com.rockbite.bongo.engine.prefab.PrefabConfig;
 import com.rockbite.bongo.engine.prefab.PrefabReader;
+import com.rockbite.bongo.engine.reflect.ReflectUtils;
 import net.mostlyoriginal.api.event.common.EventSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -159,6 +163,10 @@ public class PrefabSystem extends BaseSystem {
 		final Entity entity = world.getEntity(entityID);
 		final EntityEdit edit = entity.edit();
 
+		if (prefabConfig == null) {
+			logger.error("No prefab found");
+		}
+
 		for (Component configComponent : prefabConfig.getComponents()) {
 			Component componentToEdit;
 			if ((componentToEdit = entity.getComponent(configComponent.getClass())) == null) {
@@ -183,13 +191,23 @@ public class PrefabSystem extends BaseSystem {
 		final PrefabConfig prefabConfig = prefabIdentifierMap.get(identifier);
 		if (prefabConfig == null) {
 			logger.warn("No prefab found for identifier {}", identifier);
+
+			logger.warn("Available prefabs => ");
+
+			for (String key : prefabIdentifierMap.keys()) {
+				logger.warn("\t\t" + key);
+			}
+
 			return null;
 		}
 		return prefabConfig;
 	}
 
-	public Entity createEntityFromPrefabIdentifier (String identifier) {
+	public @Null Entity createEntityFromPrefabIdentifierOrNull (String identifier) {
 		final PrefabConfig configForIdentifier = getConfigForIdentifier(identifier);
+		if (configForIdentifier == null) {
+			return null;
+		}
 		return createEntityFromPrefabConfig(configForIdentifier);
 	}
 

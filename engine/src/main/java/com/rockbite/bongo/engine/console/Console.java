@@ -3,6 +3,7 @@ package com.rockbite.bongo.engine.console;
 import com.artemis.World;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.utils.Array;
 import com.rockbite.bongo.engine.events.commands.RawCommandEvent;
 import lombok.Getter;
 import net.mostlyoriginal.api.event.common.EventSystem;
@@ -29,6 +31,9 @@ public class Console extends Table {
 
 	private ScrollPane scrollPane;
 	private VerticalGroup history;
+
+	private Array<String> commandHistory = new Array<>();
+	private int commandHistoryIndex = -1;
 
 	@Getter
 	private TextField textField;
@@ -67,6 +72,19 @@ public class Console extends Table {
 		textFieldTable.addListener(new InputListener() {
 			@Override
 			public boolean keyDown (InputEvent event, int keycode) {
+				if (commandHistory.size > 0) {
+					if (keycode == Input.Keys.UP || keycode == Input.Keys.DOWN) {
+						if (keycode == Input.Keys.UP) {
+							commandHistoryIndex--;
+						} else if (keycode == Input.Keys.DOWN) {
+							commandHistoryIndex++;
+						}
+						commandHistoryIndex = MathUtils.clamp(commandHistoryIndex, 0, commandHistory.size - 1);
+
+						textField.setText(commandHistory.get(commandHistoryIndex));
+					}
+				}
+
 				if (keycode == Input.Keys.ENTER) {
 					final String inputText = textField.getText();
 
@@ -98,6 +116,8 @@ public class Console extends Table {
 
 
 		addMessageToLog(inputText);
+		commandHistory.add(inputText);
+		commandHistoryIndex = commandHistory.size - 1;
 	}
 
 	private void addMessageToLog (String payloadMessage) {
