@@ -114,6 +114,15 @@ public class PrefabReader {
 				final Object[] convertedList = (Object[])ArrayReflection.newInstance(elementType, list.size());
 				int idx = 0;
 				for (Object o : list) {
+					if (o instanceof Toml) {
+						if (((Toml)o).getString("type") != null) {
+							Class clazz = objectMapper.get(((Toml)o).getString("type"));
+							if (clazz != null) {
+								convertedList[idx++] = createObjectFromClassAndToml(clazz, o);
+								continue;
+							}
+						}
+					}
 					convertedList[idx++] = createObjectFromClassAndToml(elementType, o);
 				}
 				return convertedList;

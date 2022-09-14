@@ -137,10 +137,6 @@ public class PrefabSystem extends BaseSystem {
 				} else {
 					prefabIdentifierMap.put(prefabComponent.getIdentifier(), preConfig);
 
-					final EventSystem system = world.getSystem(EventSystem.class);
-					final PrefabUpdatedEvent event = new PrefabUpdatedEvent();
-					event.setPrefabConfig(preConfig);
-					system.dispatch(event);
 
 					for (int i = 0; i < prefabSubscription.getEntities().size(); i++) {
 						final int entityID = prefabSubscription.getEntities().get(i);
@@ -151,6 +147,11 @@ public class PrefabSystem extends BaseSystem {
 							updateEntityFromPrefab(entityID, preConfig);
 						}
 					}
+
+					final EventSystem system = world.getSystem(EventSystem.class);
+					final PrefabUpdatedEvent event = new PrefabUpdatedEvent();
+					event.setPrefabConfig(preConfig);
+					system.dispatch(event);
 				}
 
 			}
