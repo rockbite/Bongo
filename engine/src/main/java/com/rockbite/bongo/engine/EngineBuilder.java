@@ -17,6 +17,8 @@ import net.mostlyoriginal.api.SingletonPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Comparator;
+
 public class EngineBuilder {
 
 	private static Logger logger = LoggerFactory.getLogger(EngineBuilder.class);
@@ -72,11 +74,24 @@ public class EngineBuilder {
 		//Setup input
 
 		Array<InputProcessor> inputProcessors = new Array<>(InputProcessor.class);
+		Array<InputProvider> inputProviders = new Array<>();
 		for (BaseSystem system : world.getSystems()) {
 			if (system instanceof InputProvider) {
-				inputProcessors.add(((InputProvider)system).getInputProcessor());
+				inputProviders.add((InputProvider)system);
 			}
 		}
+		inputProviders.sort(new Comparator<InputProvider>() {
+			@Override
+			public int compare (InputProvider o1, InputProvider o2) {
+				return Integer.compare(o1.priority(), o2.priority());
+			}
+		});
+
+		for (InputProvider inputProvider : inputProviders) {
+			inputProcessors.add(inputProvider.getInputProcessor());
+		}
+
+
 
 		Gdx.input.setInputProcessor(new InputMultiplexer(inputProcessors.toArray(InputProcessor.class)));
 

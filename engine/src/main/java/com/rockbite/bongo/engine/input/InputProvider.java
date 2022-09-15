@@ -6,4 +6,7 @@ public interface InputProvider  {
 
 	InputProcessor getInputProcessor ();
 
+	default int priority () {
+		return 0;
+	}
 }
