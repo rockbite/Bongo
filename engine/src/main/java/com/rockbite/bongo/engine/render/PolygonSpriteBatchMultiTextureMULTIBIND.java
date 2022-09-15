@@ -93,12 +93,14 @@ public class PolygonSpriteBatchMultiTextureMULTIBIND implements PolyBatchWithEnc
 	static final int COLOR_COMPONENTS = 1;
 	static final int UV_COMPONENTS = 2;
 	static final int TEXTURE_INDEX_COMPONENTS = 1;
-	static final int CUSTOM_INFO_COMPONENTS = 1;
+	static final int CUSTOM_INFO_COMPONENTS = 3;
 
 	private float[] customInfoArray = new float[CUSTOM_INFO_COMPONENTS];
 
 	{
-		customInfoArray[0] = 69f;
+		for (int i = 0; i < customInfoArray.length; i++) {
+			customInfoArray[i] = 69f;
+		}
 	}
 
 	static final int VERTEX_SIZE = POSITION_COMPONENTS + COLOR_COMPONENTS + UV_COMPONENTS + TEXTURE_INDEX_COMPONENTS + CUSTOM_INFO_COMPONENTS;
@@ -1885,6 +1887,19 @@ public class PolygonSpriteBatchMultiTextureMULTIBIND implements PolyBatchWithEnc
 	@Override
 	public void setCustomInfo (float customInfo) {
 		this.customInfoArray[0] = customInfo;
+	}
+
+	@Override
+	public void setCustomInfo (float customInfo, float customInfo2) {
+		this.customInfoArray[0] = customInfo;
+		this.customInfoArray[1] = customInfo2;
+	}
+
+	@Override
+	public void setCustomInfo (float customInfo, float customInfo2, float customInfo3) {
+		this.customInfoArray[0] = customInfo;
+		this.customInfoArray[1] = customInfo2;
+		this.customInfoArray[2] = customInfo3;
 	}
 
 	@Override
