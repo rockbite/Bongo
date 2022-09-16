@@ -83,6 +83,7 @@ public class AssetSystem extends BaseSystem {
 			genFont(packer, value);
 		}
 
+
 	}
 
 	private void genFont (PixmapPacker packer, FontSize size) {
