@@ -198,7 +198,7 @@ public class PolygonSpriteBatchMultiTextureMULTIBIND implements PolyBatchWithEnc
 
 		Gdx.gl.glGetIntegerv(GL20.GL_MAX_TEXTURE_IMAGE_UNITS, texUnitsQueryBuffer);
 
-		maxTextureUnits = texUnitsQueryBuffer.get();
+		maxTextureUnits = texUnitsQueryBuffer.get() - 1;
 
 		if (maxTextureUnits <= 0) {
 			maxTextureUnits = 8; //Conservative guess if gl fucks up

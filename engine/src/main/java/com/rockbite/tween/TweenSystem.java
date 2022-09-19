@@ -3,6 +3,7 @@ package com.rockbite.tween;
 import com.artemis.BaseSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
@@ -127,6 +128,7 @@ public class TweenSystem extends BaseSystem {
 
 	public TweenSystem () {
 		tweenControllerMap.register(Vector3.class, new Vector3TweenController(), Vector3TweenController.MOVE_TO_X, Vector3TweenController.MOVE_TO_Y, Vector3TweenController.MOVE_TO_Z, Vector3TweenController.MOVE_TO_XYZ);
+		tweenControllerMap.register(Vector2.class, new Vector2TweenController(), Vector2TweenController.MOVE_TO_X, Vector2TweenController.MOVE_TO_Y, Vector2TweenController.MOVE_TO_XY);
 		tweenControllerMap.register(Rectangle.class, new RectangleTweenController(), RectangleTweenController.MOVE_TO);
 		tweenControllerMap.register(ShakeTweenController.ShakeConfiguration.class, new ShakeTweenController(), ShakeTweenController.DEFAULT_SHAKE);
 	}
