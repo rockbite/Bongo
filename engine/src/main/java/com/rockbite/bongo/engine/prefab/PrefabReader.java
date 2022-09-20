@@ -3,6 +3,7 @@ package com.rockbite.bongo.engine.prefab;
 import com.artemis.utils.reflect.ArrayReflection;
 import com.artemis.utils.reflect.ClassReflection;
 import com.artemis.utils.reflect.ReflectionException;
+import com.artemis.utils.reflect.ReflectionUtil;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.reflect.Field;
@@ -11,6 +12,7 @@ import com.rockbite.bongo.engine.reflect.ReflectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,7 +57,7 @@ public class PrefabReader {
 		}
 
 		try {
-			Object object = createObjectFromClassAndToml(clazz, data);
+			Object object = createObjectFromClassAndToml(clazz, data, null);
 
 			componentParsingStack.removeLast();
 
@@ -66,7 +68,7 @@ public class PrefabReader {
 		}
 	}
 
-	private Object createObjectFromClassAndToml (Class targetType, Object tomlSideData) throws ReflectionException {
+	private Object createObjectFromClassAndToml (Class targetType, Object tomlSideData, Class[] generics) throws ReflectionException {
 
 		if (targetType.isEnum()) {
 			if (tomlSideData instanceof String) {
@@ -118,17 +120,33 @@ public class PrefabReader {
 						if (((Toml)o).getString("type") != null) {
 							Class clazz = objectMapper.get(((Toml)o).getString("type"));
 							if (clazz != null) {
-								convertedList[idx++] = createObjectFromClassAndToml(clazz, o);
+								convertedList[idx++] = createObjectFromClassAndToml(clazz, o, null);
 								continue;
 							}
 						}
 					}
-					convertedList[idx++] = createObjectFromClassAndToml(elementType, o);
+					convertedList[idx++] = createObjectFromClassAndToml(elementType, o, null);
 				}
 				return convertedList;
 			} else {
 				throw new PrefabException("Toml data is not compatible with field []. Incompatible class =  " + tomlSideData.getClass());
 			}
+		} else if (Map.class.isAssignableFrom(targetType)) {
+
+			Class keyType = generics[0];
+			Class valueType = generics[1];
+
+			final Map<?, ?> map = ((Toml)tomlSideData).toMap();
+
+			HashMap deserializedMap = new HashMap();
+
+			for (Object key : map.keySet()) {
+				Object value = map.get(key);
+
+				deserializedMap.put(convertInto(key, keyType), convertInto(value, valueType));
+			}
+
+			return deserializedMap;
 		} else {
 			//Complex object
 			//Make a new instance
@@ -149,7 +167,13 @@ public class PrefabReader {
 
 						//Get the object
 						componentParsingStack.addLast(declaredField.getType().getSimpleName());
-						final Object child = createObjectFromClassAndToml(declaredField.getType(), tomlSideChildData);
+						Class[] gen = null;
+						if (HashMap.class.isAssignableFrom(declaredField.getType())) {
+							Class keyType = declaredField.getElementType(0);
+							Class valueType = declaredField.getElementType(1);
+							gen = new Class[]{keyType, valueType};
+						}
+						final Object child = createObjectFromClassAndToml(declaredField.getType(), tomlSideChildData, gen);
 						componentParsingStack.removeLast();
 
 						declaredField.setAccessible(true);
@@ -171,6 +195,26 @@ public class PrefabReader {
 			} else {
 				throw new PrefabException("Complex object cannot be parsed from " + tomlSideData);
 			}
+		}
+	}
+
+	private Object convertInto (Object key, Class keyType) {
+		if (keyType.isPrimitive()) {
+			if (keyType.equals(int.class)) {
+				return Integer.parseInt(key.toString());
+			} else if (keyType.equals(float.class)) {
+				return Float.parseFloat(key.toString());
+			} else {
+				throw new PrefabException("Not supported primitive " + keyType);
+			}
+		} else if (keyType.isEnum()) {
+			return Enum.valueOf(keyType, ((String)key));
+		} else if (keyType.equals(String.class)) {
+			return String.valueOf(keyType);
+		} else if (Integer.class.equals(keyType)) {
+			return Integer.parseInt(key.toString());
+		} else {
+			throw new PrefabException("Not supported type " + keyType);
 		}
 	}
 

@@ -42,6 +42,7 @@ public class AssetSystem extends BaseSystem {
 		P1(0.025f, "font/Questrian.otf", 2, false),
 		P2(0.018f, "font/Questrian.otf", 2, false),
 		P3(0.015f, "font/Questrian.otf", 1, false),
+		P4(0.015f, "font/Questrian.otf", 0, false),
 		CONSOLE(0.0325f, "font/Questrian.otf", 0, true);
 
 		public String path;
@@ -90,11 +91,15 @@ public class AssetSystem extends BaseSystem {
 		FreetypeFontLoader.FreeTypeFontLoaderParameter param = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
 		param.fontFileName = size.path;
 		param.fontParameters.size = (int)(size.pixelPercent * Gdx.graphics.getHeight());
-		param.fontParameters.borderColor = Color.BLACK;
+
+		if (size.outline > 0) {
+			param.fontParameters.borderColor = Color.BLACK;
+			param.fontParameters.borderWidth = (size.outline * ((float)Gdx.graphics.getHeight() / 1080f));
+		}
+
 		param.fontParameters.color = Color.WHITE;
 		param.fontParameters.packer = packer;
 		param.fontParameters.mono = size.mono;
-		param.fontParameters.borderWidth = (size.outline * ((float)Gdx.graphics.getHeight()/1080f));
 		param.fontParameters.magFilter = Texture.TextureFilter.Nearest;
 		param.fontParameters.minFilter = Texture.TextureFilter.Nearest;
 		param.fontParameters.hinting = FreeTypeFontGenerator.Hinting.AutoFull;
@@ -113,6 +118,7 @@ public class AssetSystem extends BaseSystem {
 		for (FontSize value : FontSize.values()) {
 			final BitmapFont font = assetManager.get(value + "", BitmapFont.class);
 			font.setUseIntegerPositions(true);
+			font.getData().markupEnabled = true;
 			if (value.mono) {
 				font.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 				font.setFixedWidthGlyphs("0123456789[]:");
