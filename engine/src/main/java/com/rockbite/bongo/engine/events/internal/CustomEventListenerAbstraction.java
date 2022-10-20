@@ -4,6 +4,8 @@ import net.mostlyoriginal.api.event.common.Event;
 
 public interface CustomEventListenerAbstraction {
 
+	Object owner ();
+
 	void handle (Event event);
 
 	int priority ();

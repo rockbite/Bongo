@@ -5,6 +5,8 @@ import com.artemis.utils.Bag;
 import net.mostlyoriginal.api.event.common.Event;
 import net.mostlyoriginal.api.utils.ClassHierarchy;
 import net.mostlyoriginal.api.utils.BagUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.IdentityHashMap;
 
@@ -13,9 +15,11 @@ import java.util.IdentityHashMap;
  * <p>
  * Should suffice for most prototyping usecases.
  *
- * @Author DaanVanYperen
+ * @Author DaanVanYperen, Tomski
  */
 public class CustomFastEventDispatcher implements CustomEventDispatchStrategy {
+
+	private static final Logger logger = LoggerFactory.getLogger(CustomFastEventDispatcher.class);
 
 	final ClassHierarchy classHierarchy = new ClassHierarchy();
 
@@ -29,19 +33,52 @@ public class CustomFastEventDispatcher implements CustomEventDispatchStrategy {
 	 */
 	final IdentityHashMap<Class<?>, Bag<CustomEventListenerAbstraction>> hierarchicalListenerCache = new IdentityHashMap<>();
 
+	private IdentityHashMap<Object, Bag<CustomEventListenerAbstraction>> objectOwnerToListenersMap = new IdentityHashMap<>();
+
 	@Override
-	public void register (CustomEventListenerAbstraction listener) {
+	public void register (Object owner, CustomEventListenerAbstraction listener) {
 		if (listener == null)
 			throw new NullPointerException("Listener required.");
 
 		// Bind listener to the related event class.
 		Bag<CustomEventListenerAbstraction> listenersFor = getListenersFor(listener.getParameterType(), true);
 		if (!listenersFor.contains(listener)) {
+
+			if (!objectOwnerToListenersMap.containsKey(owner)) {
+				objectOwnerToListenersMap.put(owner, new Bag<>());
+			}
+
+			objectOwnerToListenersMap.get(owner).add(listener);
+
 			listenersFor.add(listener);
 			// the hierarchical cache is now out of date. purrrrrrrrge!
 			invalidateHierarchicalCache();
 		}
 
+	}
+
+	@Override
+	public void unregisterEventsForOwner (Object owner) {
+		Bag<CustomEventListenerAbstraction> customEventListenerAbstractions = objectOwnerToListenersMap.get(owner);
+
+		if (customEventListenerAbstractions == null) {
+			logger.error("Trying to remove listeners but not found for owner {}", owner);
+			return;
+		}
+
+		for (CustomEventListenerAbstraction customEventListenerAbstraction : customEventListenerAbstractions) {
+			Bag<CustomEventListenerAbstraction> listenersFor = getListenersFor(customEventListenerAbstraction.getParameterType(), false);
+
+			if (listenersFor != null) {
+				listenersFor.remove(customEventListenerAbstraction);
+			} else {
+				logger.error("No listeners found for abstraction {}", customEventListenerAbstraction);
+			}
+		}
+
+		objectOwnerToListenersMap.remove(owner);
+
+		invalidateHierarchicalCache();
 	}
 
 	private void invalidateHierarchicalCache () {

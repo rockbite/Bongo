@@ -18,7 +18,9 @@ public interface CustomEventDispatchStrategy {
 	/**
 	 * Subscribe listener to events.
 	 */
-	public void register (CustomEventListenerAbstraction listener);
+	public void register (Object owner, CustomEventListenerAbstraction listener);
+
+	public void unregisterEventsForOwner (Object owner);
 
 	/**
 	 * Dispatch event to registered listeners.

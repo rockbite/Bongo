@@ -53,7 +53,11 @@ public class CustomEventSystem extends BaseSystem {
 	 * Register all @Subscribe listeners in passed object (typically system, manager).
 	 */
 	public void registerEvents (Object o) {
-		registerAll(resolveListeners(o));
+		registerAll(o, resolveListeners(o));
+	}
+
+	public void unregisterEventsForOwner (Object o) {
+		dispatcherStrategy.unregisterEventsForOwner(o);
 	}
 
 	/**
@@ -78,9 +82,9 @@ public class CustomEventSystem extends BaseSystem {
 	/**
 	 * Register all listeners with the handler.
 	 */
-	private void registerAll (List<CustomEventListenerAbstraction> listeners) {
+	private void registerAll (Object owner, List<CustomEventListenerAbstraction> listeners) {
 		for (CustomEventListenerAbstraction listener : listeners) {
-			dispatcherStrategy.register(listener);
+			dispatcherStrategy.register(owner, listener);
 		}
 	}
 

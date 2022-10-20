@@ -57,6 +57,11 @@ public class CustomMethodBasedEventListener implements Comparable<CustomMethodBa
 		this.method = method;
 	}
 
+	@Override
+	public Object owner () {
+		return object;
+	}
+
 	public void handle (Event event) {
 		if (event == null)
 			throw new NullPointerException("Event required.");
