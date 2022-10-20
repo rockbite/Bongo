@@ -14,8 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Array;
 import com.rockbite.bongo.engine.events.commands.RawCommandEvent;
+import com.rockbite.bongo.engine.events.internal.CustomEventSystem;
 import lombok.Getter;
-import net.mostlyoriginal.api.event.common.EventSystem;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,7 +94,7 @@ public class Console extends Table {
 					}
 
 					RawCommandEvent rawCommandEvent = new RawCommandEvent(inputText);
-					world.getSystem(EventSystem.class).dispatch(rawCommandEvent);
+					world.getSystem(CustomEventSystem.class).dispatch(rawCommandEvent);
 
 
 

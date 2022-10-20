@@ -7,16 +7,15 @@ import com.artemis.Entity;
 import com.artemis.EntityEdit;
 import com.artemis.EntitySubscription;
 import com.artemis.annotations.All;
-import com.artemis.utils.reflect.ReflectionUtil;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Null;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.reflect.Field;
 import com.moandjiezana.toml.Toml;
 import com.moandjiezana.toml.TomlWriter;
 import com.rockbite.bongo.engine.components.prefab.Prefab;
+import com.rockbite.bongo.engine.events.internal.CustomEventSystem;
 import com.rockbite.bongo.engine.events.prefab.PrefabUpdatedEvent;
 import com.rockbite.bongo.engine.fileutil.AutoReloadingFileHandle;
 import com.rockbite.bongo.engine.fileutil.ReloadUtils;
@@ -24,8 +23,6 @@ import com.rockbite.bongo.engine.gltf.scene.SceneModelInstance;
 import com.rockbite.bongo.engine.prefab.Marshallable;
 import com.rockbite.bongo.engine.prefab.PrefabConfig;
 import com.rockbite.bongo.engine.prefab.PrefabReader;
-import com.rockbite.bongo.engine.reflect.ReflectUtils;
-import net.mostlyoriginal.api.event.common.EventSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -148,7 +145,7 @@ public class PrefabSystem extends BaseSystem {
 						}
 					}
 
-					final EventSystem system = world.getSystem(EventSystem.class);
+					final CustomEventSystem system = world.getSystem(CustomEventSystem.class);
 					final PrefabUpdatedEvent event = new PrefabUpdatedEvent();
 					event.setPrefabConfig(preConfig);
 					system.dispatch(event);

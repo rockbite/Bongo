@@ -17,8 +17,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.rockbite.bongo.engine.events.asset.AssetsEndLoadEvent;
+import com.rockbite.bongo.engine.events.internal.CustomEventSystem;
+import com.rockbite.bongo.engine.fileutil.AutoReloadingFileHandle;
+import com.rockbite.bongo.engine.fileutil.ReloadUtils;
+import com.rockbite.bongo.engine.render.AutoReloadingShaderProgram;
 import lombok.Getter;
-import net.mostlyoriginal.api.event.common.EventSystem;
+
 
 import static com.rockbite.bongo.engine.systems.assets.AssetSystem.FontSize.*;
 
@@ -32,18 +36,20 @@ public class AssetSystem extends BaseSystem {
 
 	private PixmapPacker packer;
 
+	private AutoReloadingFileHandle skinHandle;
+
 	public Skin getSkin () {
 		return skin;
 	}
 
 	public enum FontSize {
-		H1(0.05f, "font/Questrian.otf", 2, false),
-		H2(0.04f, "font/Questrian.otf", 2, false),
-		P1(0.025f, "font/Questrian.otf", 2, false),
-		P2(0.018f, "font/Questrian.otf", 2, false),
-		P3(0.015f, "font/Questrian.otf", 1, false),
+		H1(0.05f, "font/Questrian.otf", 0, false),
+		H2(0.04f, "font/Questrian.otf", 0, false),
+		P1(0.025f, "font/Questrian.otf", 0, false),
+		P2(0.018f, "font/Questrian.otf", 0, false),
+		P3(0.015f, "font/Questrian.otf", 0, false),
 		P4(0.015f, "font/Questrian.otf", 0, false),
-		CONSOLE(0.0325f, "font/Questrian.otf", 0, true);
+		CONSOLE(0.0125f, "font/Questrian.otf", 0, true);
 
 		public String path;
 		private float pixelPercent;
@@ -127,9 +133,26 @@ public class AssetSystem extends BaseSystem {
 		}
 
 		skin.addRegions(gameAtlas);
+
+		skinHandle = new AutoReloadingFileHandle(Gdx.files.internal("ui/skin.skin"), new ReloadUtils.AutoReloadingListener() {
+			@Override
+			public void onAutoReloadFileChanged () {
+				try {
+					skin.load(skinHandle.getHandle());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		try {
+			skin.load(skinHandle.getHandle());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		addStyles();
 
-		final EventSystem eventSystem = world.getSystem(EventSystem.class);
+		final CustomEventSystem eventSystem = world.getSystem(CustomEventSystem.class);
 		eventSystem.dispatch(new AssetsEndLoadEvent());
 	}
 

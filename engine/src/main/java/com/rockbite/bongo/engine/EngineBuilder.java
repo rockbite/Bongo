@@ -10,6 +10,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.Array;
 import com.rockbite.bongo.engine.input.InputProvider;
+import com.rockbite.bongo.engine.plugins.SingletonCustomPlugin;
 import com.rockbite.bongo.engine.systems.GameLoopSystemInvocationStrategy;
 import com.rockbite.bongo.engine.systems.render.EngineDebugEndSystem;
 import com.rockbite.bongo.engine.systems.render.EngineDebugStartSystem;
@@ -58,7 +59,7 @@ public class EngineBuilder {
 		finalSystemsList.addAll(suffixSystems);
 
 		WorldConfiguration basicWorldConfig = new WorldConfigurationBuilder().
-				dependsOn(SingletonPlugin.class).with(
+				dependsOn(SingletonCustomPlugin.class).with(
 				finalSystemsList.toArray(BaseSystem.class)
 			)
 			.register(invocationStrategy).build();

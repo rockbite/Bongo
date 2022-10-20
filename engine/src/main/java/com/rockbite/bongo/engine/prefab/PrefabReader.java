@@ -214,6 +214,12 @@ public class PrefabReader {
 		} else if (Integer.class.equals(keyType)) {
 			return Integer.parseInt(key.toString());
 		} else {
+			try {
+				Object object = createObjectFromClassAndToml(keyType, key, null);
+				System.out.println();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			throw new PrefabException("Not supported type " + keyType);
 		}
 	}

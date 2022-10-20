@@ -1,6 +1,7 @@
 package com.rockbite.bongo.engine.components.singletons;
 
 import com.artemis.Component;
+import com.artemis.annotations.Transient;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,6 +13,7 @@ import net.mostlyoriginal.api.Singleton;
 
 @Getter
 @Singleton
+@Transient
 public class Cameras extends Component {
 
 	@Setter
