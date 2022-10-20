@@ -6,7 +6,7 @@ public interface CustomEventListenerAbstraction {
 
 	Object owner ();
 
-	void handle (Event event);
+	boolean handle (Event event);
 
 	int priority ();
 

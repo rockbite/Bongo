@@ -156,6 +156,7 @@ public class CustomFastEventDispatcher implements CustomEventDispatchStrategy {
 		return hierarchicalListeners;
 	}
 
+	Bag<CustomEventListenerAbstraction> removalArray = new Bag<>();
 	/**
 	 * Dispatch event to registered listeners.
 	 * Events are called on the call stack, avoid deeply nested or circular event calls.
@@ -167,13 +168,24 @@ public class CustomFastEventDispatcher implements CustomEventDispatchStrategy {
 
 		final Bag<CustomEventListenerAbstraction> listeners = getListenersForHierarchical(event.getClass());
 
+		removalArray.clear();
+
 		/** Fetch hierarchical list of listeners. */
 		Object[] data = listeners.getData();
 		for (int i = 0, s = listeners.size(); i < s; i++) {
 			final CustomEventListenerAbstraction listener = (CustomEventListenerAbstraction)data[i];
 			if (listener != null) {
-				listener.handle(event);
+				boolean shouldDispose = listener.handle(event);
+				if (shouldDispose) {
+					//Remove it
+					removalArray.add(listener);
+				}
 			}
+		}
+
+		if (removalArray.size() > 0) {
+			logger.info("Removing one shot listeners");
+			listeners.removeAll(removalArray);
 		}
 	}
 

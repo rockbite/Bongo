@@ -62,14 +62,14 @@ public class CustomMethodBasedEventListener implements Comparable<CustomMethodBa
 		return object;
 	}
 
-	public void handle (Event event) {
+	public boolean handle (Event event) {
 		if (event == null)
 			throw new NullPointerException("Event required.");
 
 		if (skipCancelledEvents) {
 			if (ClassReflection.isInstance(Cancellable.class, event) && ((Cancellable)event).isCancelled()) {
 				// event can be cancelled, so do not submit!
-				return;
+				return false;
 			}
 		}
 
@@ -78,6 +78,8 @@ public class CustomMethodBasedEventListener implements Comparable<CustomMethodBa
 		} catch (Exception e) {
 			throw new RuntimeException("Could not call event.", e);
 		}
+
+		return false;
 	}
 
 	@Override
