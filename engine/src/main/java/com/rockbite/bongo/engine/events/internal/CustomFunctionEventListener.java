@@ -50,4 +50,10 @@ public abstract class CustomFunctionEventListener<T extends Event> implements Cu
 	public Class<?> getParameterType () {
 		return clazz;
 	}
+
+	@Override
+	public int compareTo (CustomEventListenerAbstraction o) {
+		// Sort by priority descending.
+		return o.priority() - priority;
+	}
 }

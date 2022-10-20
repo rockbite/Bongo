@@ -10,7 +10,7 @@ import net.mostlyoriginal.api.utils.ReflectionHelper;
  * @author Daan van Yperen
  * @todo GWT provide method support.
  */
-public class CustomMethodBasedEventListener implements Comparable<CustomMethodBasedEventListener>, CustomEventListenerAbstraction {
+public class CustomMethodBasedEventListener implements CustomEventListenerAbstraction {
 
 	protected final Object object;
 	protected final Method method;
@@ -111,10 +111,9 @@ public class CustomMethodBasedEventListener implements Comparable<CustomMethodBa
 		return method;
 	}
 
-
 	@Override
-	public int compareTo (CustomMethodBasedEventListener o) {
+	public int compareTo (CustomEventListenerAbstraction o) {
 		// Sort by priority descending.
-		return o.priority - priority;
+		return o.priority() - priority;
 	}
 }

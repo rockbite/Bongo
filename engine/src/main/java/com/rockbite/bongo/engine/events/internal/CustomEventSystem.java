@@ -86,6 +86,10 @@ public class CustomEventSystem extends BaseSystem {
 		for (CustomEventListenerAbstraction listener : listeners) {
 			dispatcherStrategy.register(owner, listener);
 		}
+
+		if (owner instanceof CustomFunctionEventListener) {
+			dispatcherStrategy.register(owner, (CustomFunctionEventListener)owner);
+		}
 	}
 
 	/**

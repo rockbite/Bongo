@@ -2,7 +2,7 @@ package com.rockbite.bongo.engine.events.internal;
 
 import net.mostlyoriginal.api.event.common.Event;
 
-public interface CustomEventListenerAbstraction {
+public interface CustomEventListenerAbstraction extends Comparable<CustomEventListenerAbstraction> {
 
 	Object owner ();
 
