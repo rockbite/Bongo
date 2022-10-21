@@ -22,7 +22,7 @@ dependencies {
 
 task packageSources(type: Jar, dependsOn: [classes, jar]) {
     from delombok
-    from sourceSets.main.resources.srcDirs
+//    from sourceSets.main.resources.srcDirs
     archiveClassifier = 'web'
 }
 

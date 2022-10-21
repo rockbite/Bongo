@@ -17,6 +17,7 @@
 package com.rockbite.bongo.engine.render;
 
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.Mesh.VertexDataType;
@@ -297,8 +298,8 @@ public class PolygonSpriteBatchMultiTextureMULTIBIND implements PolyBatchWithEnc
 	/** Returns a new instance of the default shader used by TextureArraySpriteBatch for GL2 when no shader is specified. */
 	private ShaderProgram createDefaultShader () {
 
-		String vertexSource = ShaderSourceProvider.resolveVertex("core/defaultSprite").readString();
-		String fragmentSource = ShaderSourceProvider.resolveFragment("core/defaultSprite").readString();
+		String vertexSource = ShaderSourceProvider.resolveVertex("core/defaultSprite", Files.FileType.Classpath).readString();
+		String fragmentSource = ShaderSourceProvider.resolveFragment("core/defaultSprite", Files.FileType.Classpath).readString();
 
 		final ShaderProgram shader = SpriteShaderCompiler.getOrCreateShader("core/defaultSprite", vertexSource, fragmentSource, new ShaderFlags());
 
