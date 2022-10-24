@@ -1,6 +1,10 @@
 package com.rockbite.bongo.engine.events.internal;
 
 import com.artemis.BaseSystem;
+import com.artemis.utils.reflect.ClassReflection;
+import com.artemis.utils.reflect.ReflectionException;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.rockbite.bongo.engine.pooling.PoolWithBookkeeping;
 import net.mostlyoriginal.api.event.common.Event;
 
 import java.util.List;
@@ -65,13 +69,7 @@ public class CustomEventSystem extends BaseSystem {
 	 */
 	public void dispatch (Event event) {
 		dispatcherStrategy.dispatch(event);
-	}
-
-	/**
-	 * Queue an event to dispatch synchronously.
-	 */
-	public <T extends Event> T dispatch (Class<T> eventType) {
-		return dispatcherStrategy.dispatch(eventType);
+		freeEvent(event);
 	}
 
 	@Override
@@ -99,6 +97,51 @@ public class CustomEventSystem extends BaseSystem {
 		for (BaseSystem entitySystem : world.getSystems()) {
 			registerEvents(entitySystem);
 		}
+	}
+
+	private static class PoolMaps {
+
+		private ObjectMap<Class<? extends Event>, PoolWithBookkeeping<Event>> pools = new ObjectMap<>();
+
+		<T extends Event> void free (T event) {
+			PoolWithBookkeeping<Event> eventPoolWithBookkeeping = pools.get(event.getClass());
+			eventPoolWithBookkeeping.free(event);
+		}
+		<T extends Event> void register (Class<T> clazz) {
+			pools.put(clazz, new PoolWithBookkeeping<Event>(clazz.getSimpleName()) {
+				@Override
+				protected Event newObject () {
+					try {
+						return ClassReflection.newInstance(clazz);
+					} catch (ReflectionException e) {
+						throw new RuntimeException(e);
+					}
+				}
+			});
+		}
+
+		public <T extends Event> boolean has (Class<T> clazz) {
+			return pools.containsKey(clazz);
+		}
+
+
+		@SuppressWarnings("unchecked")
+		public <T extends Event> T obtain (Class<T> clazz) {
+			if (!has(clazz)) {
+				register(clazz);
+			}
+			return (T)pools.get(clazz).obtain();
+		}
+	}
+
+	private PoolMaps pools = new PoolMaps();
+
+	private <T extends Event> void freeEvent (T event) {
+		pools.free(event);
+	}
+
+	public <T extends Event> T obtainEvent (Class<T> clazz) {
+		return pools.obtain(clazz);
 	}
 
 }

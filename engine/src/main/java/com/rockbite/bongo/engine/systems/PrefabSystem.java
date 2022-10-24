@@ -146,7 +146,7 @@ public class PrefabSystem extends BaseSystem {
 					}
 
 					final CustomEventSystem system = world.getSystem(CustomEventSystem.class);
-					final PrefabUpdatedEvent event = new PrefabUpdatedEvent();
+					PrefabUpdatedEvent event = system.obtainEvent(PrefabUpdatedEvent.class);
 					event.setPrefabConfig(preConfig);
 					system.dispatch(event);
 				}

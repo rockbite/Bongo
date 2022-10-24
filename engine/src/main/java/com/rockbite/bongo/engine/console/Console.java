@@ -93,8 +93,10 @@ public class Console extends Table {
 						handleInputMessage(inputText);
 					}
 
-					RawCommandEvent rawCommandEvent = new RawCommandEvent(inputText);
-					world.getSystem(CustomEventSystem.class).dispatch(rawCommandEvent);
+					CustomEventSystem customEventSystem = world.getSystem(CustomEventSystem.class);
+					RawCommandEvent rawCommandEvent = customEventSystem.obtainEvent(RawCommandEvent.class);
+					rawCommandEvent.setCommandText(inputText);
+					customEventSystem.dispatch(rawCommandEvent);
 
 
 

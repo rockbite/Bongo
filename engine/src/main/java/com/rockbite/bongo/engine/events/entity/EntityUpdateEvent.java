@@ -8,8 +8,5 @@ public class EntityUpdateEvent implements Event {
 
 	private int entityID;
 
-	public EntityUpdateEvent (int entityID) {
-		this.entityID = entityID;
-	}
 
 }

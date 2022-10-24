@@ -8,8 +8,5 @@ public class WindowResizeEvent implements Event {
 	private int width;
 	private int height;
 
-	public WindowResizeEvent (int width, int height) {
-		this.width = width;
-		this.height = height;
-	}
+
 }

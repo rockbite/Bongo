@@ -153,7 +153,8 @@ public class AssetSystem extends BaseSystem {
 		addStyles();
 
 		final CustomEventSystem eventSystem = world.getSystem(CustomEventSystem.class);
-		eventSystem.dispatch(new AssetsEndLoadEvent());
+		AssetsEndLoadEvent assetsEndLoadEvent = eventSystem.obtainEvent(AssetsEndLoadEvent.class);
+		eventSystem.dispatch(assetsEndLoadEvent);
 	}
 
 	private void addStyles () {
