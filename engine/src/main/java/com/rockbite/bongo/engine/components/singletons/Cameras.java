@@ -41,4 +41,14 @@ public class Cameras extends Component {
 		//should probably be viewport
 		gameCamera.unproject(temp);
 	}
+
+	public boolean isInGameViewport (Vector3 position) {
+		float x = position.x;
+		float y = position.y;
+
+		//Size of 5
+		float halfWidth = 2.5f;
+
+		return gameCamera.frustum.boundsInFrustum(x, y, 0, halfWidth, halfWidth, 0);
+	}
 }
