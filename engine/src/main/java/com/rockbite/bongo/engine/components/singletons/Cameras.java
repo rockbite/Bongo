@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,5 +29,16 @@ public class Cameras extends Component {
 
 
 		screenspaceCamera = new OrthographicCamera();
+	}
+
+	private static Vector3 temp3 = new Vector3();
+	public void touchToWorldSpace (Vector2 temp) {
+		touchToWorldSpace(temp3.set(temp.x, temp.y, 0));
+		temp.set(temp3.x, temp3.y);
+	}
+
+	public void touchToWorldSpace (Vector3 temp) {
+		//should probably be viewport
+		gameCamera.unproject(temp);
 	}
 }
