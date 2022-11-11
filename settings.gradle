@@ -2,8 +2,6 @@ rootProject.name = 'Bongo'
 
 include "engine", "desktop", "web"
 
-include "talos"
-
 
 dependencyResolutionManagement {
     versionCatalogs {
