@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.FirstPersonCameraController;
+import com.badlogic.gdx.math.Vector3;
+import com.rockbite.bongo.engine.camera.BongoCameraController;
 import com.rockbite.bongo.engine.components.singletons.Cameras;
 import com.rockbite.bongo.engine.events.render.WindowResizeEvent;
 import com.rockbite.bongo.engine.input.InputProvider;
@@ -35,6 +37,12 @@ public class CameraControllerSystem extends BaseSystem implements InputProvider 
 		cameraController = new FirstPersonCameraController(cameras.getGameCamera());
 	}
 
+	public void setYUp (boolean yUp) {
+		if (cameraController instanceof BongoCameraController) {
+			((BongoCameraController)cameraController).setYUp(yUp);
+		}
+	}
+
 	/**
 	 * Process the system.
 	 */
@@ -43,8 +51,8 @@ public class CameraControllerSystem extends BaseSystem implements InputProvider 
 		if (cameraController instanceof FirstPersonCameraController) {
 			((FirstPersonCameraController)cameraController).update();
 		}
-		if (cameraController instanceof CameraInputController) {
-			((CameraInputController)cameraController).update();
+		if (cameraController instanceof BongoCameraController) {
+			((BongoCameraController)cameraController).update();
 		}
 	}
 
