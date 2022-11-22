@@ -1819,11 +1819,17 @@ public class PolygonSpriteBatchMultiTextureMULTIBIND implements PolyBatchWithEnc
 		combinedMatrix.set(projectionMatrix).mul(transformMatrix);
 		if (customShader != null) {
 			customShader.setUniformMatrix("u_projTrans", combinedMatrix);
-			Gdx.gl20.glUniform1iv(customShader.fetchUniformLocation("u_textures", true), maxTextureUnits, textureUnitIndicesBuffer);
+			int u_textures = customShader.fetchUniformLocation("u_textures", false);
+			if (u_textures != -1) {
+				Gdx.gl20.glUniform1iv(u_textures, maxTextureUnits, textureUnitIndicesBuffer);
+			}
 
 		} else {
 			shader.setUniformMatrix("u_projTrans", combinedMatrix);
-			Gdx.gl20.glUniform1iv(shader.fetchUniformLocation("u_textures", true), maxTextureUnits, textureUnitIndicesBuffer);
+			int u_textures = shader.fetchUniformLocation("u_textures", false);
+			if (u_textures != -1) {
+				Gdx.gl20.glUniform1iv(u_textures, maxTextureUnits, textureUnitIndicesBuffer);
+			}
 		}
 	}
 
