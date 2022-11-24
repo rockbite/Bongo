@@ -94,7 +94,7 @@ public class EngineBuilder {
 
 
 
-		Gdx.input.setInputProcessor(new InputMultiplexer(inputProcessors.toArray(InputProcessor.class)));
+//		Gdx.input.setInputProcessor(new InputMultiplexer(inputProcessors.toArray(InputProcessor.class)));
 
 		return world;
 	}
