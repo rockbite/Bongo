@@ -81,6 +81,8 @@ public class BongoCameraController extends GestureDetector {
 		this.yUp = yUp;
 	}
 
+
+
 	protected static class CameraGestureListener extends GestureAdapter {
 		public BongoCameraController controller;
 		private float previousZoom;
@@ -269,5 +271,9 @@ public class BongoCameraController extends GestureDetector {
 			rotateRightPressed = false;
 		else if (keycode == rotateLeftKey) rotateLeftPressed = false;
 		return false;
+	}
+
+	public void setCamera (Camera currentCamera) {
+		this.camera = currentCamera;
 	}
 }
