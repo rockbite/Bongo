@@ -1173,7 +1173,7 @@ public class PolygonSpriteBatchMultiTextureMULTIBIND implements PolyBatchWithEnc
 
 		final int triangleCount = count / 20 * 6;
 
-		int calculatedSize = triangleCount * SPRITE_SIZE;
+		int calculatedSize = count / 20 * SPRITE_SIZE;
 
 		float ti = activateTexture(texture);
 
