@@ -1196,7 +1196,7 @@ public class PolygonSpriteBatchMultiTextureMULTIBIND implements PolyBatchWithEnc
 
 		int triangle = 0;
 		int vertexOffset = this.vertexIndex;
-		for (int i = 0; i < spriteVertices.length; i+= 5) { //copy and fake
+		for (int i = 0; i < count; i+= 5) { //copy and fake
 
 			int rootOffset = triangle * VERTEX_SIZE;
 
