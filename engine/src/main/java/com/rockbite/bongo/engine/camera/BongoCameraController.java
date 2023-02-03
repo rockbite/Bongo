@@ -24,6 +24,8 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import lombok.Getter;
+import lombok.Setter;
 
 public class BongoCameraController extends GestureDetector {
 	/** The button for rotating the camera. */
@@ -77,11 +79,22 @@ public class BongoCameraController extends GestureDetector {
 
 	private boolean yUp = true;
 
+	@Getter
+	private boolean disabled;
+
 	public void setYUp (boolean yUp) {
 		this.yUp = yUp;
 	}
 
+	public void setDisabled (boolean disableCamera) {
+		this.disabled = disableCamera;
 
+
+		if (disableCamera) {
+			reset();
+			button = -1;
+		}
+	}
 
 	protected static class CameraGestureListener extends GestureAdapter {
 		public BongoCameraController controller;
@@ -89,6 +102,7 @@ public class BongoCameraController extends GestureDetector {
 
 		@Override
 		public boolean touchDown (float x, float y, int pointer, int button) {
+
 			previousZoom = 0;
 			return false;
 		}
@@ -115,6 +129,7 @@ public class BongoCameraController extends GestureDetector {
 
 		@Override
 		public boolean zoom (float initialDistance, float distance) {
+
 			float newZoom = distance - initialDistance;
 			float amount = newZoom - previousZoom;
 			previousZoom = newZoom;
@@ -142,6 +157,8 @@ public class BongoCameraController extends GestureDetector {
 	}
 
 	public void update () {
+		if (disabled) return;
+
 		if (rotateRightPressed || rotateLeftPressed || forwardPressed || backwardPressed) {
 			final float delta = Gdx.graphics.getDeltaTime();
 			if (rotateRightPressed) camera.rotate(camera.up, -delta * rotateAngle);
@@ -163,6 +180,9 @@ public class BongoCameraController extends GestureDetector {
 
 	@Override
 	public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+		if (disabled) return false;
+
+
 		touched |= (1 << pointer);
 		multiTouch = !MathUtils.isPowerOfTwo(touched);
 		if (multiTouch)
@@ -177,6 +197,8 @@ public class BongoCameraController extends GestureDetector {
 
 	@Override
 	public boolean touchUp (int screenX, int screenY, int pointer, int button) {
+		if (disabled) return false;
+
 		touched &= -1 ^ (1 << pointer);
 		multiTouch = !MathUtils.isPowerOfTwo(touched);
 		if (button == this.button) this.button = -1;
@@ -194,6 +216,8 @@ public class BongoCameraController extends GestureDetector {
 	}
 
 	protected boolean process (float deltaX, float deltaY, int button) {
+		if (disabled) return false;
+
 		if (button == rotateButton) {
 			if (yUp) {
 				tmpV1.set(camera.direction).crs(camera.up).y = 0f;
@@ -218,10 +242,14 @@ public class BongoCameraController extends GestureDetector {
 
 	@Override
 	public boolean touchDragged (int screenX, int screenY, int pointer) {
+		if (disabled) return false;
+
 		boolean result = super.touchDragged(screenX, screenY, pointer);
 		if (result || this.button < 0) return result;
 		final float deltaX = (screenX - startX) / Gdx.graphics.getWidth();
 		final float deltaY = (startY - screenY) / Gdx.graphics.getHeight();
+
+
 		startX = screenX;
 		startY = screenY;
 		return process(deltaX, deltaY, button);
@@ -229,6 +257,8 @@ public class BongoCameraController extends GestureDetector {
 
 	@Override
 	public boolean scrolled (float amountX, float amountY) {
+		if (disabled) return false;
+
 		return zoom(amountY * scrollFactor * translateUnits);
 	}
 
@@ -241,11 +271,15 @@ public class BongoCameraController extends GestureDetector {
 	}
 
 	protected boolean pinchZoom (float amount) {
+		if (disabled) return false;
+
 		return zoom(pinchZoomFactor * amount);
 	}
 
 	@Override
 	public boolean keyDown (int keycode) {
+		if (disabled) return false;
+
 		if (keycode == activateKey) activatePressed = true;
 		if (keycode == forwardKey)
 			forwardPressed = true;
@@ -259,6 +293,8 @@ public class BongoCameraController extends GestureDetector {
 
 	@Override
 	public boolean keyUp (int keycode) {
+		if (disabled) return false;
+
 		if (keycode == activateKey) {
 			activatePressed = false;
 			button = -1;
