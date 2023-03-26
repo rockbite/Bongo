@@ -7,7 +7,7 @@ dependencyResolutionManagement {
     versionCatalogs {
         libs {
 
-            version("libgdx", "1.10.1-SNAPSHOT")
+            version("libgdx", "1.11.0")
             version("freetype-gwt", "1.9.10")
             version("imgui", "1.86.3")
             version("lombok", "1.18.2")
