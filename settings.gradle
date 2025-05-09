@@ -48,7 +48,7 @@ dependencyResolutionManagement {
 
             bundle("imgui-desktop", ["imgui-lwjgl3", "imgui-windows", "imgui-mac"])
 
-            plugin("lombok", "io.freefair.lombok").version("6.4.1")
+            plugin("lombok", "io.freefair.lombok").version("8.13.1")
         }
     }
 }
