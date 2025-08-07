@@ -477,9 +477,9 @@ public abstract class BaseSceneShader implements Comparable<BaseSceneShader>, Re
 			}
 		Mesh mesh = renderable.sceneMesh.mesh;
 		if (currentMesh != mesh) {
-			if (currentMesh != null) currentMesh.unbind(program, tempArray.items);
+			if (currentMesh != null) currentMesh.unbind(program, tempArray.items, null);
 			currentMesh = mesh;
-			currentMesh.bind(program, getAttributeLocations(mesh.getVertexAttributes()));
+			currentMesh.bind(program, getAttributeLocations(mesh.getVertexAttributes()), null);
 		}
 
 		renderable.sceneMesh.mesh.render(program, renderable.sceneMesh.renderMode);
@@ -488,7 +488,7 @@ public abstract class BaseSceneShader implements Comparable<BaseSceneShader>, Re
 
 	public void end () {
 		if (currentMesh != null) {
-			currentMesh.unbind(program, tempArray.items);
+			currentMesh.unbind(program, tempArray.items, null);
 			currentMesh = null;
 		}
 	}
