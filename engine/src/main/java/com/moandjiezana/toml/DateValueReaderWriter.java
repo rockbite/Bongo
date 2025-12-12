@@ -1,5 +1,7 @@
 package com.moandjiezana.toml;
 
+import com.badlogic.gdx.utils.CharArray;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,7 +38,7 @@ class DateValueReaderWriter implements ValueReader, ValueWriter {
 
   @Override
   public Object read(String original, AtomicInteger index, Context context) {
-    StringBuilder sb = new StringBuilder();
+    CharArray sb = new CharArray();
     
     for (int i = index.get(); i < original.length(); i = index.incrementAndGet()) {
       char c = original.charAt(i);

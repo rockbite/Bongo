@@ -3,6 +3,7 @@ package com.rockbite.bongo.engine.systems.render;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.CharArray;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.OrderedSet;
@@ -280,7 +281,7 @@ public class ShaderProcessingSystem {
 	}
 
 	static String extractControls (String shaderString, Array<BaseSceneShader.ShaderControl> shaderControls) {
-		StringBuilder buffer = new StringBuilder();
+		CharArray buffer = new CharArray();
 		final String[] split = shaderString.split("\r\n|\n");
 		for (int i = 0; i < split.length; i++) {
 			final String line = split[i];

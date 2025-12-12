@@ -1,5 +1,7 @@
 package com.moandjiezana.toml;
 
+import com.badlogic.gdx.utils.CharArray;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 class IdentifierConverter {
@@ -8,7 +10,7 @@ class IdentifierConverter {
 
   Identifier convert(String s, AtomicInteger index, Context context) {
     boolean quoted = false;
-    StringBuilder name = new StringBuilder();
+    CharArray name = new CharArray();
     boolean terminated = false;
     boolean isKey = s.charAt(index.get()) != '[';
     boolean isTableArray = !isKey && s.length() > index.get() + 1 && s.charAt(index.get() + 1) == '[';

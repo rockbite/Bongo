@@ -1,5 +1,7 @@
 package com.moandjiezana.toml;
 
+import com.badlogic.gdx.utils.CharArray;
+
 import static com.moandjiezana.toml.ValueReaders.VALUE_READERS;
 
 import java.util.HashMap;
@@ -22,7 +24,7 @@ class InlineTableValueReader implements ValueReader {
     boolean inKey = true;
     boolean inValue = false;
     boolean terminated = false;
-    StringBuilder currentKey = new StringBuilder();
+    CharArray currentKey = new CharArray();
     HashMap<String, Object> results = new HashMap<String, Object>();
     Results.Errors errors = new Results.Errors();
     
@@ -45,12 +47,12 @@ class InlineTableValueReader implements ValueReader {
           return errors;
         }
         
-        currentKey = new StringBuilder();
+        currentKey = new CharArray();
         inValue = false;
       } else if (c == ',') {
         inKey = true;
         inValue = false;
-        currentKey = new StringBuilder();
+        currentKey = new CharArray();
       } else if (c == '=') {
         inKey = false;
         inValue = true;

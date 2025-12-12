@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.badlogic.gdx.utils.CharArray;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
@@ -81,7 +82,7 @@ public class Toml {
     try {
       bufferedReader = new BufferedReader(reader);
 
-      StringBuilder w = new StringBuilder();
+      CharArray w = new CharArray();
       String line = bufferedReader.readLine();
       while (line != null) {
         w.append(line).append('\n');

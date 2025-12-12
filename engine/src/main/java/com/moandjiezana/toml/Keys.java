@@ -1,5 +1,7 @@
 package com.moandjiezana.toml;
 
+import com.badlogic.gdx.utils.CharArray;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,7 @@ class Keys {
 
   static Key[] split(String key) {
     List<Key> splitKey = new ArrayList<Key>();
-    StringBuilder current = new StringBuilder();
+    CharArray current = new CharArray();
     boolean quoted = false;
     boolean indexable = true;
     boolean inIndex = false;
@@ -39,7 +41,7 @@ class Keys {
       if (c == '[' && inIndex) {
         inIndex = false;
         index = Integer.parseInt(current.toString());
-        current = new StringBuilder();
+        current = new CharArray();
         continue;
       }
       if (isQuote(c) && (i == 0 || key.charAt(i - 1) != '\\')) {
@@ -52,7 +54,7 @@ class Keys {
         splitKey.add(0, new Key(current.toString(), index, !splitKey.isEmpty() ? splitKey.get(0) : null));
         indexable = true;
         index = -1;
-        current = new StringBuilder();
+        current = new CharArray();
       }
     }
     

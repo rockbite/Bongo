@@ -1,13 +1,14 @@
 package com.rockbite.bongo.engine.render;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.CharArray;
 
 public class ShaderFlags {
 
 
     Array<ShaderFlag> shaderFlagArray = new Array<>();
     int packedMask;
-    StringBuilder prependString = new StringBuilder();
+    CharArray prependString = new CharArray();
 
     public class ShaderFlag {
         String directive;

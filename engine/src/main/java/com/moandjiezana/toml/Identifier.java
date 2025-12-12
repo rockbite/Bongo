@@ -1,5 +1,7 @@
 package com.moandjiezana.toml;
 
+import com.badlogic.gdx.utils.CharArray;
+
 class Identifier {
   
   static final Identifier INVALID = new Identifier("", null);
@@ -70,7 +72,7 @@ class Identifier {
   
   private static String extractName(String raw) {
     boolean quoted = false;
-    StringBuilder sb = new StringBuilder();
+    CharArray sb = new CharArray();
     
     for (int i = 0; i < raw.length(); i++) {
       char c = raw.charAt(i);

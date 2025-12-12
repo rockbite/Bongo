@@ -1,5 +1,7 @@
 package com.moandjiezana.toml;
 
+import com.badlogic.gdx.utils.CharArray;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 class NumberValueReaderWriter implements ValueReader, ValueWriter {
@@ -20,7 +22,7 @@ class NumberValueReaderWriter implements ValueReader, ValueWriter {
     boolean terminatable = false;
     boolean underscorable = false;
     String type = "";
-    StringBuilder sb = new StringBuilder();
+    CharArray sb = new CharArray();
 
     for (int i = index.get(); i < s.length(); i = index.incrementAndGet()) {
       char c = s.charAt(i);

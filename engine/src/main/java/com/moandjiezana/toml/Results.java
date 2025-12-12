@@ -1,5 +1,7 @@
 package com.moandjiezana.toml;
 
+import com.badlogic.gdx.utils.CharArray;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashSet;
@@ -12,7 +14,7 @@ class Results {
   
   static class Errors {
     
-    private final StringBuilder sb = new StringBuilder();
+    private final CharArray sb = new CharArray();
     
     void duplicateTable(String table, int line) {
       sb.append("Duplicate table definition on line ")
@@ -261,7 +263,7 @@ class Results {
   
   private String getInlineTablePath(String key) {
     Iterator<Container> descendingIterator = stack.descendingIterator();
-    StringBuilder sb = new StringBuilder();
+    CharArray sb = new CharArray();
     
     while (descendingIterator.hasNext()) {
       Container next = descendingIterator.next();
@@ -286,9 +288,8 @@ class Results {
       sb.append('.');
     }
 
-    sb.append(key)
-      .insert(0, '[')
-      .append(']');
+    sb.append(key).insert(0, '[');
+    sb.append(']');
     
     return sb.toString();
   }
